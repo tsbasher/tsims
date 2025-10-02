@@ -99,6 +99,24 @@ TSIMS</span>
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{route('admin.certification.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.certification.index' || Route::currentRouteName() == 'admin.certification.create' || Route::currentRouteName() == 'admin.certification.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Certification
+              </p>
+            </a>
+          </li>          
+          <li class="nav-item">
+            <a href="{{route('admin.team.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.team.index' || Route::currentRouteName() == 'admin.team.create' || Route::currentRouteName() == 'admin.team.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Team
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{route('admin.product_group.index')}}" class="nav-link
             @if(Route::currentRouteName() == 'admin.product_group.index' || Route::currentRouteName() == 'admin.product_group.create' || Route::currentRouteName() == 'admin.product_group.edit') active @endif">
               <i class="nav-icon fas fa-th"></i>
