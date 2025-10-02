@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
 use App\Models\ProductSubCategory;
+use App\Models\product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -12,37 +12,44 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use stdClass;
 
-class ProductSubCategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $sub_categories = ProductSubCategory::with('group', 'category');
+       $products = Product::with('group', 'category','subCategory');
         if ($request->has('search_text') && !empty($request->search_text)) {
             $search = $request->search_text;
-            $sub_categories = $sub_categories->where(function ($query) use ($search) {
+            $products = $products->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('code', 'like', '%' . $search . '%')
                     ->orWhere('internal_code', 'like', '%' . $search . '%');
             });
         }
+        
         if ($request->has('group_id') && !empty($request->group_id)) {
-            $sub_categories = $sub_categories->where('group_id', $request->group_id);
+            $products = $products->where('group_id', $request->group_id);
             $categories = ProductCategory::where('group_id', $request->group_id)->get();
         } else
             $categories = [];
 
         if ($request->has('category_id') && !empty($request->category_id)) {
-            $sub_categories = $sub_categories->where('category_id', $request->category_id);
+            $products = $products->where('category_id', $request->category_id);
+            $subcategories = ProductSubCategory::where('group_id', $request->group_id)->get();
+        }else
+            $subcategories = [];
+
+        if ($request->has('sub_category_id') && !empty($request->sub_category_id)) {
+            $products = $products->where('sub_category_id', $request->category_id);
         }
-        $sub_categories = $sub_categories->orderBy('id', 'desc')->paginate(10);
+        $products = $products->orderBy('id', 'desc')->paginate(10);
         $groups = ProductGroup::get();
 
-        return view('backend.admin.product_sub_category.index', compact('sub_categories', 'groups', 'categories'));
+        return view('backend.admin.product.index', compact('products','subcategories', 'groups', 'categories'));
+        //return view('backend.admin.product.index', compact('products', 'groups'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -51,7 +58,8 @@ class ProductSubCategoryController extends Controller
     {
         $groups = ProductGroup::get();
         $categories = [];
-        return view('backend.admin.product_sub_category.create', compact('groups', 'categories'));
+        $subcategories = [];
+        return view('backend.admin.product.create', compact('groups', 'categories','subcategories'));
     }
 
     /**
@@ -59,9 +67,11 @@ class ProductSubCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'group_id' => 'required|exists:product_groups,id',
             'category_id' => 'required|exists:product_categories,id',
+            'sub_category_id' => 'required|exists:product_sub_categories,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
             'internal_code' => 'nullable|string|max:100',
@@ -73,6 +83,7 @@ class ProductSubCategoryController extends Controller
         $data = $request->only([
             'group_id',
             'category_id',
+            'sub_category_id',
             'name',
             'code',
             'internal_code',
@@ -87,19 +98,19 @@ class ProductSubCategoryController extends Controller
         if ($request->hasFile('featured_image')) {
             $image = $request->file('featured_image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/product_sub_categories/'), $imageName);
-            $data['featured_image'] = 'uploads/product_sub_categories/' . $imageName;
+            $image->move(public_path('uploads/product/'), $imageName);
+            $data['featured_image'] = 'uploads/product/' . $imageName;
         }
         $data['created_by'] = Auth::guard('admin')->user()->id;
-        ProductSubCategory::create($data);
+        product::create($data);
 
-        return redirect()->route('admin.product_sub_category.index')->with('success', 'Product Sub Category created successfully.');
+        return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ProductSubCategory $productSubCategory)
+    public function show(product $product)
     {
         //
     }
@@ -107,23 +118,24 @@ class ProductSubCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(product $product)
     {
-        $sub_category = ProductSubCategory::findOrFail($id);
         $groups = ProductGroup::get();
-        $categories = ProductCategory::where('group_id', $sub_category->group_id)->get();
-        return view('backend.admin.product_sub_category.edit', compact('sub_category', 'groups', 'categories'));
+        $categories = ProductCategory::where('group_id', $product->group_id)->get();
+        $subcategories = ProductSubCategory::where('category_id', $product->category_id)->get();
+        return view('backend.admin.product.edit', compact('product', 'groups', 'categories','subcategories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
-        $sub_category = ProductSubCategory::findOrFail($id);
+    {        
+        $product = Product::findOrFail($id);
         $request->validate([
             'group_id' => 'required|exists:product_groups,id',
             'category_id' => 'required|exists:product_categories,id',
+            'sub_category_id' => 'required|exists:product_sub_categories,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
             'internal_code' => 'nullable|string|max:100',
@@ -135,6 +147,7 @@ class ProductSubCategoryController extends Controller
         $data = $request->only([
             'group_id',
             'category_id',
+            'sub_category_id',
             'name',
             'code',
             'internal_code',
@@ -151,8 +164,9 @@ class ProductSubCategoryController extends Controller
             $data['featured_image'] = 'uploads/product_sub_categories/' . $imageName;
         }
         $data['updated_by'] = Auth::guard('admin')->user()->id;
-        $sub_category->update($data);
-        return redirect()->route('admin.product_sub_category.index')->with('success', 'Product Sub Category updated successfully.');
+        $product->update($data);
+        return redirect()->route('admin.product.index')->with('success', 'Product updated successfully.');
+    
     }
 
     /**
@@ -161,37 +175,38 @@ class ProductSubCategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $sub_category = ProductSubCategory::findOrFail($id);
-            $file_path = $sub_category->featured_image;
+            $product = Product::findOrFail($id);
+            $file_path = $product->featured_image;
 
             // Check if the package is associated with any other records
-            if ($sub_category->delete()) {
+            if ($product->delete()) {
                 // Delete the associated file if it exists
                 if ($file_path && file_exists(public_path($file_path))) {
                     File::delete(public_path($file_path));
                 }
                 $data = new stdClass();
                 $data->status = 1;
-                $data->message = 'Product Sub Category deleted successfully.';
+                $data->message = 'Product deleted successfully.';
                 return response()->json($data);
             } else {
                 $data = new stdClass();
                 $data->status = 0;
-                $data->message = 'Product Sub Category could not be deleted. It may be associated with other records.';
+                $data->message = 'Product could not be deleted. It may be associated with other records.';
                 return response()->json($data);
             }
         } catch (\Exception $e) {
-            Log::error('Error deleting Product Sub Category: ' . $e->getMessage());
+            Log::error('Error deleting Product : ' . $e->getMessage());
             $data = new stdClass();
             $data->status = 0;
-            $data->message = 'An error occurred while deleting Product Sub Category.';
+            $data->message = 'An error occurred while deleting Product.';
             return response()->json($data);
         }
-    }
 
-    public function get_sub_category_by_category($category_id)
+    }
+    
+    public function get_product_by_sub_category($sub_category_id)
     {
-        $sub_categories = ProductSubCategory::where('category_id', $category_id)->where('is_active', 1)->get();
-        return response()->json($sub_categories);
+        $products = Product::where('sub_category_id', $sub_category_id)->where('is_active', 1)->get();
+        return response()->json($products);
     }
 }

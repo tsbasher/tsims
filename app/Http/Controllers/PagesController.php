@@ -2,38 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProductGroup;
+use App\Models\Pages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use stdClass;
 
-class ProductGroupController extends Controller
+class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $groups = ProductGroup::query();
+         $pages = Pages::query();
         if ($request->has('search_text') && !empty($request->search_text)) {
             $search = $request->input('search_text');
             // Get projects based on search criteria
-            $groups->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%")->orWhere('internal_code', 'like', "%{$search}%");
+            $pages->where('title', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%")->orWhere('internal_code', 'like', "%{$search}%");
         }
         // Get all projects
-        $groups = $groups->paginate(10);
-        return view('backend.admin.product_group.index', compact('groups'));
+        $pages = $pages->paginate(10);
+        return view('backend.admin.pages.index', compact('pages'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('backend.admin.product_group.create');
+    {        
+        return view('backend.admin.pages.create');
     }
 
     /**
@@ -42,8 +42,8 @@ class ProductGroupController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'content' => 'nullable|string',
             'code' => 'required|string|max:100',
             'internal_code' => 'nullable|string|max:100',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -51,22 +51,21 @@ class ProductGroupController extends Controller
         ]);
 
         $data = $request->only([
-            'name',
-            'description',
+            'title',
+            'content',
             'code',
             'internal_code'
         ]);
-        $data['slug'] = Str::slug($request->name);
+        $data['slug'] = Str::slug($request->title);
         // Handle file upload for featured_image
         if ($request->hasFile('featured_image')) {
             $image = $request->file('featured_image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/product_groups'), $imageName);
-            $data['featured_image'] = 'uploads/product_groups/' . $imageName;
+            $image->move(public_path('uploads/pages'), $imageName);
+            $data['featured_image'] = 'uploads/pages/' . $imageName;
         }
 
         // Set default values for checkboxes if not present in the request
-        $data['show_as_featured'] = $request->has('show_as_featured') ? $request->has('show_as_featured') : 0;
         $data['is_active'] = $request->has('is_active') ? $request->has('is_active') : 0;
 
         // Assuming you have authentication and want to set created_by
@@ -74,15 +73,15 @@ class ProductGroupController extends Controller
         $data['created_by'] = Auth::guard('admin')->user()->id;
 
 
-        ProductGroup::create($data);
+        Pages::create($data);
 
-        return redirect()->route('admin.product_group.index')->with('success', 'Product Group created successfully.');
+        return redirect()->route('admin.pages.index')->with('success', 'Page created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ProductGroup $productGroup)
+    public function show(Pages $pages)
     {
         //
     }
@@ -92,8 +91,8 @@ class ProductGroupController extends Controller
      */
     public function edit($id)
     {
-        $group = ProductGroup::findOrFail($id);
-        return view('backend.admin.product_group.edit', compact('group'));
+        $page = Pages::findOrFail($id);
+        return view('backend.admin.pages.edit', compact('page'));
     }
 
     /**
@@ -101,44 +100,44 @@ class ProductGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'content' => 'nullable|string',
             'code' => 'required|string|max:100',
             'internal_code' => 'nullable|string|max:100',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $group = ProductGroup::findOrFail($id);
+        $page = Pages::findOrFail($id);
 
         $data = $request->only([
-            'name',
-            'description',
+            'title',
+            'content',
             'code',
             'internal_code'
         ]);
         $data['slug'] = Str::slug($request->name);
         // Handle file upload for featured_image
         if ($request->hasFile('featured_image')) {
-            if ($group->featured_image && file_exists(public_path($group->featured_image))) {
-                File::delete(public_path($group->featured_image));
+            if ($page->featured_image && file_exists(public_path($page->featured_image))) {
+                File::delete(public_path($page->featured_image));
             }
             $image = $request->file('featured_image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/product_groups'), $imageName);
-            $data['featured_image'] = 'uploads/product_groups/' . $imageName;
+            $image->move(public_path('uploads/pages'), $imageName);
+            $data['featured_image'] = 'uploads/pages/' . $imageName;
         }
 
         // Set default values for checkboxes if not present in the request
-        $data['show_as_featured'] = $request->has('show_as_featured') ? $request->has('show_as_featured') : 0;
         $data['is_active'] = $request->has('is_active') ? $request->has('is_active') : 0;
 
         // Assuming you have authentication and want to set updated_by
         $data['updated_by'] = Auth::guard('admin')->user()->id;
 
-        $group->update($data);
+        $page->update($data);
 
-        return redirect()->route('admin.product_group.index')->with('success', 'Product Group updated successfully.');
+        return redirect()->route('admin.pages.index')->with('success', 'Page updated successfully.');
     }
 
     /**
@@ -147,31 +146,30 @@ class ProductGroupController extends Controller
     public function destroy($id)
     {
         try {
-            $group = ProductGroup::findOrFail($id);
-            $file_path = $group->featured_image;
+            $page = Pages::findOrFail($id);
+            $file_path = $page->featured_image;
 
             // Check if the package is associated with any other records
-            if ($group->delete()) {
+            if ($page->delete()) {
                 // Delete the associated file if it exists
                 if ($file_path && file_exists(public_path($file_path))) {
                     File::delete(public_path($file_path));
                 }
-
                 $data = new stdClass();
                 $data->status = 1;
-                $data->message = 'Product Group deleted successfully.';
+                $data->message = 'Page deleted successfully.';
                 return response()->json($data);
             } else {
                 $data = new stdClass();
                 $data->status = 0;
-                $data->message = 'Product Group could not be deleted. It may be associated with other records.';
+                $data->message = 'Page could not be deleted. It may be associated with other records.';
                 return response()->json($data);
             }
         } catch (\Exception $e) {
-            Log::error('Error deleting Product Group: ' . $e->getMessage());
+            Log::error('Error deleting Page: ' . $e->getMessage());
             $data = new stdClass();
             $data->status = 0;
-            $data->message = 'An error occurred while deleting Product Group.';
+            $data->message = 'An error occurred while deleting Page.';
             return response()->json($data);
         }
     }

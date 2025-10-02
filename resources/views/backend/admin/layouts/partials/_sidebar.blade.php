@@ -44,6 +44,61 @@ TSIMS</span>
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{route('admin.country.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.country.index' || Route::currentRouteName() == 'admin.country.create' || Route::currentRouteName() == 'admin.country.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Country
+              </p>
+            </a>
+          </li>            
+          <li class="nav-item">
+            <a href="{{route('admin.pages.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.pages.index' || Route::currentRouteName() == 'admin.pages.create' || Route::currentRouteName() == 'admin.pages.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Pages
+              </p>
+            </a>
+          </li>  
+                     
+          <li class="nav-item">
+            <a href="{{route('admin.sliders.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.sliders.index' || Route::currentRouteName() == 'admin.sliders.create' || Route::currentRouteName() == 'admin.sliders.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Sliders
+              </p>
+            </a>
+          </li>  
+          <li class="nav-item">
+            <a href="{{route('admin.department.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.department.index' || Route::currentRouteName() == 'admin.department.create' || Route::currentRouteName() == 'admin.department.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Department
+              </p>
+            </a>  
+          </li>  
+          <li class="nav-item">
+            <a href="{{route('admin.designation.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.designation.index' || Route::currentRouteName() == 'admin.designation.create' || Route::currentRouteName() == 'admin.designation.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Designation
+              </p>
+            </a>  
+          </li> 
+          <li class="nav-item">
+            <a href="{{route('admin.buyer.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.buyer.index' || Route::currentRouteName() == 'admin.buyer.create' || Route::currentRouteName() == 'admin.buyer.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Buyer
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{route('admin.product_group.index')}}" class="nav-link
             @if(Route::currentRouteName() == 'admin.product_group.index' || Route::currentRouteName() == 'admin.product_group.create' || Route::currentRouteName() == 'admin.product_group.edit') active @endif">
               <i class="nav-icon fas fa-th"></i>
@@ -68,6 +123,15 @@ TSIMS</span>
               <p>
                 Product Sub Category
               </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('admin.product.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.product.index' || Route::currentRouteName() == 'admin.product.create' || Route::currentRouteName() == 'admin.product.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Product
+               </p>
             </a>
           </li>
 

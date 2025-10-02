@@ -14,15 +14,23 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SchemeController;
 use App\Http\Controllers\Admin\SchemeOptionController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BuyersController;
 use App\Http\Controllers\Common\DistrictController;
 use App\Http\Controllers\Common\RegionController;
 use App\Http\Controllers\Common\UnionController;
 use App\Http\Controllers\Common\UpazilaController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ProductSubCategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
+use App\Models\product;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,9 +49,16 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => ['admin']], function () {
         Route::get('/logout', [LoginController::class, 'admin_logout'])->name('admin.logout');
         
+        Route::resource('designation', DesignationController::class)->names('admin.designation');
+        Route::resource('department', DepartmentController::class)->names('admin.department');
+        Route::resource('pages', PagesController::class)->names('admin.pages');
+        Route::resource('sliders', SliderController::class)->names('admin.sliders');
+        Route::resource('country', CountryController::class)->names('admin.country');
+        Route::resource('buyer', BuyersController::class)->names('admin.buyer');
         Route::resource('product-group', ProductGroupController::class)->names('admin.product_group');
         Route::resource('product-category', ProductCategoryController::class)->names('admin.product_category');
-                Route::resource('product-sub-category', ProductSubCategoryController::class)->names('admin.product_sub_category');
+        Route::resource('product-sub-category', ProductSubCategoryController::class)->names('admin.product_sub_category');
+        Route::resource('product', ProductController::class)->names('admin.product');
 
 
 
@@ -78,7 +93,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::group(['prefix' => 'common'], function () {
     Route::get('/get-category-by-group/{group_id}', [ProductCategoryController::class, 'get_category_by_group'])->name('common.get_category_by_group');
-
+    Route::get('/get-sub-category-by-category/{category_id}', [ProductSubCategoryController::class, 'get_sub_category_by_category'])->name('common.get_sub_category_by_category');
 
     Route::get('/get-districts-by-division/{division_id}', [DistrictController::class, 'getDistrictsByDivision'])->name('common.get_districts_by_division');
     Route::get('/get-upazilas-by-district/{district_id}', [UpazilaController::class, 'getUpazilasByDistrict'])->name('common.get_upazilas_by_district');

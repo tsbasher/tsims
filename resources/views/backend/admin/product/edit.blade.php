@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.app')
-@section('title', 'Product Sub Category')
+@section('title', 'Product')
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/jquery-ui/jquery-ui.min.css') }}">
@@ -15,13 +15,14 @@
             <!-- general form elements -->
             <div class="card card-body bg-gray-light">
                 <div class="card-header">
-                    <h3 class="card-title">Add New Product Sub Category</h3>
+                    <h3 class="card-title">Edit Product</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" method="POST" action="{{ route('admin.product_sub_category.store') }}"
+                <form role="form" method="POST" action="{{ route('admin.product.update',$product->id) }}"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="card-body">
 
                         <div>
@@ -39,25 +40,25 @@
                             <div class="col-md-12">
 
                                 <div class="form-group">
-                                    <label for="name">Sub Category Name</label>
+                                    <label for="name">Product Name</label>
                                     <input type="text" required class="form-control" name="name" id="name"
-                                        placeholder="Enter Sub Category Name" value="{{ old('name') }}">
+                                        placeholder="Enter Product Name" value="{{ old('name',$product->name) }}">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="code">Sub Category Code</label>
+                                    <label for="code">Product Code</label>
                                     <input type="text" required class="form-control" name="code" id="code"
-                                        placeholder="Enter Sub Category Code" value="{{ old('code') }}">
+                                        placeholder="Enter Product Code" value="{{ old('code',$product->code) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="code">Sub Category Internal Code</label>
+                                    <label for="code">Product Internal Code</label>
                                     <input type="text" class="form-control" name="internal_code" id="internal_code"
-                                        placeholder="Enter Internal Code" value="{{ old('internal_code') }}">
+                                        placeholder="Enter Internal Code" value="{{ old('internal_code',$product->internal_code) }}">
                                 </div>
                             </div>
                         </div>
@@ -70,7 +71,7 @@
                                         <option value="">Select Product Group</option>
                                         @foreach ($groups as $group)
                                             <option value="{{ $group->id }}"
-                                                @if (old('group_id') == $group->id) selected @endif>{{ $group->name }}
+                                                @if (old('group_id',$product->group_id) == $group->id) selected @endif>{{ $group->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -83,7 +84,20 @@
                                         <option value="">Select Product Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
-                                                @if (old('category_id') == $category->id) selected @endif>{{ $category->name }}
+                                                @if (old('category_id',$product->category_id) == $category->id) selected @endif>{{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sub_category_id">Product Sub Category</label>
+                                    <select name="sub_category_id" id="sub_category_id" class="form-control select2" required>
+                                        <option value="">Select Sub Category</option>
+                                        @foreach ($subcategories as $subcategory)
+                                            <option value="{{ $subcategory->id }}"
+                                                @if (old('sub_category_id',$product->sub_category_id) == $subcategory->id) selected @endif>{{ $subcategory->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -94,21 +108,25 @@
                         <div class="form-group">
                             <label for="code">Featured Image</label>
                             <input type="file" class="form-control" id="featured_image" name="featured_image">
+                            @if ($product->featured_image)
+                                <img src="{{ asset($product->featured_image) }}" alt="Featured Image"
+                                    style="max-width: 150px; margin-top: 10px;">
+                            @endif
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('description') }}</textarea>
+                            <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('description',$product->description) }}</textarea>
                         </div>
 
 
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
-                                @if (old('is_active', 1) == 1) checked @endif>
+                                @if (old('is_active',$product->is_active) == 1) checked @endif>
                             <label class="form-check-label" for="is_active">Is Active</label>
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="show_as_featured" name="show_as_featured"
-                                value="1" @if (old('show_as_featured', 1) == 1) checked @endif>
+                                value="1" @if (old('show_as_featured', $product->is_active) == 1) checked @endif>
                             <label class="form-check-label" for="is_active">Show as Featured</label>
                         </div>
                     </div>
@@ -144,8 +162,10 @@
 
         });
                             var get_category_by_group = "{{ route('common.get_category_by_group', '*') }}";
+            var get_sub_category_by_category = "{{ route('common.get_sub_category_by_category', '*') }}";
 
     </script>
     
     <script src="{{ asset('backend/dist/js/tsims/category.js') }}"></script>
+    <script src="{{ asset('backend/dist/js/tsims/sub_category.js') }}"></script>
 @endsection

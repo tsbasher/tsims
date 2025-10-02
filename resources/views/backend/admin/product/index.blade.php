@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.app')
-@section('title', 'Product sub Category')
+@section('title', 'Product')
 @section('style')
 
     <!-- DataTables -->
@@ -18,9 +18,9 @@
             <!-- general form elements -->
             <div class="card card-body bg-gray-light">
                 <div class="card-header">
-                    <h2 class="card-title ">Sub Category</h2>
+                    <h2 class="card-title ">Product</h2>
                     <div class="card-tools">
-                        <a href="{{ route('admin.product_sub_category.create') }}" class="btn btn btn-secondary"><i
+                        <a href="{{ route('admin.product.create') }}" class="btn btn btn-secondary"><i
                                 class="fa fa-plus"></i> Add</a>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
 
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
 
                                 <div class="form-group row">
                                     <label for="group_id" class="col-sm-2 col-form-label">Group</label>
@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
 
                                 <div class="form-group row">
                                     <label for="category_id" class="col-sm-2 col-form-label">Category</label>
@@ -56,6 +56,23 @@
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
                                                     @if (Request::get('category_id') == $category->id) selected @endif>{{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="form-group row">
+                                    <label for="sub_category_id" class="col-sm-4 col-form-label">Sub Category</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control select2" id="sub_category_id" placeholder="Group"
+                                            name="sub_category_id">
+                                            <option value="">Select Product Sub Category</option>
+                                            @foreach ($subcategories as $subcategory)
+                                                <option value="{{ $subcategory->id }}"
+                                                    @if (Request::get('sub_category_id') == $subcategory->id) selected @endif>{{ $subcategory->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -76,7 +93,7 @@
                                             <button type="submit" class="btn btn-lg btn-default">
                                                 <i class="fa fa-search"></i>
                                             </button>
-                                            <a href="{{ route('admin.product_sub_category.index') }}"
+                                            <a href="{{ route('admin.product.index') }}"
                                                 class="btn btn-lg btn-default">
                                                 <i class="fas fa-sync-alt"></i>
                                             </a>
@@ -107,39 +124,41 @@
                                     <th>Internal Code</th>
                                     <th>Group</th>
                                     <th>Category</th>
+                                    <th>Sub Category</th>
                                     <th>Featured?</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($sub_categories as $sub_category)
+                                @foreach ($products as $product)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $sub_category->name }}</td>
-                                        <td>{{ $sub_category->code }}</td>
-                                        <td>{{ $sub_category->internal_code }}</td>
-                                        <td>{{ $sub_category->group ? $sub_category->group->name : '' }}</td>
-                                        <td>{{ $sub_category->category ? $sub_category->category->name : '' }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->code }}</td>
+                                        <td>{{ $product->internal_code }}</td>
+                                        <td>{{ $product->group ? $product->group->name : '' }}</td>
+                                        <td>{{ $product->category ? $product->category->name : '' }}</td>
+                                        <td>{{ $product->subCategory ? $product->subCategory->name : '' }}</td>
                                         <td>
-                                            @if ($sub_category->show_as_featured == 1)
+                                            @if ($product->show_as_featured == 1)
                                                 <span class="badge bg-success" style="font-size: 100%">Yes</span>
                                             @else
                                                 <span class="badge bg-danger" style="font-size: 100%">No</span>
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($sub_category->is_active == 1)
+                                            @if ($product->is_active == 1)
                                                 <span class="badge bg-success" style="font-size: 100%">Yes</span>
                                             @else
                                                 <span class="badge bg-danger" style="font-size: 100%">No</span>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.product_sub_category.edit', $sub_category->id) }}"
+                                            <a href="{{ route('admin.product.edit', $product->id) }}"
                                                 class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></a>
                                             <a class="btn btn-sm btn-danger delete_record"
-                                                data-url="{{ route('admin.product_sub_category.destroy', $sub_category->id) }}"><i
+                                                data-url="{{ route('admin.product.destroy', $product->id) }}"><i
                                                     class="fas fa-trash"></i></a>
 
                                         </td>
@@ -152,7 +171,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer clearfix" style="background: #00000000">
-                    {{ $sub_categories->links() }}
+                    {{ $products->links() }}
                 </div>
             </div>
             <!-- /.card -->
@@ -188,6 +207,7 @@
         
         
         var get_category_by_group = "{{ route('common.get_category_by_group', '*') }}";
+            var get_sub_category_by_category = "{{ route('common.get_sub_category_by_category', '*') }}";
         $(".select2").select2();
         $(".delete_record").click(function() {
             var url = $(this).data('url');
@@ -272,4 +292,5 @@
     </script>
 
     <script src="{{ asset('backend/dist/js/tsims/category.js') }}"></script>
+    <script src="{{ asset('backend/dist/js/tsims/sub_category.js') }}"></script>
 @endsection

@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.app')
-@section('title', 'Product Sub Category')
+@section('title', 'Product')
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/jquery-ui/jquery-ui.min.css') }}">
@@ -15,11 +15,11 @@
             <!-- general form elements -->
             <div class="card card-body bg-gray-light">
                 <div class="card-header">
-                    <h3 class="card-title">Add New Product Sub Category</h3>
+                    <h3 class="card-title">Add New Product</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" method="POST" action="{{ route('admin.product_sub_category.store') }}"
+                <form role="form" method="POST" action="{{ route('admin.product.store') }}"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
@@ -39,23 +39,23 @@
                             <div class="col-md-12">
 
                                 <div class="form-group">
-                                    <label for="name">Sub Category Name</label>
+                                    <label for="name">Product Name</label>
                                     <input type="text" required class="form-control" name="name" id="name"
-                                        placeholder="Enter Sub Category Name" value="{{ old('name') }}">
+                                        placeholder="Enter Product Name" value="{{ old('name') }}">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="code">Sub Category Code</label>
+                                    <label for="code">Product Code</label>
                                     <input type="text" required class="form-control" name="code" id="code"
-                                        placeholder="Enter Sub Category Code" value="{{ old('code') }}">
+                                        placeholder="Enter Product Code" value="{{ old('code') }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="code">Sub Category Internal Code</label>
+                                    <label for="code">Product Internal Code</label>
                                     <input type="text" class="form-control" name="internal_code" id="internal_code"
                                         placeholder="Enter Internal Code" value="{{ old('internal_code') }}">
                                 </div>
@@ -84,6 +84,19 @@
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
                                                 @if (old('category_id') == $category->id) selected @endif>{{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sub_category_id">Product Sub Category</label>
+                                    <select name="sub_category_id" id="sub_category_id" class="form-control select2" required>
+                                        <option value="">Select Sub Category</option>
+                                        @foreach ($subcategories as $subcategory)
+                                            <option value="{{ $subcategory->id }}"
+                                                @if (old('sub_category_id') == $subcategory->id) selected @endif>{{ $subcategory->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -144,8 +157,10 @@
 
         });
                             var get_category_by_group = "{{ route('common.get_category_by_group', '*') }}";
+            var get_sub_category_by_category = "{{ route('common.get_sub_category_by_category', '*') }}";
 
     </script>
     
     <script src="{{ asset('backend/dist/js/tsims/category.js') }}"></script>
+    <script src="{{ asset('backend/dist/js/tsims/sub_category.js') }}"></script>
 @endsection

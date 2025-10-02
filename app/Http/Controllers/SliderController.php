@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProductGroup;
+use App\Models\slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -10,22 +10,22 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use stdClass;
 
-class ProductGroupController extends Controller
+class SliderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $groups = ProductGroup::query();
+         $sliders = Slider::query();
         if ($request->has('search_text') && !empty($request->search_text)) {
             $search = $request->input('search_text');
             // Get projects based on search criteria
-            $groups->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%")->orWhere('internal_code', 'like', "%{$search}%");
+            $sliders->where('title', 'like', "%{$search}%")->orWhere('sub_title', 'like', "%{$search}%");
         }
         // Get all projects
-        $groups = $groups->paginate(10);
-        return view('backend.admin.product_group.index', compact('groups'));
+        $sliders = $sliders->paginate(10);
+        return view('backend.admin.sliders.index', compact('sliders'));
     }
 
     /**
@@ -33,7 +33,7 @@ class ProductGroupController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.product_group.create');
+        return view('backend.admin.sliders.create');
     }
 
     /**
@@ -41,48 +41,42 @@ class ProductGroupController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'code' => 'required|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'required|string|max:255',
+            'sub_title' => 'required|string|max:255',
+            'action_button_url' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
 
         $data = $request->only([
-            'name',
-            'description',
-            'code',
-            'internal_code'
+            'title',
+            'sub_title',
+            'action_button_url'
         ]);
-        $data['slug'] = Str::slug($request->name);
+        $data['slug'] = Str::slug($request->title);
         // Handle file upload for featured_image
-        if ($request->hasFile('featured_image')) {
-            $image = $request->file('featured_image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/product_groups'), $imageName);
-            $data['featured_image'] = 'uploads/product_groups/' . $imageName;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/sliders'), $imageName);
+            $data['image'] = 'uploads/sliders/' . $imageName;
         }
 
-        // Set default values for checkboxes if not present in the request
-        $data['show_as_featured'] = $request->has('show_as_featured') ? $request->has('show_as_featured') : 0;
-        $data['is_active'] = $request->has('is_active') ? $request->has('is_active') : 0;
-
-        // Assuming you have authentication and want to set created_by
-
+        // Set created_by and updated_by fields
         $data['created_by'] = Auth::guard('admin')->user()->id;
 
+        // Create the ProductGroup
+        slider::create($data);
 
-        ProductGroup::create($data);
-
-        return redirect()->route('admin.product_group.index')->with('success', 'Product Group created successfully.');
+        return redirect()->route('admin.sliders.index')->with('success', 'Slider created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ProductGroup $productGroup)
+    public function show(slider $slider)
     {
         //
     }
@@ -92,53 +86,52 @@ class ProductGroupController extends Controller
      */
     public function edit($id)
     {
-        $group = ProductGroup::findOrFail($id);
-        return view('backend.admin.product_group.edit', compact('group'));
+        $slider = slider::findOrFail($id);
+        //dd($slider);
+        return view('backend.admin.sliders.edit', compact('slider'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
+    {        
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'code' => 'required|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'required|string|max:255',
+            'sub_title' => 'required|string|max:255',
+            'action_button_url' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $group = ProductGroup::findOrFail($id);
+        $slider = Slider::findOrFail($id);
 
         $data = $request->only([
-            'name',
-            'description',
-            'code',
-            'internal_code'
+            'title',
+            'sub_title',
+            'action_button_url'
         ]);
-        $data['slug'] = Str::slug($request->name);
+        $data['slug'] = Str::slug($request->title);
         // Handle file upload for featured_image
-        if ($request->hasFile('featured_image')) {
-            if ($group->featured_image && file_exists(public_path($group->featured_image))) {
-                File::delete(public_path($group->featured_image));
+        if ($request->hasFile('image')) {
+            if ($slider->image && file_exists(public_path($slider->image))) {
+                File::delete(public_path($slider->image));
             }
-            $image = $request->file('featured_image');
+            $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/product_groups'), $imageName);
-            $data['featured_image'] = 'uploads/product_groups/' . $imageName;
+            $image->move(public_path('uploads/sliders'), $imageName);
+            $data['image'] = 'uploads/sliders/' . $imageName;
         }
 
         // Set default values for checkboxes if not present in the request
-        $data['show_as_featured'] = $request->has('show_as_featured') ? $request->has('show_as_featured') : 0;
         $data['is_active'] = $request->has('is_active') ? $request->has('is_active') : 0;
 
         // Assuming you have authentication and want to set updated_by
         $data['updated_by'] = Auth::guard('admin')->user()->id;
 
-        $group->update($data);
+        $slider->update($data);
+        //dd($data);
 
-        return redirect()->route('admin.product_group.index')->with('success', 'Product Group updated successfully.');
+        return redirect()->route('admin.sliders.index')->with('success', 'Slider updated successfully.');
     }
 
     /**
@@ -147,7 +140,7 @@ class ProductGroupController extends Controller
     public function destroy($id)
     {
         try {
-            $group = ProductGroup::findOrFail($id);
+            $group = Slider::findOrFail($id);
             $file_path = $group->featured_image;
 
             // Check if the package is associated with any other records
