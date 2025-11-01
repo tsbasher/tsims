@@ -106,7 +106,17 @@ TSIMS</span>
                 Certification
               </p>
             </a>
-          </li>          
+          </li>      
+          
+          <li class="nav-item">
+            <a href="{{route('admin.speciality.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.speciality.index' || Route::currentRouteName() == 'admin.speciality.create' || Route::currentRouteName() == 'admin.speciality.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Speciality
+              </p>
+            </a>
+          </li>      
           <li class="nav-item">
             <a href="{{route('admin.team.index')}}" class="nav-link
             @if(Route::currentRouteName() == 'admin.team.index' || Route::currentRouteName() == 'admin.team.create' || Route::currentRouteName() == 'admin.team.edit') active @endif">

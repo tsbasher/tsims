@@ -29,6 +29,7 @@ use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
@@ -63,6 +64,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('product-category', ProductCategoryController::class)->names('admin.product_category');
         Route::resource('product-sub-category', ProductSubCategoryController::class)->names('admin.product_sub_category');
         Route::resource('product', ProductController::class)->names('admin.product');
+        Route::resource('speciality', SpecialityController::class)->names('admin.speciality');
 
 
 
