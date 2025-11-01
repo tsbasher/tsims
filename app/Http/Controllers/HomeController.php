@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pages;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('backend.admin.home');
+        $slider=Slider::where('is_active',1)->first();
+        $about=Pages::where('is_active',1)->where('id',1)->first();
+        return view('frontend.home',compact('slider','about'));
+
     }
 }

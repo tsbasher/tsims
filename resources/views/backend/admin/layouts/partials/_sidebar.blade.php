@@ -162,6 +162,16 @@ TSIMS</span>
                </p>
             </a>
           </li>
+          
+          <li class="nav-item">
+            <a href="{{route('admin.website_settings.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.website_settings.index' || Route::currentRouteName() == 'admin.website_settings.create' || Route::currentRouteName() == 'admin.website_settings.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Website Settings
+               </p>
+            </a>
+          </li>
 
           
 {{--           

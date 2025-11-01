@@ -23,6 +23,7 @@ use App\Http\Controllers\Common\UpazilaController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGroupController;
@@ -33,14 +34,17 @@ use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
+use App\Http\Controllers\WebsiteSettingController;
 use App\Models\product;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
+        Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
+        Route::get('/product-group/{slug}', [ProductGroupController::class, 'getProductByGroup'])->name('frontend.product_group');
+        Route::get('/product-category/{slug}', [ProductCategoryController::class, 'getProductByCategory'])->name('frontend.product_category');
+
+        Route::get('/product-sub-category/{slug}', [ProductSubCategoryController::class, 'getProductBySubCategory'])->name('frontend.product_sub_category');
 
 // Auth::routes(['register' => false]);
 
@@ -67,7 +71,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('speciality', SpecialityController::class)->names('admin.speciality');
 
 
-
+        Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');
 
 
 
@@ -112,7 +116,7 @@ Route::group(['prefix' => 'common'], function () {
 });
 
 
-Route::group(['prefix' => ''], function () {
+Route::group(['prefix' => 'user'], function () {
     Route::get('/login', [LoginController::class, 'user_login'])->name('user.login');
     Route::post('/login', [LoginController::class, 'user_login_post'])->name('user.login_post');
     Route::group(['middleware' => ['auth']], function () {
