@@ -5,9 +5,9 @@
       <div class="row gy-4">
         <div class="col-lg-3 col-md-6 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">{{ $setting->company_name }}</span>
+            <span class="sitename"><img src="{{ asset($setting->logo) }}" alt="Logo"></span>
           </a>
-          <div class="footer-contact pt-3">
+          <div class="footer-contact">
             
             <p class="mt-3"><strong>Phone:</strong> <span>{{ $setting->phone }}</span></p>
             <p><strong>Email:</strong> <span>{{ $setting->email }}</span></p>
@@ -23,7 +23,7 @@
         <div class="col-lg-3 col-md-3 footer-links">
           <h4 class="text-center">Head Office Address</h4>
           
-          <div class="footer-contact pt-3">
+          <div class="footer-contact">
             <p class="mt-3 text-center"><span>{!! $setting->head_address !!}</span></p>
           </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="col-lg-3 col-md-3 footer-links">
           <h4 class="text-center">China Office Address</h4>
           
-          <div class="footer-contact pt-3">
+          <div class="footer-contact">
             <p class="mt-3 text-center"><span>{!! $setting->china_address !!}</span></p>
           </div>
         </div>
@@ -39,7 +39,7 @@
         <div class="col-lg-3 col-md-3 footer-links">
           <h4 class="text-center">Factory Address</h4>
           
-          <div class="footer-contact pt-3">
+          <div class="footer-contact">
             <p class="mt-3 text-center"><span>{!! $setting->factory_address !!}</span></p>
           </div>
         </div>
