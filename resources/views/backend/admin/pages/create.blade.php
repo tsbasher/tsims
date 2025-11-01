@@ -63,8 +63,8 @@
                                 </div>
                                                                
                                 <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('content') }}</textarea>
+                                    <label for="content">Description</label>
+                                    <textarea class="form-control" name="content" id="content" placeholder="Enter content">{{ old('content') }}</textarea>
                                 </div>
 
 
@@ -93,7 +93,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             debugger;
-            $('#description').summernote();
+            $('#content').summernote();
             $('.datepicker').datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,

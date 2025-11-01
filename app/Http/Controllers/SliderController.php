@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\slider;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -68,7 +68,7 @@ class SliderController extends Controller
         $data['created_by'] = Auth::guard('admin')->user()->id;
 
         // Create the ProductGroup
-        slider::create($data);
+        Slider::create($data);
 
         return redirect()->route('admin.sliders.index')->with('success', 'Slider created successfully.');
     }
@@ -76,7 +76,7 @@ class SliderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(slider $slider)
+    public function show(Slider $slider)
     {
         //
     }
@@ -86,7 +86,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $slider = slider::findOrFail($id);
+        $slider = Slider::findOrFail($id);
         //dd($slider);
         return view('backend.admin.sliders.edit', compact('slider'));
     }
