@@ -190,4 +190,10 @@ class ProductCategoryController extends Controller
         $categories = ProductCategory::where('group_id', $group_id)->get();
         return response()->json($categories);
     }
+    
+    public function getProductByCategory($slug)
+    {
+        $data = ProductCategory::where('slug', $slug)->with('products')->firstOrFail();
+        return view('frontend.category_details', compact('data'));
+    }
 }

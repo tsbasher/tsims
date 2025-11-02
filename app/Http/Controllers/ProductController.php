@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
 use App\Models\ProductSubCategory;
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -71,7 +71,7 @@ class ProductController extends Controller
         $request->validate([
             'group_id' => 'required|exists:product_groups,id',
             'category_id' => 'required|exists:product_categories,id',
-            'sub_category_id' => 'required|exists:product_sub_categories,id',
+            'sub_category_id' => 'nullable|exists:product_sub_categories,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
             'internal_code' => 'nullable|string|max:100',
@@ -102,7 +102,7 @@ class ProductController extends Controller
             $data['featured_image'] = 'uploads/product/' . $imageName;
         }
         $data['created_by'] = Auth::guard('admin')->user()->id;
-        product::create($data);
+        Product::create($data);
 
         return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
     }
@@ -110,7 +110,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(product $product)
+    public function show(Product $product)
     {
         //
     }
@@ -118,7 +118,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(product $product)
+    public function edit(Product $product)
     {
         $groups = ProductGroup::get();
         $categories = ProductCategory::where('group_id', $product->group_id)->get();
@@ -135,7 +135,7 @@ class ProductController extends Controller
         $request->validate([
             'group_id' => 'required|exists:product_groups,id',
             'category_id' => 'required|exists:product_categories,id',
-            'sub_category_id' => 'required|exists:product_sub_categories,id',
+            'sub_category_id' => 'nullable|exists:product_sub_categories,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
             'internal_code' => 'nullable|string|max:100',
@@ -154,7 +154,6 @@ class ProductController extends Controller
             'description'
         ]);
 
-        $data['slug'] = Str::slug($request->name);
         $data['is_active'] = $request->has('is_active') ? $request->is_active : 0;
         $data['show_as_featured'] = $request->has('show_as_featured') ? $request->show_as_featured : 0;
         if ($request->hasFile('featured_image')) {
@@ -208,5 +207,11 @@ class ProductController extends Controller
     {
         $products = Product::where('sub_category_id', $sub_category_id)->where('is_active', 1)->get();
         return response()->json($products);
+    }
+
+    public function getProductBySlug($slug)
+    {
+        $product = Product::where('slug', $slug)->where('is_active', 1)->first();
+        
     }
 }

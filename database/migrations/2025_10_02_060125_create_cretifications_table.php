@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('cretifications', function (Blueprint $table) {
             $table->id();            
             $table->string('name');
-            $table->string('slug')->unique();
             $table->string('company_name')->nullable();
             $table->string('id_number')->nullable();
             $table->text('comments')->nullable();

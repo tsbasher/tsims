@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('specialities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string("image")->nullable();  
             $table->tinyInteger('is_active')->default(1)->comment('0=Inactive, 1=Active');
             $table->unsignedBigInteger('created_by')->nullable();

@@ -11,7 +11,6 @@ class Buyers extends Model
         'name',
         'country',
         'description',
-        'slug',
         'code',
         'internal_code',
         'featured_image',

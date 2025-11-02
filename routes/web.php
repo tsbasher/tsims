@@ -41,10 +41,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
         Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
+        Route::get('/about-us', [HomeController::class, 'about'])->name('frontend.about');
+        Route::get('/contact-us', [HomeController::class, 'contact'])->name('frontend.contact');
         Route::get('/product-group/{slug}', [ProductGroupController::class, 'getProductByGroup'])->name('frontend.product_group');
         Route::get('/product-category/{slug}', [ProductCategoryController::class, 'getProductByCategory'])->name('frontend.product_category');
 
         Route::get('/product-sub-category/{slug}', [ProductSubCategoryController::class, 'getProductBySubCategory'])->name('frontend.product_sub_category');
+        Route::get('/product/{slug}', [ProductController::class, 'getProductBySlug'])->name('frontend.product');
 
 // Auth::routes(['register' => false]);
 

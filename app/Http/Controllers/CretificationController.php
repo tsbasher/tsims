@@ -43,10 +43,10 @@ class CretificationController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'company_name' => 'required|string|max:100',
-            'id_number' => 'required|string|max:100',
-            'comments' => 'required|string|max:500',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'company_name' => 'nullable|string|max:100',
+            'id_number' => 'nullable|string|max:100',
+            'comments' => 'nullable|string|max:500',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
 
@@ -56,7 +56,6 @@ class CretificationController extends Controller
             'id_number',
             'comments'
         ]);
-        $data['slug'] = Str::slug($request->title);
         // Handle file upload for featured_image
         if ($request->hasFile('featured_image')) {
             $image = $request->file('featured_image');
@@ -102,9 +101,9 @@ class CretificationController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'company_name' => 'required|string|max:100',
-            'id_number' => 'required|string|max:100',
-            'comments' => 'required|string|max:500',
+            'company_name' => 'nullable|string|max:100',
+            'id_number' => 'nullable|string|max:100',
+            'comments' => 'nullable|string|max:500',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -116,7 +115,6 @@ class CretificationController extends Controller
             'id_number',
             'comments'
         ]);
-        $data['slug'] = Str::slug($request->name);
         // Handle file upload for featured_image
         if ($request->hasFile('featured_image')) {
             if ($certification->featured_image && file_exists(public_path($certification->featured_image))) {

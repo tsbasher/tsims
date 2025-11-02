@@ -8,7 +8,6 @@ class Cretification extends Model
 {
     protected $fillable = [
         'name',
-        'slug',
         'company_name',
         'id_number',
         'comments',

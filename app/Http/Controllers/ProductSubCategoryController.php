@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
 use App\Models\ProductSubCategory;
@@ -193,5 +194,11 @@ class ProductSubCategoryController extends Controller
     {
         $sub_categories = ProductSubCategory::where('category_id', $category_id)->where('is_active', 1)->get();
         return response()->json($sub_categories);
+    }
+
+    public function getProductBySubCategory($slug)
+    {
+        $data = ProductSubCategory::where('slug', $slug)->with('products')->firstOrFail();
+        return view('frontend.category_details', compact('data'));
     }
 }

@@ -61,7 +61,6 @@ class BuyersController extends Controller
         ]);
 
         $data['is_active'] = $request->has('is_active') ? $request->is_active : 0;
-        $data['slug'] = Str::slug($request->name);
         if ($request->hasFile('featured_image')) {
             $image = $request->file('featured_image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
@@ -119,7 +118,6 @@ class BuyersController extends Controller
         ]);
 
         $data['is_active'] = $request->has('is_active') ? $request->is_active : 0;
-        $data['slug'] = Str::slug($request->name);
 
         if ($request->hasFile('featured_image')) {
             // Delete old image if exists

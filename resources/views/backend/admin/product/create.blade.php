@@ -92,7 +92,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="sub_category_id">Product Sub Category</label>
-                                    <select name="sub_category_id" id="sub_category_id" class="form-control select2" required>
+                                    <select name="sub_category_id" id="sub_category_id" class="form-control select2">
                                         <option value="">Select Sub Category</option>
                                         @foreach ($subcategories as $subcategory)
                                             <option value="{{ $subcategory->id }}"

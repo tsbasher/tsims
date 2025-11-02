@@ -175,4 +175,11 @@ class ProductGroupController extends Controller
             return response()->json($data);
         }
     }
+
+    
+    public function getProductByGroup($slug)
+    {
+        $data = ProductGroup::where('slug', $slug)->with('products')->firstOrFail();
+        return view('frontend.category_details', compact('data'));
+    }
 }

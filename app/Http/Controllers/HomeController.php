@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buyers;
+use App\Models\Cretification;
 use App\Models\Pages;
+use App\Models\ProductGroup;
 use App\Models\Slider;
+use App\Models\Speciality;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,8 +31,25 @@ class HomeController extends Controller
     public function index()
     {
         $slider=Slider::where('is_active',1)->first();
-        $about=Pages::where('is_active',1)->where('id',1)->first();
-        return view('frontend.home',compact('slider','about'));
+        $about=Pages::where('is_active',1)->where('slug','about')->first();
+        $speciality=Speciality::get();
+        $certification=Cretification::where('is_active',1)->get();
+        $products=ProductGroup::with('featured_products')->where('is_active',1)->get();
+        $buyer=Buyers::where('is_active',1)->get();
+        $teams=Team::where('is_active',1)->with('designation')->get();
+        return view('frontend.home',compact('slider','about','speciality','certification','products','buyer','teams'));
 
+    }
+    public function about()
+    {
+        $about=Pages::where('is_active',1)->where('slug','about')->first();
+        $mission=Pages::where('is_active',1)->where('slug','mission')->first();
+        $vision=Pages::where('is_active',1)->where('slug','vision')->first();
+        $teams=Team::where('is_active',1)->with('designation')->get();
+        return view('frontend.about',compact('about','mission','vision','teams'));
+    }
+    public function contact()
+    {
+        return view('frontend.contact');
     }
 }
