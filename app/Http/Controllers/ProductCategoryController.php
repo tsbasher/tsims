@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
+use App\Models\ProductSubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -193,7 +194,8 @@ class ProductCategoryController extends Controller
     
     public function getProductByCategory($slug)
     {
-        $data = ProductCategory::where('slug', $slug)->with('products')->firstOrFail();
-        return view('frontend.category_details', compact('data'));
+        $data = ProductCategory::where('slug', $slug)->with('products','sub')->firstOrFail();
+        $sub_data=$data->sub;
+        return view('frontend.category_details', compact('data','sub_data'));
     }
 }

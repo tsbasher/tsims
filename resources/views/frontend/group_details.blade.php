@@ -1,5 +1,5 @@
 @extends('frontend.layout.app')
-@section('title', 'Product Category Details')
+@section('title', 'Product Group Details')
 @section('main')
 
     <main class="main">
@@ -69,10 +69,10 @@
                             </div>
                             @foreach ($sub_data as $category)
                                 <div class="row">
-                                    <a href="{{ route('frontend.product_sub_category', $category->slug) }}"
+                                    <a href="{{ route('frontend.product_category', $category->slug) }}"
                                         class="d-flex align-items-center text-decoration-none">
                                         <div class="col-md-4">
-                                            <img src="{{ asset($category->featured_image) }}"  style="padding:10px;"  class="img-fluid"
+                                            <img src="{{ asset($category->featured_image) }}" style="padding:10px;" class="img-fluid"
                                                 alt="">
                                         </div>
                                         <div class="col-md-8">
@@ -82,11 +82,11 @@
                                     </a>
                                 </div>
                             @endforeach
+                        @endif
+
                     </div>
-                    @endif
 
                 </div>
-
             </div>
 
         </section><!-- /Services Section -->

@@ -113,6 +113,24 @@
                                     style="max-width: 150px; margin-top: 10px;">
                             @endif
                         </div>
+
+                        
+                        <div class="form-group">
+                            <label for="gallery">Gallery Images</label>
+                            <input type="file" class="form-control" id="gallery" name="gallery[]" multiple>
+                            
+                            @if ($product->galleries)
+                                @foreach ($product->galleries as $gallery)
+                                <span>
+                                    <img src="{{ asset($gallery->image) }}" alt="Gallery Image"
+                                        style="max-width: 150px; margin-top: 10px;">
+                                        <a href="#" data-id="{{ $gallery->id }}"  class="btn btn-sm btn-danger remove">Remove</a>
+                                </span>
+                                @endforeach
+                            @endif
+                        </div>
+
+
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('description',$product->description) }}</textarea>
@@ -133,6 +151,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
+                        <input type="hidden" name="gallery_id" value="">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
@@ -150,7 +169,14 @@
 <script src="{{ asset('backend/plugins/select2/js/select2.full.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            
+            $(".remove").click(function (e) {
+                e.preventDefault();
+                var id = $(this).data("id");
+                if (confirm("Are you sure you want to delete this image?")) {
+                    $("input[name='gallery_id']").val($("input[name='gallery_id']").val() + id + ",");
+                    this.parentElement.remove();
+                }
+            })
     $(".select2").select2();
             debugger;
             $('#description').summernote();

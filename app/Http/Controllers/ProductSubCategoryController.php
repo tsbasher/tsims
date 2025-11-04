@@ -199,6 +199,6 @@ class ProductSubCategoryController extends Controller
     public function getProductBySubCategory($slug)
     {
         $data = ProductSubCategory::where('slug', $slug)->with('products')->firstOrFail();
-        return view('frontend.category_details', compact('data'));
+        return view('frontend.sub_category_details', compact('data'));
     }
 }

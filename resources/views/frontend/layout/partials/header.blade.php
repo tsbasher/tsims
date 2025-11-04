@@ -9,7 +9,7 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a href="{{ route('frontend.home') }}" class="active">Home</a></li>
+                <li><a href="{{ route('frontend.home') }}" >Home</a></li>
                 <li><a href="{{ route('frontend.about') }}">About</a></li>
                 @foreach ($groups as $group)
                     @if ($group->categories->count() > 0)

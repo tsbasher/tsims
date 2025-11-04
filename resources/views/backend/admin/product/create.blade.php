@@ -108,6 +108,14 @@
                             <label for="code">Featured Image</label>
                             <input type="file" class="form-control" id="featured_image" name="featured_image">
                         </div>
+
+
+                        
+                        <div class="form-group">
+                            <label for="gallery">Gallery Images</label>
+                            <input type="file" class="form-control" id="gallery" name="gallery[]" multiple>
+                        </div>
+
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('description') }}</textarea>
