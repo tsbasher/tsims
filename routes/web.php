@@ -21,6 +21,7 @@ use App\Http\Controllers\Common\RegionController;
 use App\Http\Controllers\Common\UnionController;
 use App\Http\Controllers\Common\UpazilaController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\HomeController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SpecialityController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
@@ -72,6 +74,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('product-sub-category', ProductSubCategoryController::class)->names('admin.product_sub_category');
         Route::resource('product', ProductController::class)->names('admin.product');
         Route::resource('speciality', SpecialityController::class)->names('admin.speciality');
+        Route::resource('customer', CustomerController::class)->names('admin.customer');
+        Route::resource('supplier', SupplierController::class)->names('admin.supplier');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');

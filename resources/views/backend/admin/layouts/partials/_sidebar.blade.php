@@ -164,6 +164,24 @@ TSIMS</span>
           </li>
           
           <li class="nav-item">
+            <a href="{{route('admin.supplier.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.supplier.index' || Route::currentRouteName() == 'admin.supplier.create' || Route::currentRouteName() == 'admin.supplier.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Supplier
+               </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('admin.customer.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.customer.index' || Route::currentRouteName() == 'admin.customer.create' || Route::currentRouteName() == 'admin.customer.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Customer
+               </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{route('admin.website_settings.index')}}" class="nav-link
             @if(Route::currentRouteName() == 'admin.website_settings.index' || Route::currentRouteName() == 'admin.website_settings.create' || Route::currentRouteName() == 'admin.website_settings.edit') active @endif">
               <i class="nav-icon fas fa-th"></i>

@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.app')
-@section('title', 'Speciality')
+@section('title', 'Customer')
 @section('style')
 
     <!-- DataTables -->
@@ -16,9 +16,9 @@
             <!-- general form elements -->
             <div class="card card-body bg-gray-light">
                 <div class="card-header">
-                    <h2 class="card-title ">Speciality</h2>
+                    <h2 class="card-title ">Customer</h2>
                     <div class="card-tools">
-                        <a href="{{ route('admin.speciality.create') }}" class="btn btn btn-secondary"><i class="fa fa-plus"></i> Add</a>
+                        <a href="{{ route('admin.customer.create') }}" class="btn btn btn-secondary"><i class="fa fa-plus"></i> Add</a>
                     </div>
                 </div>
                 <div class="card-body ">
@@ -33,7 +33,7 @@
                                             <button type="submit" class="btn btn-lg btn-default">
                                                 <i class="fa fa-search"></i>
                                             </button>
-                                            <a href="{{ route('admin.speciality.index') }}" class="btn btn-lg btn-default">
+                                            <a href="{{ route('admin.customer.index') }}" class="btn btn-lg btn-default">
                                                 <i class="fas fa-sync-alt"></i>
                                             </a>
                                         </div>
@@ -54,30 +54,36 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-head-fixed" id="speciality-table">
+                        <table class="table table-bordered table-hover table-head-fixed" id="customer-table">
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
                                     <th>Name</th>
-                                    <th>Status</th>
+                                    <th>Code</th>
+                                    <th>Internal Code</th>
+                                    <th>Mobile</th>
+                                    <th>Active</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($specialities as $speciality)
+                                @foreach ($customers as $customer)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $speciality->name }}</td>
+                                        <td>{{ $customer->name }}</td>
+                                        <td>{{ $customer->code }}</td>
+                                        <td>{{ $customer->internal_code }}</td>
+                                        <td>{{ $customer->mobile }}</td>
                                         <td>
-                                            @if ($speciality->is_active == 1)
+                                            @if ($customer->is_active == 1)
                                                 <span class="badge bg-success" style="font-size: 100%">Yes</span>
                                             @else
                                                 <span class="badge bg-danger" style="font-size: 100%">No</span>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.speciality.edit', $speciality->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></a>
-                                            <a class="btn btn-sm btn-danger delete_record" data-url="{{ route('admin.speciality.destroy', $speciality->id) }}"><i class="fas fa-trash"></i></a>
+                                            <a href="{{ route('admin.customer.edit', $customer->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-sm btn-danger delete_record" data-url="{{ route('admin.customer.destroy', $customer->id) }}"><i class="fas fa-trash"></i></a>
 
                                         </td>
                                     </tr>
@@ -89,7 +95,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer clearfix" style="background: #00000000">
-                    {{ $specialities->links() }}
+                    {{ $customers->links() }}
                 </div>
             </div>
             <!-- /.card -->
@@ -192,7 +198,7 @@
 
         
 
-        $('#speciality-table').DataTable({
+        $('#customer-table').DataTable({
             "paging": false,
             "lengthChange": false,
             "searching": false,
