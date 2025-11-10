@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
 use App\Models\ProductSubCategory;
 use App\Models\Product;
+use App\Models\ProductGallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -19,7 +21,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-       $products = Product::with('group', 'category','subCategory');
+        $products = Product::with('group', 'category', 'subCategory');
         if ($request->has('search_text') && !empty($request->search_text)) {
             $search = $request->search_text;
             $products = $products->where(function ($query) use ($search) {
@@ -28,7 +30,7 @@ class ProductController extends Controller
                     ->orWhere('internal_code', 'like', '%' . $search . '%');
             });
         }
-        
+
         if ($request->has('group_id') && !empty($request->group_id)) {
             $products = $products->where('group_id', $request->group_id);
             $categories = ProductCategory::where('group_id', $request->group_id)->get();
@@ -38,7 +40,7 @@ class ProductController extends Controller
         if ($request->has('category_id') && !empty($request->category_id)) {
             $products = $products->where('category_id', $request->category_id);
             $subcategories = ProductSubCategory::where('group_id', $request->group_id)->get();
-        }else
+        } else
             $subcategories = [];
 
         if ($request->has('sub_category_id') && !empty($request->sub_category_id)) {
@@ -47,7 +49,7 @@ class ProductController extends Controller
         $products = $products->orderBy('id', 'desc')->paginate(10);
         $groups = ProductGroup::get();
 
-        return view('backend.admin.product.index', compact('products','subcategories', 'groups', 'categories'));
+        return view('backend.admin.product.index', compact('products', 'subcategories', 'groups', 'categories'));
         //return view('backend.admin.product.index', compact('products', 'groups'));
     }
 
@@ -59,7 +61,7 @@ class ProductController extends Controller
         $groups = ProductGroup::get();
         $categories = [];
         $subcategories = [];
-        return view('backend.admin.product.create', compact('groups', 'categories','subcategories'));
+        return view('backend.admin.product.create', compact('groups', 'categories', 'subcategories'));
     }
 
     /**
@@ -67,7 +69,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'group_id' => 'required|exists:product_groups,id',
             'category_id' => 'required|exists:product_categories,id',
@@ -103,7 +105,15 @@ class ProductController extends Controller
         }
         $data['created_by'] = Auth::guard('admin')->user()->id;
         Product::create($data);
-
+        foreach ($request->file('gallery', []) as $galleryImage) {
+            $imageName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
+            $galleryImage->move(public_path('uploads/product/gallery/'), $imageName);
+            // Assuming you have a ProductGallery model to handle gallery images
+            ProductGallery::create([
+                'product_id' => $data['id'],
+                'image' => 'uploads/product/gallery/' . $imageName,
+            ]);
+        }
         return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
     }
 
@@ -123,14 +133,15 @@ class ProductController extends Controller
         $groups = ProductGroup::get();
         $categories = ProductCategory::where('group_id', $product->group_id)->get();
         $subcategories = ProductSubCategory::where('category_id', $product->category_id)->get();
-        return view('backend.admin.product.edit', compact('product', 'groups', 'categories','subcategories'));
+        $product=Product::with('galleries')->find($product->id);
+        return view('backend.admin.product.edit', compact('product', 'groups', 'categories', 'subcategories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {        
+    {
         $product = Product::findOrFail($id);
         $request->validate([
             'group_id' => 'required|exists:product_groups,id',
@@ -164,8 +175,34 @@ class ProductController extends Controller
         }
         $data['updated_by'] = Auth::guard('admin')->user()->id;
         $product->update($data);
+
+        if($request->has('gallery_id') && !empty($request->gallery_id)){
+            $gallery_ids = explode(',', rtrim($request->gallery_id, ','));
+            $galleries_to_delete = ProductGallery::where('product_id', $product->id)
+                ->whereIn('id', $gallery_ids)
+                ->get();
+
+            foreach ($galleries_to_delete as $gallery) {
+                $file_path = $gallery->image;
+                if ($file_path && file_exists(public_path($file_path))) {
+                    File::delete(public_path($file_path));
+                }
+                $gallery->delete();
+            }
+        }
+
+        // Handle gallery images
+            foreach ($request->file('gallery',[]) as $image) {
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('uploads/product/gallery/'), $imageName);
+                ProductGallery::create([
+                    'product_id' => $product->id,
+                    'image' => 'uploads/product/gallery/' . $imageName,
+                ]);
+            
+        }
+
         return redirect()->route('admin.product.index')->with('success', 'Product updated successfully.');
-    
     }
 
     /**
@@ -200,9 +237,8 @@ class ProductController extends Controller
             $data->message = 'An error occurred while deleting Product.';
             return response()->json($data);
         }
-
     }
-    
+
     public function get_product_by_sub_category($sub_category_id)
     {
         $products = Product::where('sub_category_id', $sub_category_id)->where('is_active', 1)->get();
@@ -211,7 +247,12 @@ class ProductController extends Controller
 
     public function getProductBySlug($slug)
     {
-        $product = Product::where('slug', $slug)->where('is_active', 1)->first();
-        
+        $product = Product::where('slug', $slug)->where('is_active', 1)->with('group','category','subCategory','galleries')->first();
+        if($product->subCategory)
+        $others=Product::where('sub_category_id', $product->subCategory->id)->where('id', '!=', $product->id)->get();
+    else
+        $others=Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
+        return view('frontend.product_details', compact('product', 'others'));
     }
+    
 }

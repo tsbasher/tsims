@@ -1,5 +1,5 @@
 @extends('frontend.layout.app')
-@section('title', 'Product Category Details')
+@section('title', 'Product Subcategory Details')
 @section('main')
 
     <main class="main">
@@ -29,7 +29,7 @@
                     <span>{!! $data->description !!}</span>
                 </div>
                 <div class="row gy-5">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="row">
                             @if ($data->products->count() > 0)
 
@@ -61,32 +61,8 @@
                             @endif
                         </div>
                     </div>
-                    <div class="col-md-3 mt-4">
-
-                        @if ($sub_data->count() > 0)
-                            <div class="row mb-2">
-                                <h4 class="text-center">Select Category</h4>
-                            </div>
-                            @foreach ($sub_data as $category)
-                                <div class="row">
-                                    <a href="{{ route('frontend.product_sub_category', $category->slug) }}"
-                                        class="d-flex align-items-center text-decoration-none">
-                                        <div class="col-md-4">
-                                            <img src="{{ asset($category->featured_image) }}"  style="padding:10px;"  class="img-fluid"
-                                                alt="">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <p style="margin-bottom:0px; margin-left:5px; font-weight:700">
-                                                {{ $category->name }}</p>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-                    </div>
-                    @endif
 
                 </div>
-
             </div>
 
         </section><!-- /Services Section -->

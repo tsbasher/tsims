@@ -50,6 +50,7 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('/product-sub-category/{slug}', [ProductSubCategoryController::class, 'getProductBySubCategory'])->name('frontend.product_sub_category');
         Route::get('/product/{slug}', [ProductController::class, 'getProductBySlug'])->name('frontend.product');
+        Route::get('/product-inquery/{id}', [ProductController::class, 'productInquiry'])->name('frontend.product_inquery');
 
 // Auth::routes(['register' => false]);
 
