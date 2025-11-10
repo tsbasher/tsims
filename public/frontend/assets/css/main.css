@@ -22,14 +22,14 @@
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
   --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
   --heading-color: #273d4e; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #16a6ad; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --accent-color: #151f46; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: #e5eaee;  /* The default color of the main navmenu links */
+  --nav-color: #151f46;  /* The default color of the main navmenu links */
   --nav-hover-color: #000000; /* Applied to main navmenu links when they are hovered over or active */
   --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
   --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
@@ -45,9 +45,9 @@
 }
 
 .dark-background {
-  --background-color: #043033;
-  --default-color: #ffffff;
-  --heading-color: #ffffff;
+  --background-color: #a6c4e7;
+  --default-color: #151f46;
+  --heading-color: #151f46;
   --surface-color: #28323a;
   --contrast-color: #ffffff;
 }
@@ -290,7 +290,7 @@ h6 {
 /* Global Header on Scroll
 ------------------------------*/
 .scrolled .header {
-  --background-color: #16a6ad;
+  --background-color: #a6c4e7;
 }
 
 /*--------------------------------------------------------------
@@ -326,7 +326,8 @@ h6 {
   .navmenu a,
   .navmenu a:focus {
     color: var(--nav-color);
-    font-size: 13px;
+    font-size: 16px;
+    font-weight: bold;
     padding: 0 2px;
     font-family: var(--nav-font);
     font-weight: 500;
@@ -1093,11 +1094,11 @@ section,
 .services .details {
   background: color-mix(in srgb, var(--surface-color), transparent 5%);
   padding: 5px;
-  margin: -20px 30px 0 30px;
+  margin: -20px 0 0 0;
   transition: all ease-in-out 0.3s;
   position: relative;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
   box-shadow: 0px 0 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -1170,7 +1171,7 @@ section,
   max-width: 90%;
   transition: 0.3s;
   opacity: 0.5;
-  filter: grayscale(100);
+  /* filter: grayscale(100); */
 }
 
 .clients .client-logo img:hover {

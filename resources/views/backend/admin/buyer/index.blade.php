@@ -60,8 +60,8 @@
                                     <th style="width: 10px">#</th>
                                     <th>Name</th>
                                     <th>Code</th>
-                                    <th>Internal Code</th>
                                     <th>Status</th>
+                                    <th>Image</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -71,12 +71,15 @@
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $buyer->name }}</td>
                                         <td>{{ $buyer->code }}</td>
-                                        <td>{{ $buyer->internal_code }}</td>
                                         <td>
                                             @if ($buyer->is_active == 1)
                                                 <span class="badge bg-success" style="font-size: 100%">Yes</span>
                                             @else
                                                 <span class="badge bg-danger" style="font-size: 100%">No</span>
+                                            @endif
+                                        </td>
+                                        <td>@if($buyer->featured_image)
+                                            <img src="{{ asset($buyer->featured_image) }}" width="150px"/>
                                             @endif
                                         </td>
                                         <td>

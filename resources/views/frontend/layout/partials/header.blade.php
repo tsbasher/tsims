@@ -11,7 +11,7 @@
             <ul>
                 <li><a href="{{ route('frontend.home') }}" >Home</a></li>
                 <li><a href="{{ route('frontend.about') }}">About</a></li>
-                @foreach ($groups as $group)
+                @foreach ($menu_groups as $group)
                     @if ($group->categories->count() > 0)
                         <li class="dropdown"><a href="{{ route('frontend.product_group', $group->slug) }}"><span>{{ $group->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>

@@ -79,7 +79,7 @@
         </section><!-- /Services Section -->
 
         <!-- Clients Section -->
-        <section class="clients section dark-background" style="background-color: #16a5ad42">
+        <section class="clients section dark-background">
 
             <div class="container" data-aos="fade-up">
 
@@ -97,26 +97,24 @@
 
         </section><!-- /Clients Section -->
 
-        @foreach ($products as $item)
-            @if ($item->featured_products->count() > 0)
                 <!-- Services Section -->
-                <section id="services" class="services section @if ($loop->index % 2 == 1) light-background @endif">
+                <section id="services" class="services section light-background">
 
                     <!-- Section Title -->
                     <div class="container section-title" data-aos="fade-up">
-                        <h2>Products Of</h2>
-                        <p>{{ $item->name }}<br></p>
+                        <h2>Our</h2>
+                        <p>Products<br></p>
                     </div><!-- End Section Title -->
 
                     <div class="container" data-aos="fade-up" data-aos-delay="100">
 
                         <div class="row gy-5">
-                            @foreach ($item->featured_products as $p)
-                                <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                            @foreach ($products as $p)
+                                <div class="col-xl-3 col-6 col-md-4" data-aos="zoom-in" data-aos-delay="200">
                                     <div class="service-item">
-                                      <div style="position: absolute; top: 10px; right: 20px; background-color: #16a6ad; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; z-index: 999;">
+                                      <div style="position: absolute; top: 10px; right: 20px; background-color: #a6c4e7; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; z-index: 999;">
                                         
-                                        <a href="{{ route('frontend.product_inquery', $p->id) }}" style="color: white; text-decoration: none;"> <i class="bi bi-clipboard2-plus-fill"></i> Inquery</a>
+                                        <a href="{{ route('frontend.product_inquery', $p->id) }}" style="color: #151f46; text-decoration: none;"> <i class="bi bi-clipboard2-plus-fill"></i> Inquery</a>
                                       </div>
 
                                         <a href="{{ route('frontend.product', $p->slug) }}" class="stretched-link">
@@ -138,14 +136,12 @@
                     </div>
 
                 </section><!-- /Services Section -->
-            @endif
-        @endforeach
 
 
 
 
         <!-- Clients Section -->
-        <section class="clients section dark-background" style="background-color: #16a5ad42">
+        <section class="clients section dark-background">
             <div class="container" data-aos="fade-up">
 
                 <div class="row gy-4 pt-5 pb-5">
@@ -163,7 +159,7 @@
         </section><!-- /Clients Section -->
 
 
-
+@if($teams->count() > 0)
         <!-- Team Section -->
         <section id="team" class="team section light-background">
 
@@ -200,7 +196,7 @@
             </div>
 
         </section><!-- /Team Section -->
-
+@endif
     </main>
 
 @endsection

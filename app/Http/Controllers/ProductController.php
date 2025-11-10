@@ -58,10 +58,12 @@ class ProductController extends Controller
      */
     public function create()
     {
+        
         $groups = ProductGroup::get();
         $categories = [];
         $subcategories = [];
-        return view('backend.admin.product.create', compact('groups', 'categories', 'subcategories'));
+        $max_id = Product::max('id');
+        return view('backend.admin.product.create', compact('groups', 'categories', 'subcategories','max_id'));
     }
 
     /**
@@ -104,7 +106,11 @@ class ProductController extends Controller
             $data['featured_image'] = 'uploads/product/' . $imageName;
         }
         $data['created_by'] = Auth::guard('admin')->user()->id;
-        Product::create($data);
+        $p=Product::create($data);
+        $trimmedString = substr($p->code, 0, -6);
+        $p->code=$trimmedString. str_pad($p->id, 6, '0', STR_PAD_LEFT);
+        $p->save();
+        // Handle gallery images
         foreach ($request->file('gallery', []) as $galleryImage) {
             $imageName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
             $galleryImage->move(public_path('uploads/product/gallery/'), $imageName);
@@ -133,7 +139,7 @@ class ProductController extends Controller
         $groups = ProductGroup::get();
         $categories = ProductCategory::where('group_id', $product->group_id)->get();
         $subcategories = ProductSubCategory::where('category_id', $product->category_id)->get();
-        $product=Product::with('galleries')->find($product->id);
+        $product = Product::with('galleries')->find($product->id);
         return view('backend.admin.product.edit', compact('product', 'groups', 'categories', 'subcategories'));
     }
 
@@ -176,7 +182,7 @@ class ProductController extends Controller
         $data['updated_by'] = Auth::guard('admin')->user()->id;
         $product->update($data);
 
-        if($request->has('gallery_id') && !empty($request->gallery_id)){
+        if ($request->has('gallery_id') && !empty($request->gallery_id)) {
             $gallery_ids = explode(',', rtrim($request->gallery_id, ','));
             $galleries_to_delete = ProductGallery::where('product_id', $product->id)
                 ->whereIn('id', $gallery_ids)
@@ -192,14 +198,13 @@ class ProductController extends Controller
         }
 
         // Handle gallery images
-            foreach ($request->file('gallery',[]) as $image) {
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/product/gallery/'), $imageName);
-                ProductGallery::create([
-                    'product_id' => $product->id,
-                    'image' => 'uploads/product/gallery/' . $imageName,
-                ]);
-            
+        foreach ($request->file('gallery', []) as $image) {
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/product/gallery/'), $imageName);
+            ProductGallery::create([
+                'product_id' => $product->id,
+                'image' => 'uploads/product/gallery/' . $imageName,
+            ]);
         }
 
         return redirect()->route('admin.product.index')->with('success', 'Product updated successfully.');
@@ -247,12 +252,11 @@ class ProductController extends Controller
 
     public function getProductBySlug($slug)
     {
-        $product = Product::where('slug', $slug)->where('is_active', 1)->with('group','category','subCategory','galleries')->first();
-        if($product->subCategory)
-        $others=Product::where('sub_category_id', $product->subCategory->id)->where('id', '!=', $product->id)->get();
-    else
-        $others=Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
+        $product = Product::where('slug', $slug)->where('is_active', 1)->with('group', 'category', 'subCategory', 'galleries')->first();
+        if ($product->subCategory)
+            $others = Product::where('sub_category_id', $product->subCategory->id)->where('id', '!=', $product->id)->get();
+        else
+            $others = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
         return view('frontend.product_details', compact('product', 'others'));
     }
-    
 }

@@ -56,9 +56,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="code">Sub Category Internal Code</label>
+                                    <label for="code">Sub Category Code Prefix</label>
                                     <input type="text" class="form-control" name="internal_code" id="internal_code"
-                                        placeholder="Enter Internal Code" value="{{ old('internal_code',$sub_category->internal_code) }}">
+                                        placeholder="Enter Internal Code" value="{{ old('internal_code',$sub_category->internal_code) }}" required>
                                 </div>
                             </div>
                         </div>

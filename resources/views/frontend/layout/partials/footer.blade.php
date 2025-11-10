@@ -1,10 +1,10 @@
 
-  <footer id="footer" class="footer dark-background">
+  <footer id="footer" class="footer dark-background mt-5">
 
     <div class="container footer-top">
       <div class="row gy-4">
-        <div class="col-lg-3 col-md-6 footer-about">
-          <a href="{{ route('frontend.home') }}" class="logo d-flex align-items-center">
+        <div class="col-lg-3 col-md-3 footer-about text-center">
+          <a href="{{ route('frontend.home') }}" class="logo align-items-center">
             <span class="sitename"><img src="{{ asset($setting->logo) }}" alt="Logo"></span>
           </a>
           <div class="footer-contact">
@@ -12,7 +12,7 @@
             <p class="mt-3"><strong>Phone:</strong> <span>{{ $setting->phone }}</span></p>
             <p><strong>Email:</strong> <span>{{ $setting->email }}</span></p>
           </div>
-          <div class="social-links d-flex mt-4">
+          <div class="justify-content-center social-links d-flex mt-4">
             <a href="{{ $setting->twitter?$setting->twitter:'#' }}"><i class="bi bi-twitter-x"></i></a>
             <a href="{{ $setting->facebook?$setting->facebook:'#' }}"><i class="bi bi-facebook"></i></a>
             <a href="{{ $setting->instagram?$setting->instagram:'#' }}"><i class="bi bi-instagram"></i></a>

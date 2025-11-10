@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Buyers;
 use App\Models\Cretification;
 use App\Models\Pages;
+use App\Models\Product;
 use App\Models\ProductGroup;
 use App\Models\Slider;
 use App\Models\Speciality;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -34,7 +36,7 @@ class HomeController extends Controller
         $about=Pages::where('is_active',1)->where('slug','about')->first();
         $speciality=Speciality::get();
         $certification=Cretification::where('is_active',1)->get();
-        $products=ProductGroup::with('featured_products')->where('is_active',1)->get();
+        $products=Product::where('show_as_featured',1)->where('is_active',1)->inRandomOrder()->take(40)->get();
         $buyer=Buyers::where('is_active',1)->get();
         $teams=Team::where('is_active',1)->with('designation')->get();
         return view('frontend.home',compact('slider','about','speciality','certification','products','buyer','teams'));

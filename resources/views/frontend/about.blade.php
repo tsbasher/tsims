@@ -97,6 +97,7 @@
         </section><!-- /About Section -->
 
 
+@if($teams->count() > 0)
         <!-- Team Section -->
         <section id="team" class="team section light-background">
 
@@ -133,7 +134,7 @@
             </div>
 
         </section><!-- /Team Section -->
-
+@endif
     </main>
 
 @endsection
