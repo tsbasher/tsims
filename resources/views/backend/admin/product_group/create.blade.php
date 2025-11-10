@@ -50,8 +50,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="code">Internal Code</label>
-                                            <input type="text"  class="form-control" name="internal_code" id="internal_code" placeholder="Enter Internal Code" value="{{ old('internal_code') }}">
+                                            <label for="code">Code Prefix</label>
+                                            <input type="text"  class="form-control" name="internal_code" id="internal_code" placeholder="Enter Internal Code" value="{{ old('internal_code') }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">

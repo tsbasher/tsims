@@ -57,7 +57,7 @@ class ProductCategoryController extends Controller
             'group_id' => 'required|exists:product_groups,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
+            'internal_code' => 'required|string|max:100',
             'description' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -116,7 +116,7 @@ class ProductCategoryController extends Controller
             'group_id' => 'required|exists:product_groups,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
+            'internal_code' => 'required|string|max:100',
             'description' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);

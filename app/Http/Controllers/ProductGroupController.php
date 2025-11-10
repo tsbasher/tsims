@@ -45,7 +45,7 @@ class ProductGroupController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'code' => 'required|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
+            'internal_code' => 'required|string|max:100',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
@@ -105,7 +105,7 @@ class ProductGroupController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'code' => 'required|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
+            'internal_code' => 'required|string|max:100',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 

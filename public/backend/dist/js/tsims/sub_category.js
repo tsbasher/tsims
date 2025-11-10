@@ -12,7 +12,7 @@ $(document).ready(function() {
                     $('#sub_category_id').empty();
                     $('#sub_category_id').append('<option value="">Select Sub Category</option>');
                     $.each(data, function(key, value) {
-                        $('#sub_category_id').append(`<option value="${value.id}" >${value.name}</option>`);
+                        $('#sub_category_id').append(`<option value="${value.id}" data-prefix=${value.internal_code} >${value.name}</option>`);
                     });
                 }
             });

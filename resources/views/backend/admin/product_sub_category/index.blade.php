@@ -104,7 +104,7 @@
                                     <th style="width: 10px">#</th>
                                     <th>Name</th>
                                     <th>Code</th>
-                                    <th>Internal Code</th>
+                                    <th>Code Prefix</th>
                                     <th>Group</th>
                                     <th>Category</th>
                                     <th>Featured?</th>

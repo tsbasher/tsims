@@ -48,8 +48,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="code">Product Code</label>
-                                    <input type="text" required class="form-control" name="code" id="code"
+                                    <label for="code">Product Code (This can be change during saving)</label>
+                                    <input type="text" required readonly class="form-control" name="code" id="code"
                                         placeholder="Enter Product Code" value="{{ old('code') }}">
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                     <select name="group_id" id="group_id" class="form-control select2" required>
                                         <option value="">Select Product Group</option>
                                         @foreach ($groups as $group)
-                                            <option value="{{ $group->id }}"
+                                            <option value="{{ $group->id }}" data-prefix="{{ $group->internal_code }}"
                                                 @if (old('group_id') == $group->id) selected @endif>{{ $group->name }}
                                             </option>
                                         @endforeach
@@ -82,7 +82,7 @@
                                     <select name="category_id" id="category_id" class="form-control select2" required>
                                         <option value="">Select Product Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}"
+                                            <option value="{{ $category->id }}" data-prefix="{{ $category->internal_code }}"
                                                 @if (old('category_id') == $category->id) selected @endif>{{ $category->name }}
                                             </option>
                                         @endforeach
@@ -95,7 +95,7 @@
                                     <select name="sub_category_id" id="sub_category_id" class="form-control select2">
                                         <option value="">Select Sub Category</option>
                                         @foreach ($subcategories as $subcategory)
-                                            <option value="{{ $subcategory->id }}"
+                                            <option value="{{ $subcategory->id }}" data-prefix="{{ $subcategory->internal_code }}"
                                                 @if (old('sub_category_id') == $subcategory->id) selected @endif>{{ $subcategory->name }}
                                             </option>
                                         @endforeach
@@ -167,8 +167,38 @@
                             var get_category_by_group = "{{ route('common.get_category_by_group', '*') }}";
             var get_sub_category_by_category = "{{ route('common.get_sub_category_by_category', '*') }}";
 
+    $("#group_id").change(function(){
+        $("#category_id").empty();
+        $("#sub_category_id").empty();
+        generate_product_code();
+    });
+
+    $("#category_id").change(function(){
+        
+        generate_product_code();
+        $("#sub_category_id").empty();
+    });
+
+    
+    $("#sub_category_id").change(function(){
+        
+        generate_product_code();
+    });
+    function generate_product_code(){
+        debugger;
+var g_prefix = $("#group_id").find(':selected').data('prefix')?$("#group_id").find(':selected').data('prefix'):'';
+var c_prefix = $("#category_id").find(':selected').data('prefix')?$("#category_id").find(':selected').data('prefix'):'';
+var s_prefix = $("#sub_category_id").find(':selected').data('prefix')?$("#sub_category_id").find(':selected').data('prefix'):'';
+var prefix = g_prefix + c_prefix+s_prefix;
+        var max_id = "{{ $max_id }}";
+        var new_code = prefix  + ( (parseInt(max_id) + 1).toString().padStart(6, '0') );
+        $("#code").val(new_code);
+    }
+    
+    
     </script>
     
     <script src="{{ asset('backend/dist/js/tsims/category.js') }}"></script>
     <script src="{{ asset('backend/dist/js/tsims/sub_category.js') }}"></script>
+    
 @endsection

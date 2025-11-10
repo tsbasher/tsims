@@ -65,7 +65,7 @@ class ProductSubCategoryController extends Controller
             'category_id' => 'required|exists:product_categories,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
+            'internal_code' => 'required|string|max:100',
             'description' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
@@ -127,7 +127,7 @@ class ProductSubCategoryController extends Controller
             'category_id' => 'required|exists:product_categories,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:100',
-            'internal_code' => 'nullable|string|max:100',
+            'internal_code' => 'required|string|max:100',
             'description' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
