@@ -60,8 +60,8 @@
                                     <th style="width: 10px">#</th>
                                     <th>Name</th>
                                     <th>Company</th>
-                                    <th>ID Number</th>
                                     <th>Status</th>
+                                    <th>Image</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -70,8 +70,7 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $certification->name }}</td>
-                                        <td>{{ $certification->company_name }}</td>
-                                        <td>{{ $certification->id_number }}</td>                                        
+                                        <td>{{ $certification->company_name }}</td>                                     
                                         <td>
                                             @if ($certification->is_active == 1)
                                                 <span class="badge bg-success" style="font-size: 100%">Yes</span>
@@ -79,6 +78,9 @@
                                                 <span class="badge bg-danger" style="font-size: 100%">No</span>
                                             @endif
                                         </td>
+                                        <td>@if($certification->featured_image)
+                                            <img src="{{ asset($certification->featured_image) }}" width="150px"/>
+                                            @endif</td>
                                         <td>
                                             <a href="{{ route('admin.certification.edit', $certification->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></a>
                                             <a class="btn btn-sm btn-danger delete_record" data-url="{{ route('admin.certification.destroy', $certification->id) }}"><i class="fas fa-trash"></i></a>

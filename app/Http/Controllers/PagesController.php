@@ -116,7 +116,6 @@ class PagesController extends Controller
             'code',
             'internal_code'
         ]);
-        $data['slug'] = Str::slug($request->name);
         // Handle file upload for featured_image
         if ($request->hasFile('featured_image')) {
             if ($page->featured_image && file_exists(public_path($page->featured_image))) {

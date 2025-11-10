@@ -34,11 +34,14 @@
                             @if ($data->products->count() > 0)
 
                                 @foreach ($data->products as $product)
-                                    <div class="col-xl-4 col-md-3 mt-4" data-aos="zoom-in" data-aos-delay="200">
+                                    <div class="col-xl-4 col-md-4 col-6 mt-4" data-aos="zoom-in" data-aos-delay="200">
                                         <div class="service-item">
-<div style="position: absolute; top: 10px; right: 20px; background-color: #16a6ad; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; z-index: 999;">
-                                        <a href="{{ route('frontend.product_inquery', $product->id) }}" style="color: white; text-decoration: none;"> <i class="bi bi-clipboard2-plus-fill"></i> Inquery</a>
-                                      </div>
+                                            <div
+                                                style="position: absolute; top: 10px; right: 20px; background-color: #a6c4e7; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; z-index: 999;">
+                                                <a href="{{ route('frontend.product_inquery', $product->id) }}"
+                                                    style="color: #151f46; text-decoration: none;"> <i
+                                                        class="bi bi-clipboard2-plus-fill"></i> Inquery</a>
+                                            </div>
                                             <a href="{{ route('frontend.product', $product->slug) }}"
                                                 class="stretched-link">
                                                 <div class="img">
