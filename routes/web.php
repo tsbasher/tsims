@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\SchemeController;
 use App\Http\Controllers\Admin\SchemeOptionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BuyersController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CretificationController;
 use App\Http\Controllers\Common\DistrictController;
 use App\Http\Controllers\Common\RegionController;
@@ -77,6 +78,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('speciality', SpecialityController::class)->names('admin.speciality');
         Route::resource('customer', CustomerController::class)->names('admin.customer');
         Route::resource('supplier', SupplierController::class)->names('admin.supplier');
+        Route::resource('color', ColorController::class)->names('admin.color');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');
