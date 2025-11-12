@@ -33,12 +33,14 @@ use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SpecialityController;
+use App\Http\Controllers\StyleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
 use App\Http\Controllers\WebsiteSettingController;
 use App\Models\product;
+use App\Models\Style;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +81,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('customer', CustomerController::class)->names('admin.customer');
         Route::resource('supplier', SupplierController::class)->names('admin.supplier');
         Route::resource('color', ColorController::class)->names('admin.color');
+        Route::resource('style', StyleController::class)->names('admin.style');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');

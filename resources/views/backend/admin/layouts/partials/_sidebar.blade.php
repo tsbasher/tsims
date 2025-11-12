@@ -172,6 +172,16 @@ TSIMS</span>
                </p>
             </a>
           </li>
+          
+          <li class="nav-item">
+            <a href="{{route('admin.style.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.style.index' || Route::currentRouteName() == 'admin.style.create' || Route::currentRouteName() == 'admin.style.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Style
+               </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="{{route('admin.supplier.index')}}" class="nav-link
             @if(Route::currentRouteName() == 'admin.supplier.index' || Route::currentRouteName() == 'admin.supplier.create' || Route::currentRouteName() == 'admin.supplier.edit') active @endif">
