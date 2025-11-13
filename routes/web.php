@@ -26,6 +26,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGroupController;
@@ -82,6 +83,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('supplier', SupplierController::class)->names('admin.supplier');
         Route::resource('color', ColorController::class)->names('admin.color');
         Route::resource('style', StyleController::class)->names('admin.style');
+        Route::resource('measurement', MeasurementController::class)->names('admin.measurement');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');

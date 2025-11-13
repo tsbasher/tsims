@@ -174,6 +174,16 @@ TSIMS</span>
           </li>
           
           <li class="nav-item">
+            <a href="{{route('admin.measurement.index')}}" class="nav-link
+            @if(Route::currentRouteName() == 'admin.measurement.index' || Route::currentRouteName() == 'admin.measurement.create' || Route::currentRouteName() == 'admin.measurement.edit') active @endif">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Measurement
+               </p>
+            </a>
+          </li>
+          
+          <li class="nav-item">
             <a href="{{route('admin.style.index')}}" class="nav-link
             @if(Route::currentRouteName() == 'admin.style.index' || Route::currentRouteName() == 'admin.style.create' || Route::currentRouteName() == 'admin.style.edit') active @endif">
               <i class="nav-icon fas fa-th"></i>
