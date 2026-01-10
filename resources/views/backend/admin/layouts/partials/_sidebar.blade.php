@@ -250,6 +250,21 @@
                         </p>
                     </a>
                 </li>
+
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.workorder.index') }}"
+                        class="nav-link
+            @if (Route::currentRouteName() == 'admin.workorder.index' ||
+                    Route::currentRouteName() == 'admin.workorder.create' ||
+                    Route::currentRouteName() == 'admin.workorder.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Work Order
+                        </p>
+                    </a>
+                </li>
+
                 <li class="nav-item 
                       @if (Route::currentRouteName() == 'admin.pages.index' ||
                               Route::currentRouteName() == 'admin.pages.create' ||

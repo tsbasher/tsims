@@ -137,4 +137,11 @@ class MerchandiserController extends Controller
             return response()->json($data);
         }
     }
+
+    public function get_merchandiser_by_customer($customer_id)
+    {
+        $merchandisers = Merchandiser::where('customer_id', $customer_id)->get();
+        
+        return response()->json($merchandisers);
+    }
 }

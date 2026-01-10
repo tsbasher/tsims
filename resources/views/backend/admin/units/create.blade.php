@@ -45,32 +45,17 @@
 
                             <div class="form-group">
                                 <label for="code">Unit Code</label>
-                                <input type="text" required class="form-control" name="code" id="code" placeholder="Enter Unit Code" value="{{ old('code') }}">
+                                <input type="text" class="form-control" name="code" id="code" placeholder="Enter Unit Code" value="{{ old('code') }}">
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="fields">Fields</label>
-                        <select required class="form-control select2" name="fields[]" id="fields" placeholder="Select Field" multiple>
-
-                            <option value="length" @if (in_array('length', old('fields', [])) ) selected @endif>Length</option>
-                            <option value="width" @if (in_array('width', old('fields', [])) ) selected @endif>Width</option>
-                            <option value="height" @if (in_array('height', old('fields', [])) ) selected @endif>Height</option>
-                            <option value="weight" @if (in_array('weight', old('fields', [])) ) selected @endif>Weight</option>
-                            <option value="piece" @if (in_array('piece', old('fields', [])) ) selected @endif>Piece</option>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('description') }}</textarea>
                     </div>
 
 
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" @if (old('is_active', 1)==1) checked @endif>
-                        <label class="form-check-label" for="is_active">Is Active</label>
-                    </div>
                 </div>
                 <!-- /.card-body -->
 

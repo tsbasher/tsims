@@ -43,6 +43,7 @@ use App\Http\Controllers\TermsConditionTypeController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
 use App\Http\Controllers\WebsiteSettingController;
+use App\Http\Controllers\WorkOrderController;
 use App\Models\product;
 use App\Models\Style;
 use App\Models\Unit;
@@ -89,6 +90,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('measurement', MeasurementController::class)->names('admin.measurement');
         Route::resource('merchandiser', MerchandiserController::class)->names('admin.merchandiser');
         Route::resource('terms-condition', TermsConditionController::class)->names('admin.terms_condition');
+        Route::resource('workorder', WorkOrderController::class)->names('admin.workorder');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');
@@ -124,6 +126,8 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'common'], function () {
     Route::get('/get-category-by-group/{group_id}', [ProductCategoryController::class, 'get_category_by_group'])->name('common.get_category_by_group');
     Route::get('/get-sub-category-by-category/{category_id}', [ProductSubCategoryController::class, 'get_sub_category_by_category'])->name('common.get_sub_category_by_category');
+    Route::get('/get-merchandiser-by-customer/{customer_id}', [MerchandiserController::class, 'get_merchandiser_by_customer'])->name('common.get_merchandiser_by_customer');
+    Route::get('/get-style-by-customer/{customer_id}', [StyleController::class, 'get_style_by_customer'])->name('common.get_style_by_customer');
 
     Route::get('/get-districts-by-division/{division_id}', [DistrictController::class, 'getDistrictsByDivision'])->name('common.get_districts_by_division');
     Route::get('/get-upazilas-by-district/{district_id}', [UpazilaController::class, 'getUpazilasByDistrict'])->name('common.get_upazilas_by_district');

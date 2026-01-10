@@ -179,4 +179,10 @@ class StyleController extends Controller
             return response()->json($data);
         }
     }
+
+    public function get_style_by_customer($customer_id)
+    {
+        $styles = Style::where('customer_id', $customer_id)->get();
+        return response()->json($styles);
+    }
 }

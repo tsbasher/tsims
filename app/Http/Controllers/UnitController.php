@@ -45,9 +45,7 @@ class UnitController extends Controller
         } 
         $v=Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50',
-            'fields' => 'required|array',
-            'fields.*' => 'string|max:255',
+            'code' => 'nullable|string|max:50',
             // Add other validation rules as necessary
         ]);
 
@@ -58,8 +56,6 @@ class UnitController extends Controller
         $unit=Unit::create([
             'name' => $request->name,
             'code' => $request->code,
-            'fields' => json_encode($request->fields),
-            'is_active' => $request->is_active ? 1 : 0
         ]);
 
         return redirect()->route('admin.units.index')->with('success', 'Unit created successfully.');
@@ -78,7 +74,6 @@ class UnitController extends Controller
      */
     public function edit(Unit $unit)
     {
-        $unit->fields = json_decode($unit->fields, true);
         return view('backend.admin.units.edit', compact('unit'));
     }
 
@@ -92,9 +87,7 @@ class UnitController extends Controller
         } 
         $v=Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50',
-            'fields' => 'required|array',
-            'fields.*' => 'string|max:255',
+            'code' => 'nullable|string|max:50',
             // Add other validation rules as necessary
         ]);
 
@@ -105,7 +98,6 @@ class UnitController extends Controller
         $unit->update([
             'name' => $request->name,
             'code' => $request->code,
-            'fields' => json_encode($request->fields),
             'is_active' => $request->is_active ? 1 : 0
         ]);
 
@@ -134,15 +126,4 @@ class UnitController extends Controller
         }
     }
 
-    public function getUnitByBoqItem($boq_item_id)
-    {
-        $unit = BoqItem::where('id', $boq_item_id)->with('unit')->first();
-        return response()->json($unit->unit);
-    }
-
-    public function getUnitByBoqSubItem($boq_sub_item_id)
-    {
-        $unit = BoqSubItem::where('id', $boq_sub_item_id)->with('unit')->first();
-        return response()->json($unit->unit);
-    }
 }
