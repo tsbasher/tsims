@@ -27,6 +27,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MeasurementController;
+use App\Http\Controllers\MerchandiserController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGroupController;
@@ -37,6 +38,8 @@ use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\StyleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TermsConditionController;
+use App\Http\Controllers\TermsConditionTypeController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
 use App\Http\Controllers\WebsiteSettingController;
@@ -84,6 +87,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('color', ColorController::class)->names('admin.color');
         Route::resource('style', StyleController::class)->names('admin.style');
         Route::resource('measurement', MeasurementController::class)->names('admin.measurement');
+        Route::resource('merchandiser', MerchandiserController::class)->names('admin.merchandiser');
+        Route::resource('terms-condition', TermsConditionController::class)->names('admin.terms_condition');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');
