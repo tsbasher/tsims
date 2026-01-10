@@ -251,7 +251,19 @@
                     </a>
                 </li>
 
-                
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.units.index') }}"
+                        class="nav-link
+            @if (Route::currentRouteName() == 'admin.units.index' ||
+                    Route::currentRouteName() == 'admin.units.create' ||
+                    Route::currentRouteName() == 'admin.units.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Unit
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.workorder.index') }}"
                         class="nav-link
@@ -297,8 +309,8 @@
                             <a href="{{ route('admin.pages.index') }}"
                                 class="nav-link
                   @if (Route::currentRouteName() == 'admin.pages.index' ||
-                    Route::currentRouteName() == 'admin.pages.create' ||
-                    Route::currentRouteName() == 'admin.pages.edit') active @endif">
+                          Route::currentRouteName() == 'admin.pages.create' ||
+                          Route::currentRouteName() == 'admin.pages.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Pages
@@ -310,8 +322,8 @@
                             <a href="{{ route('admin.sliders.index') }}"
                                 class="nav-link
                   @if (Route::currentRouteName() == 'admin.sliders.index' ||
-                    Route::currentRouteName() == 'admin.sliders.create' ||
-                    Route::currentRouteName() == 'admin.sliders.edit') active @endif">
+                          Route::currentRouteName() == 'admin.sliders.create' ||
+                          Route::currentRouteName() == 'admin.sliders.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Sliders
@@ -322,8 +334,8 @@
                             <a href="{{ route('admin.certification.index') }}"
                                 class="nav-link
                   @if (Route::currentRouteName() == 'admin.certification.index' ||
-                    Route::currentRouteName() == 'admin.certification.create' ||
-                    Route::currentRouteName() == 'admin.certification.edit') active @endif">
+                          Route::currentRouteName() == 'admin.certification.create' ||
+                          Route::currentRouteName() == 'admin.certification.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Certification
@@ -335,8 +347,8 @@
                             <a href="{{ route('admin.speciality.index') }}"
                                 class="nav-link
                   @if (Route::currentRouteName() == 'admin.speciality.index' ||
-                    Route::currentRouteName() == 'admin.speciality.create' ||
-                    Route::currentRouteName() == 'admin.speciality.edit') active @endif">
+                          Route::currentRouteName() == 'admin.speciality.create' ||
+                          Route::currentRouteName() == 'admin.speciality.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Speciality
@@ -347,8 +359,8 @@
                             <a href="{{ route('admin.team.index') }}"
                                 class="nav-link
                   @if (Route::currentRouteName() == 'admin.team.index' ||
-                    Route::currentRouteName() == 'admin.team.create' ||
-                    Route::currentRouteName() == 'admin.team.edit') active @endif">
+                          Route::currentRouteName() == 'admin.team.create' ||
+                          Route::currentRouteName() == 'admin.team.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Team
@@ -360,8 +372,8 @@
                             <a href="{{ route('admin.website_settings.index') }}"
                                 class="nav-link
                   @if (Route::currentRouteName() == 'admin.website_settings.index' ||
-                    Route::currentRouteName() == 'admin.website_settings.create' ||
-                    Route::currentRouteName() == 'admin.website_settings.edit') active @endif">
+                          Route::currentRouteName() == 'admin.website_settings.create' ||
+                          Route::currentRouteName() == 'admin.website_settings.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Website Settings
