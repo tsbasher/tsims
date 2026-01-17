@@ -34,6 +34,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProformaInvoiceController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\StyleController;
@@ -70,6 +71,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => ['admin']], function () {
         Route::get('/logout', [LoginController::class, 'admin_logout'])->name('admin.logout');
+        Route::get('/get-workorder/{workorder_id}', [WorkOrderController::class, 'get_workorder_details'])->name('admin.get_workorder');
         
         Route::resource('designation', DesignationController::class)->names('admin.designation');
         Route::resource('department', DepartmentController::class)->names('admin.department');
@@ -92,7 +94,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('merchandiser', MerchandiserController::class)->names('admin.merchandiser');
         Route::resource('terms-condition', TermsConditionController::class)->names('admin.terms_condition');
         Route::resource('workorder', WorkOrderController::class)->names('admin.workorder');
-        Route::resource('payment_terms', PaymentTermsController::class)->names('admin.payment_terms');
+		Route::resource('payment-terms', PaymentTermsController::class)->names('admin.payment_terms');
+        Route::resource('proforma-invoice', ProformaInvoiceController::class)->names('admin.proforma_invoice');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');
@@ -130,6 +133,8 @@ Route::group(['prefix' => 'common'], function () {
     Route::get('/get-sub-category-by-category/{category_id}', [ProductSubCategoryController::class, 'get_sub_category_by_category'])->name('common.get_sub_category_by_category');
     Route::get('/get-merchandiser-by-customer/{customer_id}', [MerchandiserController::class, 'get_merchandiser_by_customer'])->name('common.get_merchandiser_by_customer');
     Route::get('/get-style-by-customer/{customer_id}', [StyleController::class, 'get_style_by_customer'])->name('common.get_style_by_customer');
+        Route::get('/get-workorder-by-customer/{customer_id}', [WorkOrderController::class, 'get_workorder_by_customer'])->name('common.get_workorder_by_customer');
+
 
     Route::get('/get-districts-by-division/{division_id}', [DistrictController::class, 'getDistrictsByDivision'])->name('common.get_districts_by_division');
     Route::get('/get-upazilas-by-district/{district_id}', [UpazilaController::class, 'getUpazilasByDistrict'])->name('common.get_upazilas_by_district');

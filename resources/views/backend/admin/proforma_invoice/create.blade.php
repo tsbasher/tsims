@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.app')
-@section('title', 'WorkOrder')
+@section('title', 'Proforma Invoice')
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/jquery-ui/jquery-ui.min.css') }}">
@@ -15,11 +15,11 @@
             <!-- general form elements -->
             <div class="card card-body bg-gray-light">
                 <div class="card-header">
-                    <h3 class="card-title">Add New WorkOrder</h3>
+                    <h3 class="card-title">Add New Proforma Invoice</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" method="POST" action="{{ route('admin.workorder.store') }}"
+                <form role="form" method="POST" action="{{ route('admin.proforma_invoice.store') }}"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
@@ -39,10 +39,10 @@
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <label for="order_number">WorkOrder Number</label>
-                                    <input type="text" required readonly class="form-control" name="order_number"
-                                        id="order_number" placeholder="Enter WorkOrder Number"
-                                        value="{{ old('order_number', $order_number) }}">
+                                    <label for="pi_number">Proforma Invoice Number</label>
+                                    <input type="text" required readonly class="form-control" name="pi_number"
+                                        id="pi_number" placeholder="Enter Proforma Invoice Number"
+                                        value="{{ old('pi_number', $order_number) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -62,24 +62,39 @@
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <label for="order_date">WorkOrder Date</label>
-                                    <input type="text" required class="form-control datepicker" name="order_date"
-                                        id="order_date" placeholder="Enter WorkOrder Date" value="{{ old('order_date',date('Y-m-d')) }}">
+                                    <label for="pi_date">PI Date</label>
+                                    <input type="text" required class="form-control datepicker" name="pi_date"
+                                        id="pi_date" placeholder="Enter Proforma Invoice Date"
+                                        value="{{ old('pi_date', date('Y-m-d')) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <label for="delivery_date">Delivery Date</label>
-                                    <input type="text" class="form-control datepicker" name="delivery_date"
-                                        id="delivery_date" placeholder="Enter delivery date"
-                                        value="{{ old('delivery_date') }}">
+                                    <label for="pi_expire_date">PI Exprire Date</label>
+                                    <input type="text" class="form-control datepicker" name="pi_expire_date"
+                                        id="pi_expire_date" placeholder="Enter Expire date"
+                                        value="{{ old('pi_expire_date', date('Y-m-d', strtotime(date('Y-m-d') . ' +15 days'))) }}">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
 
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="buyer_id">Buyer</label>
+                                    <select class="form-control" name="buyer_id" id="buyer_id">
+                                        <option value="">Select Customer</option>
+                                        @foreach ($buyers as $buyer)
+                                            <option value="{{ $buyer->id }}"
+                                                {{ old('buyer_id') == $buyer->id ? 'selected' : '' }}>
+                                                {{ $buyer->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
@@ -95,11 +110,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
 
                                 <div class="form-group">
-                                    <label for="merchandiser_id">Merchandiser</label>
-                                    <select class="form-control" required name="merchandiser_id" id="merchandiser_id">
+                                    <label for="workorder_id">Work Order</label>
+                                    <select class="form-control select2" name="workorder_ids[]" id="workorder_id" multiple>
+                                        <option value="">Select Workorder</option>
 
                                     </select>
                                 </div>
@@ -111,7 +129,7 @@
                                 <div class="form-group">
                                     <label for="description">Description/Note</label>
                                     <input type="text" class="form-control" name="description" id="description"
-                                        value="{{ old('description') }}"/>
+                                        value="{{ old('description') }}" />
 
                                 </div>
                             </div>
@@ -120,111 +138,9 @@
                         <div class="row">
                             <hr />
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-
-                                <div class="form-group">
-                                    <label for="product_id">Product</label>
-                                    <select class="form-control select2" name="product_id" id="product_id">
-                                        <option value="">Select Product</option>
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->id }}">
-                                                {{ $product->code }}-{{ $product->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="style_id">Style</label>
-                                    <select class="form-control select2" name="style_id" id="style_id">
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="color_id">Color</label>
-                                    <select class="form-control select2" name="color_id" id="color_id">
-                                        <option value="">Select Color</option>
-                                        @foreach ($colors as $color)
-                                            <option value="{{ $color->id }}">
-                                                {{ $color->code }}-{{ $color->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
 
 
-                        <div class="row">
-                            <div class="col-md-6">
 
-                                <div class="form-group">
-                                    <label for="unit_id">Unit</label>
-                                    <select class="form-control select2" name="unit_id" id="unit_id">
-                                        <option value="">Select Unit</option>
-                                        @foreach ($units as $unit)
-                                            <option value="{{ $unit->id }}">
-                                                {{ $unit->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="measurement">Measurement</label>
-                                    <input type="text" step="0.01" class="form-control" name="measurement"
-                                        id="measurement" placeholder="Enter measurement"
-                                        value="{{ old('measurement') }}">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="number" step="1" class="form-control" name="quantity"
-                                        id="quantity" placeholder="Enter Quantity" value="{{ old('quantity') }}">
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="rate">Rate</label>
-                                    <input type="number" step="0.01" class="form-control" name="rate"
-                                        id="rate" placeholder="Enter rate" value="{{ old('rate') }}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="sub_total">Total</label>
-                                    <input type="number" readonly step="0.01" class="form-control" name="sub_total"
-                                        id="sub_total" value="{{ old('sub_total') }}">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="d_description">Description</label>
-                                    <input type="text"class="form-control" name="d_description"
-                                        id="d_description" value="{{ old('d_description') }}">
-                                </div>
-                            </div>
-                            </div>
                         <div class="row">
 
                             <div class="col-md-6">
@@ -246,6 +162,8 @@
                             <table class="table table-bordered" id="workorder_item_table">
                                 <thead>
                                     <tr>
+                                        <th>SL</th>
+                                        <th>WorkOrder</th>
                                         <th>Product</th>
                                         <th>Style</th>
                                         <th>Color</th>
@@ -255,7 +173,6 @@
                                         <th>Note</th>
                                         <th>Rate</th>
                                         <th>Total</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -285,10 +202,9 @@
     <script src="{{ asset('backend/plugins/select2/js/select2.full.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
-        var get_merchandiser_by_customer =
-            "{{ route('common.get_merchandiser_by_customer', ['customer_id' => '*']) }}";
-        var get_style_by_customer =
-            "{{ route('common.get_style_by_customer', ['customer_id' => '*']) }}";
+        var get_workorder_by_customer =
+            "{{ route('common.get_workorder_by_customer', ['customer_id' => '*']) }}";
+
         $(document).ready(function() {
             $(".select2").select2();
             debugger;
@@ -297,22 +213,99 @@
                 changeMonth: true,
                 changeYear: true
             });
+            $("#workorder_id").change(function() {
+                debugger;
+                var workorder_ids = $(this).val();
+                $.ajax({
+                    url: "{{ route('admin.get_workorder', ['workorder_id' => '*']) }}".replace('*',
+                        workorder_ids),
+                    type: 'GET',
+                    success: function(data) {
+                        debugger;
 
-            $("#quantity").on('keyup', function() {
-                var quantity = parseFloat($(this).val()) || 0;
-                var rate = parseFloat($("#rate").val()) || 0;
-                var total = quantity * rate;
-                $("#sub_total").val(total.toFixed(2));
+                        $("#workorder_item_table").find("tbody").empty();
+                        var index = 1;
+                        $.each(data, function(key, value) {
+
+                            $.each(value.details, function(dkey, dvalue) {
+                                debugger;
+                                var product_id = dvalue.product_id;
+                                var product_text = dvalue.product.name;
+                                var style_id = dvalue.style_id;
+                                var style_text = dvalue.style.name;
+                                var color_id = dvalue.color_id;
+                                var color_text = dvalue.color.name;
+                                var unit_id = dvalue.quantity_unit_id;
+                                var unit_text = dvalue.quantity_unit.name;
+                                var measurement = dvalue.measurement;
+                                var quantity = dvalue.quantity;
+                                var rate = dvalue.unit_price;
+                                var total = dvalue.total_price;
+                                var description = dvalue.description;
+                                html = `<tr>
+                            <td>
+                        
+                        ${index++}
+                    </td>
+                    <td>
+                        <input type="hidden" name="workorders[]" value="${value.id}"/>
+                        ${value.order_number}
+                    </td>
+                    <td>
+                        <input type="hidden" name="product_ids[]" value="${product_id}"/>
+                        ${product_text}
+                    </td>
+                    <td>
+                        <input type="hidden" name="style_ids[]" value="${style_id}"/>
+                        ${style_text}
+                    </td>
+                    <td>
+                        <input type="hidden" name="color_ids[]" value="${color_id}"/>
+                        ${color_text}
+                    </td>
+                    <td>
+                        <input type="hidden" name="unit_ids[]" value="${unit_id}"/>
+                        ${unit_text}
+                    </td>
+                    <td>
+                        <input type="hidden" name="measurements[]" value="${measurement}"/>
+                        ${measurement}
+                    </td>
+                    <td>
+                        <input type="text" name="quantities[]" value="${quantity}"/>
+                        
+                    </td>
+                    <td>
+                        <input type="text" name="details_description[]" value="${description?description:''}"/>
+                        
+                    </td>
+                    <td>
+                        <input type="text" name="rates[]" value="${rate}"/>
+                       
+                    </td>
+                    <td>
+                        <input type="text" readonly name="totals[]" value="${total}"/>
+                        
+                    </td>
+                    </tr>`;
+                                $("#workorder_item_table tbody").append(html);
+                            }); //details loop
+
+                        }); //data loop
+                    }
+                }); //ajax
             });
 
-
-            $("#rate").on('keyup', function() {
-                var rate = parseFloat($(this).val()) || 0;
-                var quantity = parseFloat($("#quantity").val()) || 0;
-                var total = quantity * rate;
-                $("#sub_total").val(total.toFixed(2));
+            function num(v) {
+                const n = parseFloat(String(v).replace(/,/g, ''));
+                return Number.isFinite(n) ? n : 0;
+            }
+            $(document).on('input', 'input[name="quantities[]"], input[name="rates[]"]', function() {
+                const $tr = $(this).closest('tr');
+                const qty = num($tr.find('input[name="quantities[]"]').val());
+                const rate = num($tr.find('input[name="rates[]"]').val());
+                $tr.find('input[name="totals[]"]').val((qty * rate).toFixed(2));
             });
-
             $("#add_more_item").click(function(e) {
                 e.preventDefault();
                 var product_id = $("#product_id").val();
@@ -412,23 +405,22 @@
                 return found;
             }
 
-            $(document).on('click', '.remove_item', function() {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed)
-                        $(this).closest('tr').remove();
-                });
-            });
+            // $(document).on('click', '.remove_item', function() {
+            //     Swal.fire({
+            //         title: 'Are you sure?',
+            //         text: "You won't be able to revert this!",
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonText: 'Yes, delete it!',
+            //         cancelButtonText: 'No, cancel!',
+            //         reverseButtons: true
+            //     }).then((result) => {
+            //         if (result.isConfirmed)
+            //             $(this).closest('tr').remove();
+            //     });
+            // });
         });
     </script>
 
-    <script src="{{ asset('backend/dist/js/tsims/merchantdiser.js') }}"></script>
-    <script src="{{ asset('backend/dist/js/tsims/style.js') }}"></script>
+    <script src="{{ asset('backend/dist/js/tsims/workorder.js') }}"></script>
 @endsection

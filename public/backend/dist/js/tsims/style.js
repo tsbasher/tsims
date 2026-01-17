@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#customer_id').change(function() {
         var customer_id = $(this).val();
-        
+        debugger;
         url= get_style_by_customer.replace('*', customer_id);
         if (customer_id) {
             $.ajax({

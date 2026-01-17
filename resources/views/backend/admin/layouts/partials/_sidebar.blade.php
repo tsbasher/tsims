@@ -278,6 +278,18 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('admin.proforma_invoice.index') }}"
+                        class="nav-link
+            @if (Route::currentRouteName() == 'admin.proforma_invoice.index' ||
+                    Route::currentRouteName() == 'admin.proforma_invoice.create' ||
+                    Route::currentRouteName() == 'admin.proforma_invoice.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Proforma Invoice(PI)
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.payment_terms.index') }}"
                         class="nav-link
             @if (Route::currentRouteName() == 'admin.payment_terms.index' ||

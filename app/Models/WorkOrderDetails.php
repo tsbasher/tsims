@@ -17,6 +17,7 @@ class WorkOrderDetails extends Model
         'weight_unit_id',
         'quantity',
         'quantity_unit_id',
+        'description',
         'unit_price',
         'total_price',
     ];

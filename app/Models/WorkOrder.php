@@ -34,6 +34,6 @@ class WorkOrder extends Model
 
     public function details()
     {
-        return $this->hasMany(WorkOrderDetails::class, 'work_order_id');
+        return $this->hasMany(WorkOrderDetails::class, 'work_order_id')->with('product','color','style','weightUnit','quantityUnit');
     }
 }

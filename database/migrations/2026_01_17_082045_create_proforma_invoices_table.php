@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('work_orders', function (Blueprint $table) {
+        Schema::create('proforma_invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('order_number')->unique();
+            $table->string('pi_number')->unique();
             $table->bigInteger('customer_id')->unsigned();
             $table->bigInteger('buyer_id')->unsigned()->nullable();
-            $table->bigInteger('merchandiser_id')->unsigned()->nullable();
             $table->string('refference_number')->nullable();
             $table->text('description')->nullable();
-            $table->date('order_date');
-            $table->date('delivery_date')->nullable();
+            $table->date('pi_date');
+            $table->date('pi_expire_date')->nullable();
+            $table->bigInteger('payments_terms_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
             $table->foreign('buyer_id')->references('id')->on('buyers')->onDelete('restrict');
-            $table->foreign('merchandiser_id')->references('id')->on('merchandisers')->onDelete('restrict');
+            // $table->foreign('payments_terms_id')->references('id')->on('payment_terms')->onDelete('restrict');
+            
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('work_orders');
+        Schema::dropIfExists('proforma_invoices');
     }
 };
