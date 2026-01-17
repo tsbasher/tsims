@@ -29,6 +29,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\MerchandiserController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PaymentTermsController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ProductSubCategoryController;
@@ -91,6 +92,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('merchandiser', MerchandiserController::class)->names('admin.merchandiser');
         Route::resource('terms-condition', TermsConditionController::class)->names('admin.terms_condition');
         Route::resource('workorder', WorkOrderController::class)->names('admin.workorder');
+        Route::resource('payment_terms', PaymentTermsController::class)->names('admin.payment_terms');
 
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');

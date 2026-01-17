@@ -277,6 +277,18 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.payment_terms.index') }}"
+                        class="nav-link
+            @if (Route::currentRouteName() == 'admin.payment_terms.index' ||
+                    Route::currentRouteName() == 'admin.payment_terms.create' ||
+                    Route::currentRouteName() == 'admin.payment_terms.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Payment Terms
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item 
                       @if (Route::currentRouteName() == 'admin.pages.index' ||
                               Route::currentRouteName() == 'admin.pages.create' ||
