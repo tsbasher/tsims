@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SchemeController;
 use App\Http\Controllers\Admin\SchemeOptionController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\BuyersController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CretificationController;
@@ -22,10 +23,12 @@ use App\Http\Controllers\Common\RegionController;
 use App\Http\Controllers\Common\UnionController;
 use App\Http\Controllers\Common\UpazilaController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LcTypeController;
 use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\MerchandiserController;
 use App\Http\Controllers\PagesController;
@@ -96,7 +99,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('workorder', WorkOrderController::class)->names('admin.workorder');
 		Route::resource('payment-terms', PaymentTermsController::class)->names('admin.payment_terms');
         Route::resource('proforma-invoice', ProformaInvoiceController::class)->names('admin.proforma_invoice');
-
+        Route::resource('bank',BankController::class)->names('admin.bank');
+        Route::resource('lc-type',LcTypeController::class)->names('admin.lc_type');
+        Route::resource('currency',CurrencyController::class)->names('admin.currency');
 
         Route::resource('website-settings',WebsiteSettingController::class)->names('admin.website_settings');
 

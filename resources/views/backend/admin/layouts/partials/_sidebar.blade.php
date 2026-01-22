@@ -301,6 +301,43 @@
                         </p>
                     </a>
                 </li>
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.bank.index') }}"
+                        class="nav-link
+                    @if (Route::currentRouteName() == 'admin.bank.index' ||
+                    Route::currentRouteName() == 'admin.bank.create' ||
+                    Route::currentRouteName() == 'admin.bank.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Bank
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.lc_type.index') }}"
+                        class="nav-link
+                    @if (Route::currentRouteName() == 'admin.lc_type.index' ||
+                    Route::currentRouteName() == 'admin.lc_type.create' ||
+                    Route::currentRouteName() == 'admin.lc_type.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            LC Type
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.currency.index') }}"
+                        class="nav-link
+                    @if (Route::currentRouteName() == 'admin.currency.index' ||
+                    Route::currentRouteName() == 'admin.currency.create' ||
+                    Route::currentRouteName() == 'admin.currency.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Currency
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item 
                       @if (Route::currentRouteName() == 'admin.pages.index' ||
                               Route::currentRouteName() == 'admin.pages.create' ||
