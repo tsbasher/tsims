@@ -19,7 +19,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" method="POST" action="{{ route('admin.workorder.update',$workorder->id) }}"
+                <form role="form" method="POST" action="{{ route('admin.workorder.update', $workorder->id) }}"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -115,9 +115,10 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                            <div class="form-group">
+                                <div class="form-group">
                                     <label for="description">Description/Note</label>
-                                    <input type="text" class="form-control" name="description" id="description" value="{{ old('description', $workorder->description) }}"/>
+                                    <input type="text" class="form-control" name="description" id="description"
+                                        value="{{ old('description', $workorder->description) }}" />
 
                                 </div>
                             </div>
@@ -142,7 +143,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
 
                                 <div class="form-group">
                                     <label for="style_id">Style</label>
@@ -155,7 +156,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
 
                                 <div class="form-group">
                                     <label for="color_id">Color</label>
@@ -169,14 +170,33 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="measurement">Measurement</label>
+                                    <input type="text" step="0.01" class="form-control" name="measurement"
+                                        id="measurement" placeholder="Enter measurement"
+                                        value="{{ old('measurement') }}">
+                                </div>
+                            </div>
+
                         </div>
 
 
                         <div class="row">
-                            <div class="col-md-6">
+
+                            <div class="col-md-3">
 
                                 <div class="form-group">
-                                    <label for="unit_id">Unit</label>
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" step="1" class="form-control" name="quantity"
+                                        id="quantity" placeholder="Enter Quantity" value="{{ old('quantity') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <label for="unit_id">Quantity Unit</label>
                                     <select class="form-control select2" name="unit_id" id="unit_id">
                                         <option value="">Select Unit</option>
                                         @foreach ($units as $unit)
@@ -186,25 +206,31 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+
+                            <div class="col-md-3">
+
                                 <div class="form-group">
-                                    <label for="measurement">Measurement</label>
-                                    <input type="text" step="0.01" class="form-control" name="measurement"
-                                        id="measurement" placeholder="Enter measurement"
-                                        value="{{ old('measurement') }}">
+                                    <label for="weight">Weight Per Unit</label>
+                                    <input type="number" step=".01" class="form-control" name="weight"
+                                        id="weight" placeholder="Enter weight" value="{{ old('weight') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <label for="weight_unit_id">Weight Unit</label>
+                                    <select class="form-control select2" name="weight_unit_id" id="weight_unit_id">
+                                        <option value="">Select Unit</option>
+                                        @foreach ($units as $unit)
+                                            <option value="{{ $unit->id }}">
+                                                {{ $unit->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="number" step="1" class="form-control" name="quantity"
-                                        id="quantity" placeholder="Enter Quantity" value="{{ old('quantity') }}">
-                                </div>
-                            </div>
 
                             <div class="col-md-6">
 
@@ -214,8 +240,6 @@
                                         id="rate" placeholder="Enter rate" value="{{ old('rate') }}">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
 
                             <div class="col-md-6">
 
@@ -225,17 +249,18 @@
                                         id="sub_total" value="{{ old('sub_total') }}">
                                 </div>
                             </div>
-                            
+                        </div>
+                        <div class="row">
+
+
                             <div class="col-md-6">
 
                                 <div class="form-group">
                                     <label for="d_description">Description</label>
-                                    <input type="text"class="form-control" name="d_description"
-                                        id="d_description" value="{{ old('d_description') }}">
+                                    <input type="text"class="form-control" name="d_description" id="d_description"
+                                        value="{{ old('d_description') }}">
                                 </div>
                             </div>
-                            </div>
-                        <div class="row">
 
                             <div class="col-md-6">
 
@@ -259,12 +284,12 @@
                                         <th>Product</th>
                                         <th>Style</th>
                                         <th>Color</th>
-                                        <th>Unit</th>
                                         <th>Measurement</th>
                                         <th>Quantity</th>
-                                        <th>Note</th>
+                                        <th>Weight per Unit</th>
                                         <th>Rate</th>
                                         <th>Total</th>
+                                        <th>Note</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -287,11 +312,6 @@
                                                 {{ $details->color->code }}-{{ $details->color->name }}
                                             </td>
                                             <td>
-                                                <input type="hidden" name="unit_ids[]"
-                                                    value="{{ $details->quantity_unit_id }}" />
-                                                {{ $details->quantityUnit->name }}
-                                            </td>
-                                            <td>
                                                 <input type="hidden" name="measurements[]"
                                                     value="{{ $details->measurement }}" />
                                                 {{ $details->measurement }}
@@ -299,12 +319,17 @@
                                             <td>
                                                 <input type="hidden" name="quantities[]"
                                                     value="{{ $details->quantity }}" />
-                                                {{ $details->quantity }}
+                                                <input type="hidden" name="unit_ids[]"
+                                                    value="{{ $details->quantity_unit_id }}" />
+                                                {{ $details->quantity }} {{ $details->quantity_unit->name }}
                                             </td>
                                             <td>
-                                                <input type="hidden" name="details_description[]"
-                                                    value="{{ $details->description }}" />
-                                                {{ $details->description }}
+                                                
+                                                <input type="hidden" name="weights[]"
+                                                    value="{{ $details->weight }}" />
+                                                <input type="hidden" name="weight_unit_ids[]"
+                                                    value="{{ $details->weight_unit_id }}" />
+                                                {{ $details->weight }} {{ $details->weight_unit?$details->weight_unit->name:'' }}
                                             </td>
                                             <td>
                                                 <input type="hidden" name="rates[]"
@@ -317,8 +342,14 @@
                                                 {{ $details->total_price }}
                                             </td>
                                             <td>
+                                                <input type="hidden" name="details_description[]"
+                                                    value="{{ $details->description }}" />
+                                                {{ $details->description }}
+                                            </td>
+                                            <td>
                                                 <button type="button"
                                                     class="btn btn-danger btn-sm remove_item">Remove</button>
+                        <button type="button" class="btn btn-warning btn-sm edit_item">Edit</button>
                                             </td>
 
                                         </tr>
@@ -387,6 +418,10 @@
                 var color_text = $("#color_id option:selected").text();
                 var unit_id = $("#unit_id").val();
                 var unit_text = $("#unit_id option:selected").text();
+                var weight_unit_id = $("#weight_unit_id").val();
+                var weight_unit_text = $("#weight_unit_id option:selected").text();
+                var weight = $("#weight").val();
+
                 var measurement = $("#measurement").val();
                 var quantity = $("#quantity").val();
                 var rate = $("#rate").val();
@@ -415,19 +450,20 @@
                         ${color_text}
                     </td>
                     <td>
-                        <input type="hidden" name="unit_ids[]" value="${unit_id}"/>
-                        ${unit_text}
-                    </td>
-                    <td>
                         <input type="hidden" name="measurements[]" value="${measurement}"/>
                         ${measurement}
                     </td>
+                    
                     <td>
                         <input type="hidden" name="quantities[]" value="${quantity}"/>
-                        ${quantity}
-                    </td><td>
-                        <input type="hidden" name="details_description[]" value="${description}"/>
-                        ${description}
+                        <input type="hidden" name="unit_ids[]" value="${unit_id}"/>
+                        ${quantity}  ${unit_text}
+                    </td>
+                    
+                    <td>
+                        <input type="hidden" name="weights[]" value="${weight}"/>
+                        <input type="hidden" name="weight_unit_ids[]" value="${weight_unit_id}"/>
+                        ${weight}  ${weight_unit_text}
                     </td>
                     <td>
                         <input type="hidden" name="rates[]" value="${rate}"/>
@@ -438,13 +474,46 @@
                         ${total}
                     </td>
                     <td>
+                        <input type="hidden" name="details_description[]" value="${description}"/>
+                        ${description}
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-danger btn-sm remove_item">Remove</button>
+                        <button type="button" class="btn btn-warning btn-sm edit_item">Edit</button>
                     </td>
                     </tr>`;
                 $("#workorder_item_table tbody").append(html);
                 $("#quantity").val('');
                 $("#rate").val('');
                 $("#sub_total").val('');
+            });
+
+            
+            $(document).on('click', '.edit_item', function() {
+                var product_id=$(this).closest('tr').find('input[name="product_ids[]"]').val();
+                $("#product_id").val(product_id).trigger('change');
+                var style_id=$(this).closest('tr').find('input[name="style_ids[]"]').val();
+                $("#style_id").val(style_id).trigger('change');
+                var color_id=$(this).closest('tr').find('input[name="color_ids[]"]').val();
+                $("#color_id").val(color_id).trigger('change');
+                var measurement=$(this).closest('tr').find('input[name="measurements[]"]').val();
+                $("#measurement").val(measurement);
+                var quantity=$(this).closest('tr').find('input[name="quantities[]"]').val();
+                $("#quantity").val(quantity);
+                var unit_id=$(this).closest('tr').find('input[name="unit_ids[]"]').val();
+                $("#unit_id").val(unit_id).trigger('change');
+                var weight=$(this).closest('tr').find('input[name="weights[]"]').val();
+                $("#weight").val(weight);
+                var weight_unit_id=$(this).closest('tr').find('input[name="weight_unit_ids[]"]').val();
+                $("#weight_unit_id").val(weight_unit_id).trigger('change');
+                var rate=$(this).closest('tr').find('input[name="rates[]"]').val();
+                $("#rate").val(rate);
+                var total=$(this).closest('tr').find('input[name="totals[]"]').val();
+                $("#sub_total").val(total);
+                var description=$(this).closest('tr').find('input[name="details_description[]"]').val();
+                $("#d_description").val(description);
+                $(this).closest('tr').remove();
+                debugger;
             });
             // $("#customer_id").val("{{ $workorder->customer_id }}").trigger('change');
             function norm(v) {

@@ -15,6 +15,7 @@ class ProformaInvoice extends Model
         'pi_date',
         'pi_expire_date',
         'payments_terms_id',
+        'currency_id'
     ];
     public function customer()
     {
@@ -26,6 +27,18 @@ class ProformaInvoice extends Model
     }
     public function details()
     {
-        return $this->hasMany(ProformaInvoiceDetails::class);
+        return $this->hasMany(ProformaInvoiceDetails::class)->with('workorder','product','style','color','quantity_unit','weight_unit');
+    }
+    public function termsConditions()
+    {
+        return $this->hasMany(ProformaInvoiceTerms::class, 'proforma_invoice_id')->orderBy('serial_no', 'asc');
+    }
+    public function payment_terms()
+    {
+        return $this->belongsTo(Payment_terms::class, 'payments_terms_id');
+    }
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 }

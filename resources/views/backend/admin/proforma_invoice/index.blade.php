@@ -150,6 +150,9 @@
                                             <a class="btn btn-sm btn-danger delete_record"
                                                 data-url="{{ route('admin.proforma_invoice.destroy', $pi->id) }}"><i
                                                     class="fas fa-trash"></i></a>
+                                            <a class="btn btn-sm btn-primary pl-2 pr-2"
+                                                href="{{ route('admin.proforma_invoice.show', $pi->id) }}"><i
+                                                    class="fas fa-info"></i></a>
 
                                         </td>
                                     </tr>

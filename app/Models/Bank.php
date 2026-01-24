@@ -9,6 +9,8 @@ class Bank extends Model
     protected $fillable = [
         'name',
         'code',
+        'bin',
+        'tin',
         'description',
         'is_active'
     ];

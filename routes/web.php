@@ -63,7 +63,10 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('/product-sub-category/{slug}', [ProductSubCategoryController::class, 'getProductBySubCategory'])->name('frontend.product_sub_category');
         Route::get('/product/{slug}', [ProductController::class, 'getProductBySlug'])->name('frontend.product');
-        Route::get('/product-inquery/{id}', [ProductController::class, 'productInquiry'])->name('frontend.product_inquery');
+        Route::get('/product-inquery-add/{id}', [ProductController::class, 'productInquiryAdd'])->name('frontend.product_inquery_add');
+        Route::get('/product-inquery-remove/{id}', [ProductController::class, 'productInquiryRemove'])->name('frontend.product_inquery_remove');
+        
+        Route::get('/product-inquery', [ProductController::class, 'productInquiry'])->name('frontend.product_inquery');
 
 // Auth::routes(['register' => false]);
 
@@ -76,6 +79,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/logout', [LoginController::class, 'admin_logout'])->name('admin.logout');
         Route::get('/get-workorder/{workorder_id}', [WorkOrderController::class, 'get_workorder_details'])->name('admin.get_workorder');
         
+        Route::get('/get-pi-details-by-pi-workorder/{pi_id}/{workorder_id}', [ProformaInvoiceController::class, 'get_pi_details_by_pi_workorder'])->name('admin.get_pi_details_by_pi_workorder');
         Route::resource('designation', DesignationController::class)->names('admin.designation');
         Route::resource('department', DepartmentController::class)->names('admin.department');
         Route::resource('pages', PagesController::class)->names('admin.pages');

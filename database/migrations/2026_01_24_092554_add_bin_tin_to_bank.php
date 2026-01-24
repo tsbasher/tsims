@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proforma_invoice_terms', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('proforma_invoice_id')->unsigned();
-            $table->text('term_description');
-            $table->integer('serial_no');
-            $table->timestamps();
+        Schema::table('banks', function (Blueprint $table) {
+            //
+            $table->string('bin')->nullable()->after('code');
+            $table->string('tin')->nullable()->after('bin');
         });
     }
 
@@ -25,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proforma_invoice_terms');
+        Schema::table('bank', function (Blueprint $table) {
+            //
+        });
     }
 };

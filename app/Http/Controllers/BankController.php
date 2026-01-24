@@ -46,6 +46,8 @@ class BankController extends Controller
         $data=$request->only([
             'name',
             'code',
+            'bin',
+            'tin',
             'description',
         ]);
         $data['is_active']=$request->input('is_active',1);
@@ -87,6 +89,8 @@ class BankController extends Controller
         $data=$request->only([
             'name',
             'code',
+            'bin',
+            'tin',
             'description',
         ]);
         $data['is_active']=$request->input('is_active',1);

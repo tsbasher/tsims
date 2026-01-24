@@ -58,12 +58,12 @@ class ProductController extends Controller
      */
     public function create()
     {
-        
+
         $groups = ProductGroup::get();
         $categories = [];
         $subcategories = [];
         $max_id = Product::max('id');
-        return view('backend.admin.product.create', compact('groups', 'categories', 'subcategories','max_id'));
+        return view('backend.admin.product.create', compact('groups', 'categories', 'subcategories', 'max_id'));
     }
 
     /**
@@ -106,9 +106,9 @@ class ProductController extends Controller
             $data['featured_image'] = 'uploads/product/' . $imageName;
         }
         $data['created_by'] = Auth::guard('admin')->user()->id;
-        $p=Product::create($data);
+        $p = Product::create($data);
         $trimmedString = substr($p->code, 0, -6);
-        $p->code=$trimmedString. str_pad($p->id, 6, '0', STR_PAD_LEFT);
+        $p->code = $trimmedString . str_pad($p->id, 6, '0', STR_PAD_LEFT);
         $p->save();
         // Handle gallery images
         foreach ($request->file('gallery', []) as $galleryImage) {
@@ -258,5 +258,32 @@ class ProductController extends Controller
         else
             $others = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
         return view('frontend.product_details', compact('product', 'others'));
+    }
+
+    public function productInquiryAdd(Request $request, $id)
+    {
+        
+            // session()->put('product_inquiries', null);
+        $product = Product::find($id);
+        // if (session()->has('product_inquiries')) {
+        //     $inquiries = session('product_inquiries');
+        // } else {
+        //     $inquiries = [];
+        // }
+        // // dd($inquiries);
+        // $added = false;
+        // foreach ($inquiries as $inquiredProduct) {
+        //     if ($inquiredProduct->id == $product->id) {
+        //         $added = true;
+        //         break;
+        //     }
+        // }
+        // if (!$added) {
+
+        //     array_push($inquiries, $product);
+        //     session('product_inquiries', $inquiries);
+        // }
+        // dd($inquiries,session('product_inquiries'));
+        return 'Your inquiry for the product "' . $product->name . '" has been added.';
     }
 }

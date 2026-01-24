@@ -38,11 +38,11 @@ class WorkOrderDetails extends Model
     {
         return $this->belongsTo(Style::class, 'style_id');
     }
-    public function weightUnit()
+    public function weight_unit()
     {
         return $this->belongsTo(Unit::class, 'weight_unit_id');
     }
-    public function quantityUnit()
+    public function quantity_unit()
     {
         return $this->belongsTo(Unit::class, 'quantity_unit_id');
     }

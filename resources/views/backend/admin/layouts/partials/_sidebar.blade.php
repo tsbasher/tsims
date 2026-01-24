@@ -282,7 +282,8 @@
                         class="nav-link
             @if (Route::currentRouteName() == 'admin.proforma_invoice.index' ||
                     Route::currentRouteName() == 'admin.proforma_invoice.create' ||
-                    Route::currentRouteName() == 'admin.proforma_invoice.edit') active @endif">
+                    Route::currentRouteName() == 'admin.proforma_invoice.edit'||
+                    Route::currentRouteName() == 'admin.proforma_invoice.show') active @endif">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Proforma Invoice(PI)

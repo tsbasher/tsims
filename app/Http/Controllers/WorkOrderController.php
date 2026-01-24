@@ -53,7 +53,7 @@ class WorkOrderController extends Controller
     public function create()
     {
 
-        $max_order = WorkOrder::max('id');
+        $max_order = WorkOrder::whereYear('created_at', date('Y'))->max('id');
         $order_number = 'ITWO-' . date('Y') . '-' . str_pad($max_order + 1, 4, '0', STR_PAD_LEFT);
 
         $buyers = Buyers::get();
@@ -81,7 +81,7 @@ class WorkOrderController extends Controller
             'order_date' => 'required|date',
             'delivery_date' => 'nullable|date',
         ]);
-        $max_order = WorkOrder::max('id');
+        $max_order = WorkOrder::whereYear('created_at', date('Y'))->max('id');
         $order_number = 'ITWO-' . date('Y') . '-' . str_pad($max_order + 1, 4, '0', STR_PAD_LEFT);
         $data = $request->only([
             'customer_id',
@@ -105,6 +105,8 @@ class WorkOrderController extends Controller
                         'measurement' => $request->measurements[$index],
                         'quantity' => $request->quantities[$index],
                         'quantity_unit_id' => $request->unit_ids[$index],
+                        'weight' => $request->weights[$index],
+                        'weight_unit_id' => $request->weight_unit_ids[$index],
                         'description' => $request->details_description[$index],
                         'unit_price' => $request->rates[$index],
                         'total_price' => $request->totals[$index],
@@ -188,6 +190,8 @@ class WorkOrderController extends Controller
                         'measurement' => $request->measurements[$index],
                         'quantity' => $request->quantities[$index],
                         'quantity_unit_id' => $request->unit_ids[$index],
+                        'weight' => $request->weights[$index],
+                        'weight_unit_id' => $request->weight_unit_ids[$index],
                         'description' => $request->details_description[$index],
                         'unit_price' => $request->rates[$index],
                         'total_price' => $request->totals[$index],
@@ -216,7 +220,7 @@ class WorkOrderController extends Controller
             $data->message = 'WorkOrder deleted successfully.';
             return response()->json($data);
         } catch (\Exception $e) {
-            Log::error('Error deleting Buyer : ' . $e->getMessage());
+            Log::error('Error deleting WorkOrder : ' . $e->getMessage());
             $data = new stdClass();
             $data->status = 0;
             $data->message = 'An error occurred while deleting Workorder.';
@@ -230,11 +234,11 @@ class WorkOrderController extends Controller
         return response()->json($workorders);
     }
 
-    public function get_workorder_details($workorder_id)
+    public function get_workorder_details($id)
     {
-        $ids=explode(',',$workorder_id);
-        $workorder = WorkOrder::with('details')->wherein('id',$ids)->get();
-        return response()->json($workorder);
+        $workorder = WorkOrder::with('details')->where('id',$id)->get();
+        // dd($workorder);
+        return $workorder;
     }
 
 }

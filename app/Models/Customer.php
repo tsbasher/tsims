@@ -14,6 +14,7 @@ class Customer extends Model
         'address',
         'country_id',
         'mobile',
+        'email',
         'is_active',
         'created_by',
         'updated_by',

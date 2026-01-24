@@ -60,7 +60,8 @@
                                     <th style="width: 10px">#</th>
                                     <th>Name</th>
                                     <th>Code</th>
-                                    <th>Active</th>
+                                    <th>BIN</th>
+                                    <th>TIN</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -70,13 +71,8 @@
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $bank->name }}</td>
                                         <td>{{ $bank->code }}</td>
-                                        <td>
-                                            @if ($bank->is_active == 1)
-                                                <span class="badge bg-success" style="font-size: 100%">Yes</span>
-                                            @else
-                                                <span class="badge bg-danger" style="font-size: 100%">No</span>
-                                            @endif
-                                        </td>
+                                        <td>{{ $bank->bin }}</td>
+                                        <td>{{ $bank->tin }}</td>
                                         <td>
                                             <a href="{{ route('admin.bank.edit', $bank->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></a>
                                             <a class="btn btn-sm btn-danger delete_record" data-url="{{ route('admin.bank.destroy', $bank->id) }}"><i class="fas fa-trash"></i></a>

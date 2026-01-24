@@ -47,18 +47,27 @@
                                         </div>
                                     </div>                                    
                                 </div>
-                                                               
+                                            
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="bin">Bank BIN</label>
+                                    <input type="text" required class="form-control" name="bin" id="bin" placeholder="Enter Bank bin" value="{{ old('bin',$bank->bin) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tin">Bank TIN</label>
+                                    <input type="text" class="form-control" name="tin" id="tin" placeholder="Enter Bank Tin" value="{{ old('tin',$bank->tin) }}">
+                                </div>
+                            </div>
+                        </div>                   
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('description',$bank->description) }}</textarea>
                                 </div>
                                 
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" 
-                                    
-                                    @if (old('is_active', $bank->is_active) == 1) checked @endif>
-                                    <label class="form-check-label" for="is_active">Is Active</label>
-                                </div> 
                             </div>
                             <!-- /.card-body -->
 

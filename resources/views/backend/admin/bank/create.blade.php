@@ -37,27 +37,34 @@
 
                                 <div class="form-group">
                                     <label for="name">Bank Name</label>
-                                    <input type="text" required class="form-control" name="name" id="name"
-                                        placeholder="Enter Customer Name" value="{{ old('name') }}">
+                                    <input type="text" required class="form-control" name="name" id="name" placeholder="Enter Customer Name" value="{{ old('name') }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="code">Bank Code</label>
-                                    <input type="text" class="form-control" name="code" id="code"
-                                        placeholder="Enter Customer Code" value="{{ old('code') }}">
+                                    <input type="text" class="form-control" name="code" id="code" placeholder="Enter Customer Code" value="{{ old('code') }}">
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
 
+                                <div class="form-group">
+                                    <label for="bin">Bank BIN</label>
+                                    <input type="text" required class="form-control" name="bin" id="bin" placeholder="Enter Bank bin" value="{{ old('bin') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tin">Bank TIN</label>
+                                    <input type="text" class="form-control" name="tin" id="tin" placeholder="Enter Bank Tin" value="{{ old('tin') }}">
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" name="description" id="description" placeholder="Enter Description">{{ old('description') }}</textarea>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
-                                @if (old('is_active', 1) == 1) checked @endif>
-                            <label class="form-check-label" for="is_active">Is Active</label>
                         </div>
                     </div>
                     <!-- /.card-body -->
