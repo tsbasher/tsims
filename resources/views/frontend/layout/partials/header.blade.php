@@ -38,6 +38,8 @@
 
 
             <li><a href="{{ route('frontend.contact') }}">Contact</a></li>
+                  <a class="cta-btn" style="color:var(--nav-color)" href="{{ route('frontend.product_inquery_checkout') }}">Inquery <span id="cart_count">@if(\Cart::getContent()->count()>0) ({{ \Cart::getContent()->count() }})  @endif</span></a>
+
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>

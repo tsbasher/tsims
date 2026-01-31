@@ -66,6 +66,7 @@ class WebsiteSettingController extends Controller
             'instagram' => 'nullable|url|max:255',
             'linkedin' => 'nullable|url|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'contact_notification_email' => 'required|email|max:255',
         ]);
 
         $data = $request->only([
@@ -79,6 +80,7 @@ class WebsiteSettingController extends Controller
             'twitter',
             'instagram',
             'linkedin',
+            'contact_notification_email'
         ]);
         if( $request->hasFile('logo')) {
             $logo = $request->file('logo');

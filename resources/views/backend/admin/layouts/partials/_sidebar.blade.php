@@ -265,6 +265,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.inquery.index') }}"
+                        class="nav-link
+            @if (Route::currentRouteName() == 'admin.inquery.index' ||
+                    Route::currentRouteName() == 'admin.inquery.show' ) active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Inquery
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.workorder.index') }}"
                         class="nav-link
             @if (Route::currentRouteName() == 'admin.workorder.index' ||

@@ -252,6 +252,8 @@ class ProductController extends Controller
 
     public function getProductBySlug($slug)
     {
+        // \Cart::clear();
+        // dd(\Cart::getContent());
         $product = Product::where('slug', $slug)->where('is_active', 1)->with('group', 'category', 'subCategory', 'galleries')->first();
         if ($product->subCategory)
             $others = Product::where('sub_category_id', $product->subCategory->id)->where('id', '!=', $product->id)->get();
@@ -260,30 +262,5 @@ class ProductController extends Controller
         return view('frontend.product_details', compact('product', 'others'));
     }
 
-    public function productInquiryAdd(Request $request, $id)
-    {
-        
-            // session()->put('product_inquiries', null);
-        $product = Product::find($id);
-        // if (session()->has('product_inquiries')) {
-        //     $inquiries = session('product_inquiries');
-        // } else {
-        //     $inquiries = [];
-        // }
-        // // dd($inquiries);
-        // $added = false;
-        // foreach ($inquiries as $inquiredProduct) {
-        //     if ($inquiredProduct->id == $product->id) {
-        //         $added = true;
-        //         break;
-        //     }
-        // }
-        // if (!$added) {
-
-        //     array_push($inquiries, $product);
-        //     session('product_inquiries', $inquiries);
-        // }
-        // dd($inquiries,session('product_inquiries'));
-        return 'Your inquiry for the product "' . $product->name . '" has been added.';
-    }
+    
 }
