@@ -1,5 +1,5 @@
 @extends('frontend.layout.app')
-@section('title', 'Product Group Details')
+@section('title', 'Inquery Checkout')
 @section('main')
 
     <main class="main">

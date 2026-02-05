@@ -79,11 +79,11 @@ class InqueryController extends Controller
                     ]);
                 }
 
-                \Cart::clear();
                 $settings=WebsiteSetting::first();
                 Mail::to($settings->contact_notification_email)->send(new SendInqueryMail($inquery));
             });
 
+                \Cart::clear();
             return redirect()->route('frontend.product_inquery_checkout')->with('success', 'Your inquiry has been submitted successfully.');
         } else {
             return redirect()->route('frontend.product_inquery_checkout')->with('error', 'Captcha verification failed. Please try again.');

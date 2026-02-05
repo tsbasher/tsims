@@ -86,6 +86,26 @@
                                     </select>
                                 </div>
                             </div>
+
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="currency_id">Currency</label>
+                                    <select class="form-control select2" required name="currency_id" id="currency_id">
+                                        <option value="">Select Currency</option>
+                                        @foreach ($currencies as $currency)
+                                            <option value="{{ $currency->id }}" data-symbol="{{ $currency->symbol }}" {{ old('currency_id', $pi->currency_id) == $currency->id ? 'selected' : '' }}>
+                                                {{ $currency->name }}({{ $currency->symbol }})</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
                             <div class="col-md-6">
 
                                 <div class="form-group">
@@ -99,9 +119,6 @@
                                     </select>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
 
                                 <div class="form-group">
@@ -115,6 +132,10 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+
                             <div class="col-md-6">
 
                                 <div class="form-group">
@@ -124,24 +145,6 @@
                                         @foreach ($payments_terms as $payment_term)
                                             <option value="{{ $payment_term->id }}" {{ old('payments_terms_id', $pi->payments_terms_id) == $payment_term->id ? 'selected' : '' }}>
                                                 {{ $payment_term->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="currency_id">Currency</label>
-                                    <select class="form-control select2" required name="currency_id" id="currency_id">
-                                        <option value="">Select Currency</option>
-                                        @foreach ($currencies as $currency)
-                                            <option value="{{ $currency->id }}" data-symbol="{{ $currency->symbol }}" {{ old('currency_id', $pi->currency_id) == $currency->id ? 'selected' : '' }}>
-                                                {{ $currency->name }}({{ $currency->symbol }})</option>
                                         @endforeach
 
                                     </select>
@@ -396,56 +399,27 @@
                                             $.each(data, function(key,
                                                 value) {
 
-                                                $.each(value.details,function(dkey,dvalue) {
-                                                        debugger
-                                                        ;
-                                                        var product_id = dvalue.product_id;
-                                                        var product_text =dvalue.product.name;
-                                                        var style_id =
-                                                            dvalue
-                                                            .style_id;
-                                                        var style_text =
-                                                            dvalue
-                                                            .style
-                                                            .name;
-                                                        var color_id =
-                                                            dvalue
-                                                            .color_id;
-                                                        var color_text =
-                                                            dvalue
-                                                            .color
-                                                            .name;
-                                                        var unit_id =
-                                                            dvalue
-                                                            .quantity_unit_id;
-                                                        var unit_text =
-                                                            dvalue
-                                                            .quantity_unit
-                                                            .name;
-                                                        var measurement =
-                                                            dvalue
-                                                            .measurement;
-                                                        var quantity =
-                                                            dvalue
-                                                            .quantity;
-                                                        var weight =
-                                                            dvalue
-                                                            .weight;
-                                                        var weight_unit_id =
-                                                            dvalue
-                                                            .weight_unit_id;
-                                                        var weight_unit_text =dvalue.weight_unit?dvalue.weight_unit.name:'';
-                                                        var rate =
-                                                            dvalue
-                                                            .unit_price;
-                                                        var total =
-                                                            dvalue
-                                                            .total_price;
-                                                        var description =
-                                                            dvalue
-                                                            .description;
-                                                        var currency_symbol =$('#currency_id').find('option:selected').data('symbol') ||'';
-                                                        html = `<tr>
+                                                $.each(value.details, function(dkey, dvalue) {
+                                                    debugger
+                                                    ;
+                                                    var product_id = dvalue.product_id;
+                                                    var product_text = dvalue.product.name;
+                                                    var style_id = dvalue.style_id;
+                                                    var style_text = dvalue.style.name;
+                                                    var color_id =dvalue.color_id;
+                                                    var color_text =dvalue.color.name;
+                                                    var unit_id =dvalue.quantity_unit_id;
+                                                   var unit_text =dvalue.quantity_unit.name;
+                                                    var measurement =dvalue.measurement;
+                                                    var quantity =dvalue.quantity;
+                                                    var weight =dvalue.weight?dvalue.weight:'';
+                                                    var weight_unit_id =dvalue.weight_unit_id != null ? dvalue.weight_unit_id : '';
+                                                    var weight_unit_text = dvalue.weight_unit != null ? dvalue.weight_unit.name : '';
+                                                    var rate =dvalue.unit_price;
+                                                    var total =dvalue.total_price;
+                                                    var description =dvalue.description;
+                                                    var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
+                                                    html = `<tr>
                                     <td>
                                         <input type="hidden" name="workorders[]" value="${value.id}"/>
                                         ${value.order_number}
@@ -522,12 +496,11 @@
                                         
                                     </td>
                                     </tr>`;
-                                                        $("#workorder_item_table tbody")
-                                                            .append(
-                                                                html
-                                                            );
-                                                    }
-                                                ); //details loop
+                                                    $("#workorder_item_table tbody")
+.append(
+                                                            html
+                                                        );
+                                                }); //details loop
 
                                             }); //data loop
                                         }
@@ -537,44 +510,25 @@
                                     $.each(data.pi_details, function(key, dvalue) {
 
                                         debugger;
-                                        var product_id = dvalue
-                                            .product_id;
-                                        var product_text = dvalue
-                                            .product.name;
+                                        var product_id = dvalue.product_id;
+                                        var product_text = dvalue.product.name;
                                         var style_id = dvalue.style_id;
-                                        var style_text = dvalue.style
-                                            .name;
+                                        var style_text = dvalue.style.name;
                                         var color_id = dvalue.color_id;
-                                        var color_text = dvalue.color
-                                            .name;
-                                        var unit_id = dvalue
-                                            .quantity_unit_id;
-                                        var unit_text = dvalue
-                                            .quantity_unit.name;
-                                        var weight = dvalue.weight;
-                                        var weight_unit_id = dvalue
-                                            .weight_unit_id;
-                                        var weight_unit_text = dvalue
-                                            .weight_unit ? dvalue
-                                            .weight_unit.name : '';
-                                        var measurement = dvalue
-                                            .measurement;
+                                        var color_text = dvalue.color.name;
+                                        var unit_id = dvalue.quantity_unit_id;
+                                        var unit_text = dvalue.quantity_unit.name;
+                                        var weight = dvalue.weight?dvalue.weight:'';
+                                        var weight_unit_id = dvalue.weight_unit_id!=null?dvalue.weight_unit_id:'';
+                                        var weight_unit_text = dvalue.weight_unit!=null ? dvalue.weight_unit.name : '';
+                                        var measurement = dvalue.measurement;
                                         var quantity = dvalue.quantity;
                                         var rate = dvalue.unit_price;
                                         var total = dvalue.total_price;
-                                        var description = dvalue
-                                            .description;
+                                        var description = dvalue.description;
 
-                                        var currency_symbol =
-                                            $(
-                                                '#currency_id')
-                                            .find(
-                                                'option:selected'
-                                            )
-                                            .data(
-                                                'symbol'
-                                            ) ||
-                                            '';
+                                        var currency_symbol =$('#currency_id').find('option:selected').data('symbol') ||'';
+
                                         html = `<tr>
                                     <td>
                                         <input type="hidden" name="workorders[]" value="${dvalue.work_order_id}"/>

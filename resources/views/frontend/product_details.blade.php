@@ -92,12 +92,12 @@
                     @endif
                 </div>
 
-                <div class="row text-center">
-                    <a href="{{ route('frontend.product_inquery_add', $product->id) }}" class="pt-4 pb-4 product_inquery" style="background-color: #16a6ad; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; z-index: 999; color: #151f46; text-decoration: none;">
+                <div class="row p-3 text-center">
+                    <a href="{{ route('frontend.product_inquery_add', $product->id) }}" class="pt-4 pb-4 product_inquery" style="background-color: #16a6ad; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; color: #151f46; text-decoration: none;">
                         <i class="bi bi-clipboard2-plus-fill"></i>Add to Inquery</a>
 
                 </div>
-                <div class="col-lg-12 pt-3">
+                <div class="col-lg-12">
                     <div class="portfolio-info pt-3" data-aos="fade-up" data-aos-delay="200">
                         <h3>Others Product</h3>
                         <div class="row services section">

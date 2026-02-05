@@ -57,6 +57,7 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
+                                    <th>Date</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
@@ -67,8 +68,9 @@
                             </thead>
                             <tbody>
                                 @foreach ($inqueries as $inquery)
-                                    <tr>
+                                    <tr class="{{ $inquery->is_read == 0 ? 'text-bold' : '' }}">
                                         <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ date("d F Y", strtotime($inquery->created_at)) }}
                                         <td>{{ $inquery->name }}</td>
                                         <td>{{ $inquery->email }}</td>
                                         <td>{{ $inquery->phone }}</td>
@@ -88,7 +90,7 @@
                                         <td>
                                             <a href="{{ route('admin.inquery.show', $inquery->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-info"></i></a>
                                             @if ($inquery->is_reply == 0)
-                                                <a class="btn btn-sm btn-danger markasreplyed" data-url="{{ route('admin.inquery.markasreplyed', $inquery->id) }}"><i class="fas fa-check-square"></i></a>
+                                                <a class="btn btn-sm btn-warning markasreplyed" data-url="{{ route('admin.inquery.markasreplyed', $inquery->id) }}"><i class="fas fa-check-square"></i></a>
                                             @endif
                                         </td>
                                     </tr>
