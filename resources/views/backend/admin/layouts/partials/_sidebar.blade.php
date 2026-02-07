@@ -302,6 +302,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.purchase_order.index') }}"
+                        class="nav-link
+            @if (Route::currentRouteName() == 'admin.purchase_order.index' ||
+                    Route::currentRouteName() == 'admin.purchase_order.create' ||
+                    Route::currentRouteName() == 'admin.purchase_order.edit'||
+                    Route::currentRouteName() == 'admin.purchase_order.show') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Purchase Order (PO)
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.payment_terms.index') }}"
                         class="nav-link
             @if (Route::currentRouteName() == 'admin.payment_terms.index' ||
