@@ -78,7 +78,7 @@
     <script src="{{ asset('backend/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Vendor JS Files -->
     <script src="{{ asset('frontend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/vendor/php-email-form/validate.js') }}"></script>
+    {{-- <script src="{{ asset('frontend/assets/vendor/php-email-form/validate.js') }}"></script>--}}
     <script src="{{ asset('frontend/assets/vendor/aos/aos.js') }}"></script>
     <script src="{{ asset('frontend/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
@@ -124,6 +124,8 @@
                 url: url,
                 type: 'GET',
                 success: function(data) {
+                debugger;
+                $("#cart_count").text('(' + data.cart_item_count + ')');
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
@@ -138,7 +140,7 @@
                     Toast.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: data,
+                        title: data.message,
                         showConfirmButton: false,
 
                     });

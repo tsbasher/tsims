@@ -29,6 +29,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InqueryController;
 use App\Http\Controllers\LcTypeController;
 use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\MerchandiserController;
@@ -64,10 +65,12 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('/product-sub-category/{slug}', [ProductSubCategoryController::class, 'getProductBySubCategory'])->name('frontend.product_sub_category');
         Route::get('/product/{slug}', [ProductController::class, 'getProductBySlug'])->name('frontend.product');
-        Route::get('/product-inquery-add/{id}', [ProductController::class, 'productInquiryAdd'])->name('frontend.product_inquery_add');
-        Route::get('/product-inquery-remove/{id}', [ProductController::class, 'productInquiryRemove'])->name('frontend.product_inquery_remove');
+        Route::get('/product-inquery-add/{id}', [InqueryController::class, 'productInquiryAdd'])->name('frontend.product_inquery_add');
+        Route::get('/product-inquery-remove/{id}', [InqueryController::class, 'productInquiryRemove'])->name('frontend.product_inquery_remove');
         
-        Route::get('/product-inquery', [ProductController::class, 'productInquiry'])->name('frontend.product_inquery');
+        Route::get('/product-inquery-checkout', [InqueryController::class, 'checkout'])->name('frontend.product_inquery_checkout');
+        Route::post('inquery', [InqueryController::class,'store'])->name('frontend.inquery.store');
+
 
 // Auth::routes(['register' => false]);
 
@@ -81,6 +84,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/get-workorder/{workorder_id}', [WorkOrderController::class, 'get_workorder_details'])->name('admin.get_workorder');
         
         Route::get('/get-pi-details-by-pi-workorder/{pi_id}/{workorder_id}', [ProformaInvoiceController::class, 'get_pi_details_by_pi_workorder'])->name('admin.get_pi_details_by_pi_workorder');
+        
+                Route::get('inquery-markasreplyed/{id}', [InqueryController::class,'markasreplyed'])->name('admin.inquery.markasreplyed');
+
         Route::resource('designation', DesignationController::class)->names('admin.designation');
         Route::resource('department', DepartmentController::class)->names('admin.department');
         Route::resource('pages', PagesController::class)->names('admin.pages');
@@ -107,6 +113,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('bank',BankController::class)->names('admin.bank');
         Route::resource('lc-type',LcTypeController::class)->names('admin.lc_type');
         Route::resource('currency',CurrencyController::class)->names('admin.currency');
+        Route::resource('inquery', InqueryController::class)->names('admin.inquery')->except(['create', 'store']);
         Route::resource('bank-account',BankAccountController::class)->names('admin.bank_account');
 
 

@@ -84,6 +84,21 @@
                             <div class="col-md-6">
 
                                 <div class="form-group">
+                                    <label for="currency_id">Currency</label>
+                                    <select class="form-control select2" name="currency_id" id="currency_id">
+                                        <option value="">Select Currency</option>
+                                        @foreach ($currencies as $currency)
+                                            <option value="{{ $currency->id }}" data-symbol="{{ $currency->symbol }}" {{ old('currency_id') == $currency->id ? 'selected' : '' }}>
+                                                {{ $currency->name }}({{ $currency->symbol }})</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
                                     <label for="buyer_id">Buyer</label>
                                     <select class="form-control" name="buyer_id" id="buyer_id">
                                         <option value="">Select Buyer</option>
@@ -95,6 +110,10 @@
                                     </select>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="row">
+                            
                             <div class="col-md-6">
 
                                 <div class="form-group">
@@ -109,9 +128,6 @@
                                     </select>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
 
                                 <div class="form-group">
@@ -122,6 +138,10 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+
                             <div class="col-md-6">
 
                                 <div class="form-group">
@@ -137,23 +157,8 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
 
-                                <div class="form-group">
-                                    <label for="currency_id">Currency</label>
-                                    <select class="form-control select2" name="currency_id" id="currency_id">
-                                        <option value="">Select Currency</option>
-                                        @foreach ($currencies as $currency)
-                                            <option value="{{ $currency->id }}" data-symbol="{{ $currency->symbol }}" {{ old('currency_id') == $currency->id ? 'selected' : '' }}>
-                                                {{ $currency->name }}({{ $currency->symbol }})</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="description">Description/Note</label>
@@ -316,7 +321,7 @@
                                         var measurement = dvalue.measurement;
                                         var quantity = dvalue.quantity;
                                         var weight = dvalue.weight?dvalue.weight:'';
-                                        var weight_unit_id = dvalue.weight_unit_id;
+                                        var weight_unit_id = dvalue.weight_unit_id!=null?dvalue.weight_unit_id:'';
                                         var weight_unit_text = dvalue.weight_unit!=null?dvalue.weight_unit.name:'';
                                         var rate = dvalue.unit_price;
                                         var total = dvalue.total_price;
