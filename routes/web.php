@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SchemeController;
 use App\Http\Controllers\Admin\SchemeOptionController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\BuyersController;
 use App\Http\Controllers\ColorController;
@@ -117,6 +118,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('currency', CurrencyController::class)->names('admin.currency');
         Route::resource('purchase-order', PurchaseOrderController::class)->names('admin.purchase_order');
         Route::resource('inquery', InqueryController::class)->names('admin.inquery')->except(['create', 'store']);
+        Route::resource('bank-account',BankAccountController::class)->names('admin.bank_account');
+
 
         Route::resource('website-settings', WebsiteSettingController::class)->names('admin.website_settings');
 

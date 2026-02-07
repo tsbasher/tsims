@@ -349,6 +349,17 @@
                             Currency
                         </p>
                     </a>
+                </li><li class="nav-item">
+                    <a href="{{ route('admin.bank_account.index') }}"
+                        class="nav-link
+                    @if (Route::currentRouteName() == 'admin.bank_account.index' ||
+                    Route::currentRouteName() == 'admin.bank_account.create' ||
+                    Route::currentRouteName() == 'admin.bank_account.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Bank Account
+                        </p>
+                    </a>
                 </li>
                 <li class="nav-item 
                       @if (Route::currentRouteName() == 'admin.pages.index' ||
