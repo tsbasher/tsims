@@ -7,6 +7,8 @@ use App\Models\Color;
 use App\Models\Customer;
 use App\Models\Merchandiser;
 use App\Models\Product;
+use App\Models\ProformaInvoice;
+use App\Models\ProformaInvoiceDetails;
 use App\Models\Style;
 use App\Models\Unit;
 use App\Models\WorkOrder;
@@ -25,19 +27,25 @@ class WorkOrderController extends Controller
     public function index(Request $request)
     {
         $workOrders = WorkOrder::with(['customer', 'buyer', 'merchant', 'details']);
-        if ($request->has('customer_id')) {
+        if ($request->has('customer_id')&& isset($request->customer_id)) {
             $workOrders->where('customer_id', $request->customer_id);
         }
-        if ($request->has('order_date_from') && $request->has('order_date_to')) {
-            $workOrders->whereBetween('order_date', [$request->order_date_from, $request->order_date_to]);
+        if ($request->has('order_date_from') && isset($request->order_date_from)) {
+            
+            $workOrders->where('order_date', '>=',$request->order_date_from);
         }
-        if ($request->has('buyer_id')) {
+
+        
+        if ($request->has('order_date_to') && isset($request->order_date_to)) {
+            $workOrders->where('order_date', '<=',$request->order_date_to);
+        }
+        if ($request->has('buyer_id')&& isset($request->buyer_id)) {
             $workOrders->where('buyer_id', $request->buyer_id);
         }
-        if ($request->has('merchandiser_id')) {
+        if ($request->has('merchandiser_id')&& isset($request->merchandiser_id)) {
             $workOrders->where('merchandiser_id', $request->merchandiser_id);
         }
-        if ($request->has('order_number')) {
+        if ($request->has('order_number')&& isset($request->order_number)) {
             $workOrders->where('order_number', 'like', '%' . $request->order_number . '%');
         }
 
@@ -229,8 +237,11 @@ class WorkOrderController extends Controller
     }
     public function get_workorder_by_customer($customer_id)
     {
+        $pi_wo=ProformaInvoiceDetails::with(['proformaInvoice'=>function($query) use ($customer_id){
+            $query->where('customer_id',$customer_id);
+        }])->get()->pluck('work_order_id')->unique()->toArray();
         //Check if pi has LC against workorder, if yes then do not show workorder in list
-        $workorders = WorkOrder::where('customer_id', $customer_id)->get();
+        $workorders = WorkOrder::where('customer_id', $customer_id)->wherenotin('id',$pi_wo)->get();
         return response()->json($workorders);
     }
 
@@ -239,6 +250,31 @@ class WorkOrderController extends Controller
         $workorder = WorkOrder::with('details')->where('id',$id)->get();
         // dd($workorder);
         return $workorder;
+    }
+
+    public function get_workorder_details_by_id($id)
+    {
+        $ids=explode(',',$id);
+        $workorder = WorkOrderDetails::with('work_order','product','color','style','weight_unit','quantity_unit')->wherein('id',$ids)
+        ->where('has_po',0)->get();
+        // dd($workorder);
+        return $workorder;
+    }
+    public function get_workorder_details_for_po($id)
+    {
+        $workorder = WorkOrder::with(['details'=>function($query){
+            $query->where('has_po',0);
+        }])->where('id',$id)->first();
+        // dd($workorder);
+        return $workorder;
+    }
+    public function get_workorder_by_customer_for_po($customer_id)
+    {
+        //Check if pi has LC against workorder, if yes then do not show workorder in list
+        $workorders = WorkOrder::where('customer_id', $customer_id)->wherehas('details',function($query){
+            $query->where('has_po',0);
+        })->get();
+        return response()->json($workorders);
     }
 
 }

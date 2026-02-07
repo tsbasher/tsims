@@ -22,13 +22,13 @@
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur</p>
+        <p>Our Contact Information</p>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row gy-4">
-          <div class="col-lg-6 ">
+          <div class="col-lg-12 ">
             <div class="row gy-4">
 
               <div class="col-lg-12">
@@ -72,7 +72,7 @@
               </div><!-- End Info Item -->
             </div>
           </div>
-
+<!--
           <div class="col-lg-6">
             <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
               <div class="row gy-4">
@@ -103,7 +103,9 @@
 
               </div>
             </form>
-          </div><!-- End Contact Form -->
+          </div>
+          !-->
+          <!-- End Contact Form -->
 
         </div>
 

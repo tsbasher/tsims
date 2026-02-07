@@ -1,0 +1,180 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Currency;
+use App\Models\Customer;
+use App\Models\Payment_terms;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetails;
+use App\Models\PurchaseOrderTerms;
+use App\Models\Supplier;
+use App\Models\TermsCondition;
+use App\Models\WebsiteSetting;
+use App\Models\WorkOrderDetails;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class PurchaseOrderController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $pos = PurchaseOrder::with('supplier', 'customer', 'work_order', 'payment_terms', 'currency');
+        if ($request->has('customer_id') && isset($request->customer_id)) {
+            $pos->where('customer_id', $request->customer_id);
+        }
+
+        if ($request->has('po_date_to') && isset($request->po_date_to)) {
+            $pos->where('po_date', '<=', $request->po_date_to);
+        }
+        if ($request->has('po_date_from') && isset($request->po_date_from)) {
+            $pos->where('po_date', '>=', $request->po_date_from);
+        }
+
+        if ($request->has('supplier_id') && isset($request->supplier_id)) {
+            $pos->where('supplier_id', $request->supplier_id);
+        }
+        if ($request->has('order_number') && isset($request->order_number)) {
+            $pos->where(function ($query) use ($request) {
+
+                $query->where('po_number', 'like', '%' . $request->order_number . '%')
+                    ->orwherehas('work_order', function ($q) use ($request) {
+                        $q->where('order_number', 'like', '%' . $request->order_number . '%');
+                    });
+            });
+        }
+        // dd($pos->toSql(), $pos->getBindings());
+        $pos = $pos->orderBy('po_date', 'desc')->orderby('po_number', 'asc')->paginate(10);
+
+        $suppliers = Supplier::get();
+        $customers = Customer::get();
+        // dd($pos[0]);
+        return view('backend.admin.purchase_order.index', compact('pos', 'suppliers', 'customers'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $max_order = 0; //PurchaseOrder::whereYear('created_at', date('Y'))->max('id');
+        $order_number = 'ITPO-' . date('Y') . '-' . str_pad($max_order + 1, 4, '0', STR_PAD_LEFT);
+
+        $suppliers = Supplier::get();
+        $customers = Customer::get();
+
+
+
+        $terms = TermsCondition::get();
+        $payments_terms = Payment_terms::get();
+        $currencies = Currency::get();
+        return view('backend.admin.purchase_order.create', compact('order_number', 'suppliers', 'customers', 'terms', 'payments_terms', 'currencies'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'customer_id' => 'required|exists:customers,id',
+            'payments_terms_id' => 'nullable|exists:payment_terms,id',
+            'currency_id' => 'required|exists:currencies,id',
+            'po_date' => 'required|date',
+            'currency_id' => 'required|exists:currencies,id',
+            'workorder_ids' => 'required|exists:work_orders,id',
+            // Add validation rules for other fields as needed
+        ]);
+
+        $max_order = PurchaseOrder::whereYear('created_at', date('Y'))->max('id');
+        $order_number = 'ITPO-' . date('Y') . '-' . str_pad($max_order + 1, 4, '0', STR_PAD_LEFT);
+        $data = $request->only([
+            'supplier_id',
+            'customer_id',
+            'payments_terms_id',
+            'currency_id',
+            'po_date',
+            'refference_number',
+            'description',
+            // Add other fields as needed
+        ]);
+        $data['po_number'] = $order_number;
+        $data['work_order_id'] = $request->workorder_ids; // Assuming you want to link the first work order
+
+        DB::transaction(function () use ($data, $request) {
+            $purchaseOrder = PurchaseOrder::create($data);
+            // Handle purchase order items if needed
+            if ($request->has('product_ids')) {
+                for ($index = 0; $index < count($request->product_ids); $index++) {
+                    PurchaseOrderDetails::create([
+                        'purchase_order_id' => $purchaseOrder->id,
+                        'work_order_details_id' => $request->workorders[$index],
+                        'product_id' => $request->product_ids[$index],
+                        'color_id' => $request->color_ids[$index],
+                        'style_id' => $request->style_ids[$index],
+                        'measurement' => $request->measurements[$index],
+                        'weight' => $request->weights[$index],
+                        'weight_unit_id' => $request->weight_unit_ids[$index],
+                        'quantity' => $request->quantities[$index],
+                        'quantity_unit_id' => $request->unit_ids[$index],
+                        'description' => $request->details_description[$index],
+                        'unit_price' => $request->rates[$index],
+                        'total_price' => $request->totals[$index],
+                    ]);
+                }
+                WorkOrderDetails::wherein('id',$request->workorders)->update(['has_po'=>1]);
+                if ($request->has('terms')) {
+                    for ($tindex = 0; $tindex < count($request->terms); $tindex++) {
+                        PurchaseOrderTerms::create([
+                            'purchase_order_id' => $purchaseOrder->id,
+                            'serial_no' => $request->terms_serial[$tindex],
+                            'term_description' => $request->terms[$tindex],
+                        ]);
+                    }
+                }
+            }
+        });
+        return redirect()->route('admin.purchase_order.index')->with('success', 'Purchase Order created successfully.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        $po = PurchaseOrder::with(['supplier','customer','work_order','payment_terms','details', 'terms', 'currency'])->findOrFail($id);
+        $settings = WebsiteSetting::first();
+        // dd($settings);
+// dd($po);
+        return view('backend.admin.purchase_order.show', compact('po', 'settings'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(PurchaseOrder $purchaseOrder)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, PurchaseOrder $purchaseOrder)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(PurchaseOrder $purchaseOrder)
+    {
+        //
+    }
+}

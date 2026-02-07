@@ -14,6 +14,8 @@ class Supplier extends Model
         'address',
         'country_id',
         'mobile',
+        'email',
+        'prev_balance',
         'is_active',
         'created_by',
         'updated_by',

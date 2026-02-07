@@ -23,6 +23,8 @@ use NumberFormatter;
 use NumberToWords\NumberToWords;
 use stdClass;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ProformaInvoiceController extends Controller
 {
     /**
@@ -31,20 +33,25 @@ class ProformaInvoiceController extends Controller
     public function index(Request $request)
     {
         $pis = ProformaInvoice::with(['customer', 'buyer', 'details','currency']);
-        if ($request->has('customer_id')) {
+        if ($request->has('customer_id') && isset($request->customer_id)) {
             $pis->where('customer_id', $request->customer_id);
         }
-        if ($request->has('pi_date_from') && $request->has('pi_date_to')) {
-            $pis->whereBetween('pi_date', [$request->order_date_from, $request->order_date_to]);
+        
+        if ($request->has('pi_date_to')&& isset($request->pi_date_to)) {
+            $pis->where('pi_date','<=', $request->pi_date_to);
         }
-        if ($request->has('buyer_id')) {
-            $pis->where('buyer_id', $request->buyer_id);
-        }
-        if ($request->has('pi_number')) {
-            $pis->where('pi_number', 'like', '%' . $request->pi_number . '%');
+        if ($request->has('pi_date_from')&& isset($request->pi_date_from)) {
+            $pis->where('pi_date','>=', $request->pi_date_from);
         }
 
+        if ($request->has('buyer_id')&& isset($request->buyer_id)) {
+            $pis->where('buyer_id', $request->buyer_id);
+        }
+        if ($request->has('order_number')&& isset($request->order_number)) {
+            $pis->where('pi_number', 'like', '%' . $request->order_number . '%');
+        }
         $pis = $pis->orderBy('pi_date', 'desc')->orderby('pi_number', 'asc')->paginate(10);
+
         $buyers = Buyers::get();
         $customers = Customer::get();
         return view('backend.admin.proforma_invoice.index', compact('pis', 'buyers', 'customers'));

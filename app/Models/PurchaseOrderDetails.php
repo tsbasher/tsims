@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WorkOrderDetails extends Model
+class PurchaseOrderDetails extends Model
 {
     //
     protected $fillable = [
-        'work_order_id',
+        'purchase_order_id',
+        'work_order_details_id',
         'product_id',
         'color_id',
         'style_id',
@@ -20,8 +21,13 @@ class WorkOrderDetails extends Model
         'description',
         'unit_price',
         'total_price',
+        // Add other fields as needed
     ];
 
+    public function purchase_order()
+    {
+        return $this->belongsTo(PurchaseOrder::class);
+    }   
     public function work_order()
     {
         return $this->belongsTo(WorkOrder::class, 'work_order_id');
@@ -33,11 +39,11 @@ class WorkOrderDetails extends Model
     public function color()
     {
         return $this->belongsTo(Color::class, 'color_id');
-    }   
+    }
     public function style()
     {
         return $this->belongsTo(Style::class, 'style_id');
-    }
+    }   
     public function weight_unit()
     {
         return $this->belongsTo(Unit::class, 'weight_unit_id');

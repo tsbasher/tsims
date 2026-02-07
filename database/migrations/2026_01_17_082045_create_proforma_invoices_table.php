@@ -23,7 +23,7 @@ return new class extends Migration
             $table->bigInteger('payments_terms_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
             $table->foreign('buyer_id')->references('id')->on('buyers')->onDelete('restrict');
-            // $table->foreign('payments_terms_id')->references('id')->on('payment_terms')->onDelete('restrict');
+            $table->foreign('payments_terms_id')->references('id')->on('payment_terms')->onDelete('restrict');
             
             $table->timestamps();
         });
