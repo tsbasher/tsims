@@ -15,6 +15,7 @@ class Product extends Model
         'slug',
         'code',
         'internal_code',
+        'hscode',
         'featured_image',
         'is_active',
         'show_as_featured',

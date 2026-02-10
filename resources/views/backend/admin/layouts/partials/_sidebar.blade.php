@@ -374,6 +374,30 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.transport_agent.index') }}"
+                        class="nav-link
+                    @if (Route::currentRouteName() == 'admin.transport_agent.index' ||
+                    Route::currentRouteName() == 'admin.transport_agent.create' ||
+                    Route::currentRouteName() == 'admin.transport_agent.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Transport Agent
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.shipping_type.index') }}"
+                        class="nav-link
+                    @if (Route::currentRouteName() == 'admin.shipping_type.index' ||
+                    Route::currentRouteName() == 'admin.shipping_type.create' ||
+                    Route::currentRouteName() == 'admin.shipping_type.edit') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Shipping Type
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item 
                       @if (Route::currentRouteName() == 'admin.pages.index' ||
                               Route::currentRouteName() == 'admin.pages.create' ||

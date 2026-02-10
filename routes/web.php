@@ -41,6 +41,7 @@ use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProformaInvoiceController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\ShippingTypeController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\StyleController;
@@ -48,6 +49,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TermsConditionController;
 use App\Http\Controllers\TermsConditionTypeController;
+use App\Http\Controllers\TransportAgentController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\User\UserHomeController;
 use App\Http\Controllers\WebsiteSettingController;
@@ -119,6 +121,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('purchase-order', PurchaseOrderController::class)->names('admin.purchase_order');
         Route::resource('inquery', InqueryController::class)->names('admin.inquery')->except(['create', 'store']);
         Route::resource('bank-account',BankAccountController::class)->names('admin.bank_account');
+        Route::resource('transport-agent',TransportAgentController::class)->names('admin.transport_agent');
+        Route::resource('shipping-type',ShippingTypeController::class)->names('admin.shipping_type');
+
 
 
         Route::resource('website-settings', WebsiteSettingController::class)->names('admin.website_settings');
