@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\View\Composers\FrontendComposer;
 use App\Models\ProductGroup;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrapFive();
+        Model::automaticallyEagerLoadRelationships();
         View::composer('frontend.*', FrontendComposer::class);
     }
 }

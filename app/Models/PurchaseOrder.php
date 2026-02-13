@@ -43,10 +43,10 @@ class PurchaseOrder extends Model
     }
     public function details()
     {
-        return $this->hasMany(PurchaseOrderDetails::class)->with('work_order','product', 'color', 'style', 'weight_unit', 'quantity_unit');
+        return $this->hasMany(PurchaseOrderDetails::class);//->with('work_order','product', 'color', 'style', 'weight_unit', 'quantity_unit');
     }
     public function terms()
     {
-        return $this->hasMany(PurchaseOrderTerms::class, 'purchase_order_id');
+        return $this->hasMany(PurchaseOrderTerms::class, 'purchase_order_id')->orderby('serial_no');
     }
 }

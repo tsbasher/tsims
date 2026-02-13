@@ -11,6 +11,7 @@ use App\Models\PurchaseOrderTerms;
 use App\Models\Supplier;
 use App\Models\TermsCondition;
 use App\Models\WebsiteSetting;
+use App\Models\WorkOrder;
 use App\Models\WorkOrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class PurchaseOrderController extends Controller
      */
     public function index(Request $request)
     {
-        $pos = PurchaseOrder::with('supplier', 'customer', 'work_order', 'payment_terms', 'currency');
+        $pos = PurchaseOrder::query();
         if ($request->has('customer_id') && isset($request->customer_id)) {
             $pos->where('customer_id', $request->customer_id);
         }
@@ -51,7 +52,6 @@ class PurchaseOrderController extends Controller
 
         $suppliers = Supplier::get();
         $customers = Customer::get();
-        // dd($pos[0]);
         return view('backend.admin.purchase_order.index', compact('pos', 'suppliers', 'customers'));
     }
 
@@ -60,7 +60,7 @@ class PurchaseOrderController extends Controller
      */
     public function create()
     {
-        $max_order = 0; //PurchaseOrder::whereYear('created_at', date('Y'))->max('id');
+        $max_order = PurchaseOrder::whereYear('created_at', date('Y'))->max('id');
         $order_number = 'ITPO-' . date('Y') . '-' . str_pad($max_order + 1, 4, '0', STR_PAD_LEFT);
 
         $suppliers = Supplier::get();
@@ -157,17 +157,94 @@ class PurchaseOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PurchaseOrder $purchaseOrder)
+    public function edit($id)
     {
-        //
+        $po=PurchaseOrder::with('details','work_order','currency','terms')->findorfail($id);
+
+        $suppliers = Supplier::get();
+        $customers = Customer::get();
+
+
+
+        $terms = TermsCondition::get();
+        $payments_terms = Payment_terms::get();
+        $currencies = Currency::get();
+        $work_orders = WorkOrder::where('customer_id', $po->customer_id)->wherehas('details',function($query)use($po){
+            $query->where('has_po',0)->orwhere('work_order_id',$po->work_order_id);
+        })->get();
+        return view('backend.admin.purchase_order.edit', compact('po', 'suppliers', 'customers', 'terms', 'payments_terms', 'currencies','work_orders'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PurchaseOrder $purchaseOrder)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'customer_id' => 'required|exists:customers,id',
+            'payments_terms_id' => 'nullable|exists:payment_terms,id',
+            'currency_id' => 'required|exists:currencies,id',
+            'po_date' => 'required|date',
+            'currency_id' => 'required|exists:currencies,id',
+            // Add validation rules for other fields as needed
+        ]);
+
+        $data = $request->only([
+            'supplier_id',
+            'customer_id',
+            'payments_terms_id',
+            'currency_id',
+            'po_date',
+            'refference_number',
+            'description',
+            // Add other fields as needed
+        ]);
+
+        $data['work_order_id'] = $request->workorder_ids;
+        
+        DB::transaction(function () use ($data, $request,$id) {
+        $purchaseOrder = PurchaseOrder::with('details')->findOrFail($id);
+        WorkOrderDetails::wherein('id',$purchaseOrder->details->pluck('work_order_details_id'))->update(['has_po'=>0]);
+
+        $purchaseOrder->update($data);
+PurchaseOrderDetails::where('purchase_order_id', $purchaseOrder->id)->delete();
+PurchaseOrderTerms::where('purchase_order_id', $purchaseOrder->id)->delete();
+        if ($request->has('product_ids')) {
+                for ($index = 0; $index < count($request->product_ids); $index++) {
+                    PurchaseOrderDetails::create([
+                        'purchase_order_id' => $purchaseOrder->id,
+                        'work_order_details_id' => $request->workorders[$index],
+                        'product_id' => $request->product_ids[$index],
+                        'color_id' => $request->color_ids[$index],
+                        'style_id' => $request->style_ids[$index],
+                        'measurement' => $request->measurements[$index],
+                        'weight' => $request->weights[$index],
+                        'weight_unit_id' => $request->weight_unit_ids[$index],
+                        'quantity' => $request->quantities[$index],
+                        'quantity_unit_id' => $request->unit_ids[$index],
+                        'description' => $request->details_description[$index],
+                        'unit_price' => $request->rates[$index],
+                        'total_price' => $request->totals[$index],
+                    ]);
+                }
+                WorkOrderDetails::wherein('id',$request->workorders)->update(['has_po'=>1]);
+        }
+                if ($request->has('terms')) {
+                    for ($tindex = 0; $tindex < count($request->terms); $tindex++) {
+                        PurchaseOrderTerms::create([
+                            'purchase_order_id' => $purchaseOrder->id,
+                            'serial_no' => $request->terms_serial[$tindex],
+                            'term_description' => $request->terms[$tindex],
+                        ]);
+                    }
+                }
+
+        });
+        // Handle purchase order items if needed
+        // Similar to the store method, but you may want to handle updates and deletions of existing items
+
+        return redirect()->route('admin.purchase_order.index')->with('success', 'Purchase Order updated successfully.');
     }
 
     /**

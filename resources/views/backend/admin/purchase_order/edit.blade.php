@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.app')
-@section('title', 'Proforma Invoice')
+@section('title', 'Purchase Order')
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/jquery-ui/jquery-ui.min.css') }}">
@@ -15,13 +15,13 @@
             <!-- general form elements -->
             <div class="card card-body bg-gray-light">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Proforma Invoice</h3>
+                    <h3 class="card-title">Edit Purchase Order</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" method="POST" action="{{ route('admin.proforma_invoice.update', $pi->id) }}" enctype="multipart/form-data">
+                <form role="form" method="POST" action="{{ route('admin.purchase_order.update', $po->id) }}" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+                    @method("PUT")
                     <div class="card-body">
 
                         <div>
@@ -39,15 +39,15 @@
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <label for="pi_number">Proforma Invoice Number</label>
-                                    <input type="text" required readonly class="form-control" name="pi_number" id="pi_number" placeholder="Enter Proforma Invoice Number" value="{{ old('pi_number', $pi->pi_number) }}">
+                                    <label for="po_number">Purchase Order Number</label>
+                                    <input type="text" required readonly class="form-control" name="po_number" id="po_number" placeholder="Enter Purchase Order Number" value="{{ old('po_number', $po->po_number) }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
                                     <label for="refference_number">Reference Number</label>
-                                    <input type="text" class="form-control" name="refference_number" id="refference_number" placeholder="Enter Reference Number" value="{{ old('refference_number', $pi->refference_number) }}">
+                                    <input type="text" class="form-control" name="refference_number" id="refference_number" placeholder="Enter Reference Number" value="{{ old('refference_number', $po->refference_number) }}">
                                 </div>
                             </div>
                         </div>
@@ -58,47 +58,39 @@
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <label for="pi_date">PI Date</label>
-                                    <input type="text" required class="form-control datepicker" name="pi_date" id="pi_date" placeholder="Enter Proforma Invoice Date" value="{{ old('pi_date', date('Y-m-d', strtotime($pi->pi_date))) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="pi_expire_date">PI Exprire Date</label>
-                                    <input type="text" class="form-control datepicker" name="pi_expire_date" id="pi_expire_date" placeholder="Enter Expire date" value="{{ old('pi_expire_date', date('Y-m-d', strtotime($pi->pi_expire_date))) }}">
+                                    <label for="po_date">PO Date</label>
+                                    <input type="text" required class="form-control datepicker" name="po_date" id="po_date" placeholder="Enter Purchase Order Date" value="{{ old('po_date', $po->po_date) }}">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="buyer_id">Buyer</label>
-                                    <select class="form-control" name="buyer_id" id="buyer_id">
-                                        <option value="">Select Customer</option>
-                                        @foreach ($buyers as $buyer)
-                                            <option value="{{ $buyer->id }}" {{ old('buyer_id', $pi->buyer_id) == $buyer->id ? 'selected' : '' }}>
-                                                {{ $buyer->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
 
                             <div class="col-md-6">
 
                                 <div class="form-group">
                                     <label for="currency_id">Currency</label>
-                                    <select class="form-control select2" required name="currency_id" id="currency_id">
+                                    <select class="form-control select2" name="currency_id" id="currency_id">
                                         <option value="">Select Currency</option>
                                         @foreach ($currencies as $currency)
-                                            <option value="{{ $currency->id }}" data-symbol="{{ $currency->symbol }}" {{ old('currency_id', $pi->currency_id) == $currency->id ? 'selected' : '' }}>
+                                            <option value="{{ $currency->id }}" data-symbol="{{ $currency->symbol }}" {{ old('currency_id', $po->currency_id) == $currency->id ? 'selected' : '' }}>
                                                 {{ $currency->name }}({{ $currency->symbol }})</option>
                                         @endforeach
 
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="supplier_id">Supplier</label>
+                                    <select class="form-control" name="supplier_id" id="supplier_id">
+                                        <option value="">Select Supplier</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}" {{ old('supplier_id', $po->supplier_id) == $supplier->id ? 'selected' : '' }}>
+                                                {{ $supplier->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -113,7 +105,7 @@
                                     <select class="form-control" name="customer_id" id="customer_id">
                                         <option value="">Select Customer</option>
                                         @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}" {{ old('customer_id', $pi->customer_id) == $customer->id ? 'selected' : '' }}>
+                                            <option value="{{ $customer->id }}" {{ old('customer_id', $po->customer_id) == $customer->id ? 'selected' : '' }}>
                                                 {{ $customer->name }}</option>
                                         @endforeach
                                     </select>
@@ -123,11 +115,11 @@
 
                                 <div class="form-group">
                                     <label for="workorder_id">Work Order</label>
-                                    <select class="form-control select2" name="workorder_ids[]" id="workorder_id" multiple>
+                                    <select class="form-control select2" name="workorder_ids" id="workorder_id">
                                         <option value="">Select Workorder</option>
-                                        @foreach ($workorders as $workorder)
-                                            <option value="{{ $workorder->id }}" {{ in_array($workorder->id, old('workorder_ids', $pi->details()->pluck('work_order_id')->unique()->toArray())) ? 'selected' : '' }}>
-                                                {{ $workorder->order_number }}</option>
+                                        @foreach ($work_orders as $work_order)
+                                            <option value="{{ $work_order->id }}" {{ old('workorder_ids', $po->work_order_id) == $work_order->id ? 'selected' : '' }}>
+                                                {{ $work_order->order_number }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -143,24 +135,26 @@
                                     <select class="form-control select2" name="payments_terms_id" id="payments_terms_id">
                                         <option value="">Select Payment Terms</option>
                                         @foreach ($payments_terms as $payment_term)
-                                            <option value="{{ $payment_term->id }}" {{ old('payments_terms_id', $pi->payments_terms_id) == $payment_term->id ? 'selected' : '' }}>
+                                            <option value="{{ $payment_term->id }}" {{ old('payments_terms_id', $po->payments_terms_id) == $payment_term->id ? 'selected' : '' }}>
                                                 {{ $payment_term->name }}</option>
                                         @endforeach
 
                                     </select>
                                 </div>
                             </div>
+
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="description">Description/Note</label>
-                                    <input type="text" class="form-control" name="description" id="description" value="{{ old('description', $pi->description) }}" />
+                                    <input type="text" class="form-control" name="description" id="description" value="{{ old('description', $po->description) }}" />
 
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <hr />
+                            <button type="button" id="add_workorder_item" class="btn btn-info form-control">Add WorkOrder Item</button>
                         </div>
 
 
@@ -185,18 +179,20 @@
                                         <th>Rate</th>
                                         <th>Total</th>
                                         <th>Note</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pi->details as $details)
+                                    @foreach ($po->details as $details)
                                         <tr>
                                             <td>
-                                                <input type="hidden" name="workorders[]" value="{{ $details->work_order_id }}" />
-                                                {{ $details->workOrder->order_number }}
+                                                <input type="hidden" name="workorders[]" value="{{ $details->work_order_details_id }}" />
+                                                {{ $po->work_order->order_number }}
                                             </td>
                                             <td>
                                                 <input type="hidden" name="product_ids[]" value="{{ $details->product_id }}" />
                                                 {{ $details->product->name }}
+
                                             </td>
                                             <td>
                                                 <input type="hidden" name="style_ids[]" value="{{ $details->style_id }}" />
@@ -212,7 +208,6 @@
                                             </td>
                                             <td>
 
-
                                                 <div class="input-group mb-3">
 
                                                     <input type="text" name="weights[]" class="form-control" value="{{ $details->weight }}" />
@@ -222,46 +217,46 @@
                                                     </div>
                                                 </div>
 
-
-
-
-
-
-
                                             </td>
                                             <td>
-
 
                                                 <div class="input-group mb-3">
 
                                                     <input type="text" name="quantities[]" class="form-control" value="{{ $details->quantity }}" />
-                                                    <input type="hidden" name="unit_ids[]" value="{{ $details->quantity_unit_id }}" />
+                                                    <input type="hidden" name="unit_ids[]" value="{{ $details->unit_id }}" />
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text">{{ $details->quantity_unit ? $details->quantity_unit->name : '' }}</span>
+                                                        <span class="input-group-text">{{ $details->quantity_unit->name }}</span>
                                                     </div>
                                                 </div>
 
                                             </td>
                                             <td>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">{{ $pi->currency->symbol }}</span>
-                                                    </div>
 
+                                                <div class="input-group mb-3">
+
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{ $po->currency->symbol }}</span>
+                                                    </div>
                                                     <input type="text" name="rates[]" class="form-control" value="{{ $details->unit_price }}" />
                                                 </div>
+
                                             </td>
                                             <td>
                                                 <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">{{ $pi->currency->symbol }}</span>
-                                                    </div>
 
-                                                    <input type="text" name="totals[]" class="form-control" readonly value="{{ $details->total_price }}" />
-                                                </div>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{ $po->currency->symbol }}</span>
+                                                    </div>
+                                                    <input type="text" readonly name="totals[]" value="{{ $details->total_price }}" class="form-control" />
+
                                             </td>
                                             <td>
-                                                <input type="text" name="details_description[]" class="form-control" value="{{ $details->description ? $details->description : '' }}" />
+                                                <input type="text" name="details_description[]" class="form-control" value="{{ $details->description }}" />
+
+                                            </td>
+
+                                            <td>
+                                                <button type="button" data-details_id="{{ $details->work_order_details_id }}" class="btn btn-danger btn-sm remove_item">Remove</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -314,13 +309,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($pi->termsConditions as $term)
+                                        @foreach ($po->terms as $terms)
                                             <tr>
                                                 <td>
-                                                    <input type="text" class="form-control" name="terms_serial[]" value="{{ $term->serial_no }}" />
+                                                    <input type="text" class="form-control" name="terms_serial[]" value="{{ $terms->serial_no }}" />
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" name="terms[]" value="{{ $term->term_description }}" />
+                                                    <input type="text" class="form-control" name="terms[]" value="{{ $terms->term_description }}" />
+
                                                 </td>
 
                                                 <td>
@@ -353,269 +349,241 @@
     <script src="{{ asset('backend/plugins/select2/js/select2.full.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
-        var get_workorder_by_customer =
-            "{{ route('common.get_workorder_by_customer', ['customer_id' => '*']) }}";
+        var get_workorder_by_customer = "{{ route('common.get_workorder_by_customer_for_po', ['customer_id' => '*']) }}";
 
         $(document).ready(function() {
             $(".select2").select2();
-            debugger;
+
             $('.datepicker').datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true
             });
-            var terms_count = 1;
-            var item_count = 1;
+            var terms_count = {{ $po->terms->max('serial_no') + 1 }};
+            $("#add_workorder_item").click(function(e) {
+                e.preventDefault();
+                workorderchange(0);
+
+            });
             $("#workorder_id").change(function(e) {
+                //ajax
                 debugger;
-                var workorder_ids = $(this).val();
-                if (workorder_ids.length == 0) {
+                workorderchange(1);
+            });
+
+            function workorderchange(clean) {
+
+                var workorder_ids = $("#workorder_id").val();
+                if (clean == 1) {
                     $("#workorder_item_table").find("tbody").empty();
-                    return;
                 }
+                $.ajax({
+                    url: "{{ route('admin.get_workorder_for_po', ['workorder_id' => '*']) }}".replace('*',workorder_ids),
+                    type: 'GET',
+                    success: function(data) {
+                        html = `<table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>WorkOrder</th>
+                                        <th>Product</th>
+                                        <th>Style</th>
+                                        <th>Color</th>
+                                        <th>Measurement</th>
+                                        <th>Weight Per Unit</th>
+                                        <th>Quantity</th>
+                                        <th>Rate</th>
+                                        <th>Total</th>
+                                        <th>Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                `;
 
-                removeorder(workorder_ids);
-                $.each(workorder_ids, function(index, value) {
-                    if (!isAlreadyAdded(value)) {
+                        $.each(data.details, function(dkey, dvalue) {
 
-                        $.ajax({
-                            url: "{{ route('admin.get_pi_details_by_pi_workorder', ['pi_id' => $pi->id, 'workorder_id' => '*']) }}"
-                                .replace('*',
-                                    value),
-                            type: 'GET',
-                            success: function(data) {
-                                debugger;
-                                if (data.pi_details.length == 0) {
+                            var product_text = dvalue.product.name;
+                            var style_text = dvalue.style.name;
+                            var color_text = dvalue.color.name;
+                            var unit_text = dvalue.quantity_unit.name;
+                            var measurement = dvalue.measurement;
+                            var quantity = dvalue.quantity;
+                            var weight = dvalue.weight ? dvalue.weight : '';
+                            var weight_unit_text = dvalue.weight_unit != null ? dvalue.weight_unit.name : '';
+                            var rate = dvalue.unit_price;
+                            var total = dvalue.total_price;
+                            var description = dvalue.description;
+                            var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
 
-                                    $.ajax({
-                                        url: "{{ route('admin.get_workorder', ['workorder_id' => '*']) }}"
-                                            .replace('*',
-                                                value),
-                                        type: 'GET',
-                                        success: function(data) {
-                                            debugger;
+                            html += `<tr>
+                                <td>
+                                    <input type="checkbox" name="workorders[]" class="swal2-wo" value="${dvalue.id}"/>
+                                </td>
+                                <td>${data.order_number}</td>
+                                <td>
+                                    ${product_text}
+                                </td>
+                                <td>
+                                    ${style_text}
+                                </td>
+                                <td>
+                                    ${color_text}
+                                </td>
+                                <td>
+                                    ${measurement}
+                                </td>
+                                <td>${weight} ${weight_unit_text}</td>
+                                <td>${quantity} ${unit_text}</td>
+                                <td>${currency_symbol} ${rate}</td>
+                                <td>${currency_symbol} ${total}</td>
+                                <td>${description?description:''}</td>
+                                </tr>`;
+                        }); //details loop
+                        html += `</tbody></table>`;
+                        debugger;
+                        Swal.fire({
+                            title: 'Select your options',
+                            width: '90%',
+                            html: html,
+                            focusConfirm: false, // Prevents the first focusable element (usually the input) from being focused automatically
+                            preConfirm: () => {
+                                var checkedValues = [];
+                                $("input.swal2-wo:checked").each(function() {
 
-                                            var index = 1;
-                                            $.each(data, function(key,
-                                                value) {
+                                    debugger;
+                                    checkedValues.push($(this).val());
+                                });
 
-                                                $.each(value.details, function(dkey, dvalue) {
-                                                    debugger
-                                                    ;
-                                                    var product_id = dvalue.product_id;
-                                                    var product_text = dvalue.product.name;
-                                                    var style_id = dvalue.style_id;
-                                                    var style_text = dvalue.style.name;
-                                                    var color_id =dvalue.color_id;
-                                                    var color_text =dvalue.color.name;
-                                                    var unit_id =dvalue.quantity_unit_id;
-                                                   var unit_text =dvalue.quantity_unit.name;
-                                                    var measurement =dvalue.measurement;
-                                                    var quantity =dvalue.quantity;
-                                                    var weight =dvalue.weight?dvalue.weight:'';
-                                                    var weight_unit_id =dvalue.weight_unit_id != null ? dvalue.weight_unit_id : '';
-                                                    var weight_unit_text = dvalue.weight_unit != null ? dvalue.weight_unit.name : '';
-                                                    var rate =dvalue.unit_price;
-                                                    var total =dvalue.total_price;
-                                                    var description =dvalue.description;
-                                                    var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
-                                                    html = `<tr>
-                                    <td>
-                                        <input type="hidden" name="workorders[]" value="${value.id}"/>
-                                        ${value.order_number}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="product_ids[]" value="${product_id}"/>
-                                        ${product_text}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="style_ids[]" value="${style_id}"/>
-                                        ${style_text}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="color_ids[]" value="${color_id}"/>
-                                        ${color_text}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="measurements[]" value="${measurement}"/>
-                                        ${measurement}
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
+                                // Access the elements by their IDs and return their checked status
+                                return checkedValues;
+                            }
+                        }).then((result) => {
 
-                                                    <input type="text" name="weights[]" class="form-control"
-                                                        value="${weight}" />
-                                                    <input type="hidden" name="weight_unit_ids[]"
-                                                        value="${weight_unit_id}" />
-                                                    <div class="input-group-append">
-                                                        <span
-                                                            class="input-group-text">${weight_unit_text}</span>
-                                                    </div>
-                                                </div>
+                            if (result.isConfirmed) {
 
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
+                                var wo_details_ids = result.value;
 
-                                                    <input type="text" name="quantities[]" class="form-control"
-                                                        value="${quantity}" />
-                                                    <input type="hidden" name="unit_ids[]"
-                                                        value="${unit_id}" />
-                                                    <div class="input-group-append">
-                                                        <span
-                                                            class="input-group-text">${unit_text}</span>
-                                                    </div>
-                                                </div>
-                                        
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
+                                $.ajax({
+                                    url: "{{ route('admin.get_workorder_details_by_id', ['workorder_details_id' => '*']) }}".replace('*', wo_details_ids),
+                                    type: 'GET',
+                                    success: function(details) {
 
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">${currency_symbol}</span>
-                                                    </div>
-                                                    <input type="text" name="rates[]" class="form-control"
-                                                        value="${rate}" />
-                                                </div>
-                                    
-                                    </td>
-                                    <td>
-                                        <div class="input-group mb-3">
-
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">${currency_symbol}</span>
-                                            </div>
-                                        <input type="text" readonly name="totals[]" value="${total}" class="form-control"/>
-                                        
-                                    </td>
-                                    <td>
-                                        <input type="text" name="details_description[]"  class="form-control" value="${description?description:''}"/>
-                                        
-                                    </td>
-                                    </tr>`;
-                                                    $("#workorder_item_table tbody")
-.append(
-                                                            html
-                                                        );
-                                                }); //details loop
-
-                                            }); //data loop
+                                        if (clean == 1) {
+                                            $("#workorder_item_table").find("tbody").empty();
                                         }
-                                    });
-                                } else {
-                                    var index = 1;
-                                    $.each(data.pi_details, function(key, dvalue) {
+                                        $.each(details, function(dkey, dvalue) {
+                                            debugger;
+                                            var product_id = dvalue.product_id;
+                                            var product_text = dvalue.product.name;
+                                            var style_id = dvalue.style_id;
+                                            var style_text = dvalue.style.name;
+                                            var color_id = dvalue.color_id;
+                                            var color_text = dvalue.color.name;
+                                            var unit_id = dvalue.quantity_unit_id;
+                                            var unit_text = dvalue.quantity_unit.name;
+                                            var measurement = dvalue.measurement;
+                                            var quantity = dvalue.quantity;
+                                            var weight = dvalue.weight ? dvalue.weight : '';
+                                            var weight_unit_id = dvalue.weight_unit_id != null ? dvalue.weight_unit_id : '';
+                                            var weight_unit_text = dvalue.weight_unit != null ? dvalue.weight_unit.name : '';
+                                            var rate = dvalue.unit_price;
+                                            var total = dvalue.total_price;
+                                            var description = dvalue.description;
+                                            var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
 
-                                        debugger;
-                                        var product_id = dvalue.product_id;
-                                        var product_text = dvalue.product.name;
-                                        var style_id = dvalue.style_id;
-                                        var style_text = dvalue.style.name;
-                                        var color_id = dvalue.color_id;
-                                        var color_text = dvalue.color.name;
-                                        var unit_id = dvalue.quantity_unit_id;
-                                        var unit_text = dvalue.quantity_unit.name;
-                                        var weight = dvalue.weight?dvalue.weight:'';
-                                        var weight_unit_id = dvalue.weight_unit_id!=null?dvalue.weight_unit_id:'';
-                                        var weight_unit_text = dvalue.weight_unit!=null ? dvalue.weight_unit.name : '';
-                                        var measurement = dvalue.measurement;
-                                        var quantity = dvalue.quantity;
-                                        var rate = dvalue.unit_price;
-                                        var total = dvalue.total_price;
-                                        var description = dvalue.description;
+                                            html = `<tr>
+                                <td>
+                                    <input type="hidden" name="workorders[]" value="${dvalue.id}"/>
+                                    ${dvalue.work_order.order_number}
+                                </td>
+                                <td>
+                                    <input type="hidden" name="product_ids[]" value="${product_id}"/>
+                                    ${product_text}
+                                </td>
+                                <td>
+                                    <input type="hidden" name="style_ids[]" value="${style_id}"/>
+                                    ${style_text}
+                                </td>
+                                <td>
+                                    <input type="hidden" name="color_ids[]" value="${color_id}"/>
+                                    ${color_text}
+                                </td>
+                                <td>
+                                    <input type="hidden" name="measurements[]" value="${measurement}"/>
+                                    ${measurement}
+                                </td>
+                                <td>
 
-                                        var currency_symbol =$('#currency_id').find('option:selected').data('symbol') ||'';
+                                            <div class="input-group mb-3">
 
-                                        html = `<tr>
-                                    <td>
-                                        <input type="hidden" name="workorders[]" value="${dvalue.work_order_id}"/>
-                                        ${dvalue.workorder.order_number}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="product_ids[]" value="${product_id}"/>
-                                        ${product_text}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="style_ids[]" value="${style_id}"/>
-                                        ${style_text}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="color_ids[]" value="${color_id}"/>
-                                        ${color_text}
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="measurements[]" value="${measurement}"/>
-                                        ${measurement}
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
-
-                                                    <input type="text" name="weights[]" class="form-control"
-                                                        value="${weight}" />
-                                                    <input type="hidden" name="weight_unit_ids[]"
-                                                        value="${weight_unit_id}" />
-                                                    <div class="input-group-append">
-                                                        <span
-                                                            class="input-group-text">${weight_unit_text}</span>
-                                                    </div>
+                                                <input type="text" name="weights[]" class="form-control"
+                                                    value="${weight}" />
+                                                <input type="hidden" name="weight_unit_ids[]"
+                                                    value="${weight_unit_id}" />
+                                                <div class="input-group-append">
+                                                    <span
+                                                        class="input-group-text">${weight_unit_text}</span>
                                                 </div>
-
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
-
-                                                    <input type="text" name="quantities[]" class="form-control"
-                                                        value="${quantity}" />
-                                                    <input type="hidden" name="unit_ids[]"
-                                                        value="${unit_id}" />
-                                                    <div class="input-group-append">
-                                                        <span
-                                                            class="input-group-text">${unit_text}</span>
-                                                    </div>
-                                                </div>
-                                        
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
-
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">${currency_symbol}</span>
-                                                    </div>
-                                                    <input type="text" name="rates[]" class="form-control"
-                                                        value="${rate}" />
-                                                </div>
-                                    
-                                    </td>
-                                    <td>
-                                        <div class="input-group mb-3">
-
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">${currency_symbol}</span>
                                             </div>
-                                        <input type="text" readonly name="totals[]" value="${total}" class="form-control"/>
-                                        
-                                    </td>
-                                    <td>
-                                        <input type="text" name="details_description[]"  class="form-control" value="${description?description:''}"/>
-                                        
-                                    </td>
-                                    </tr>`;
-                                        $("#workorder_item_table tbody")
-                                            .append(html);
 
-                                    }); //data loop
-                                }
+                                </td>
+                                <td>
+
+                                            <div class="input-group mb-3">
+
+                                                <input type="text" name="quantities[]" class="form-control"
+                                                    value="${quantity}" />
+                                                <input type="hidden" name="unit_ids[]"
+                                                    value="${unit_id}" />
+                                                <div class="input-group-append">
+                                                    <span
+                                                        class="input-group-text">${unit_text}</span>
+                                                </div>
+                                            </div>
+
+                                </td>
+                                <td>
+
+                                            <div class="input-group mb-3">
+
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">${currency_symbol}</span>
+                                                </div>
+                                                <input type="text" name="rates[]" class="form-control"
+                                                    value="${rate}" />
+                                            </div>
+
+                                </td>
+                                <td>
+                                    <div class="input-group mb-3">
+
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">${currency_symbol}</span>
+                                        </div>
+                                    <input type="text" readonly name="totals[]" value="${total}" class="form-control"/>
+
+                                </td>
+                                <td>
+                                    <input type="text" name="details_description[]"  class="form-control" value="${description?description:''}"/>
+
+                                </td>
+                                
+                                                <td>
+                                                    <button type="button" data-details_id="${dvalue.id}" class="btn btn-danger btn-sm remove_item">Remove</button>
+                                                </td>
+                                </tr>`;
+                                            $("#workorder_item_table tbody").append(html);
+                                        }); //details loop
+                                    }
+                                });
+
                             }
                         });
+
                     }
                 });
-            });
+
+            }
 
             function num(v) {
                 const n = parseFloat(String(v).replace(/,/g, ''));
@@ -636,7 +604,7 @@
 
                 var terms = $("#term").val();
                 if (terms != '') {
-                    debugger;
+
                     html = `<tr>
                     <td>
                         <input type="text" class="form-control" name="terms_serial[]" value="${terms_count++}"/>

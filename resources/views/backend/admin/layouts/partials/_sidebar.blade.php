@@ -1,8 +1,7 @@
 <aside class="main-sidebar elevation-4 sidebar-dark-primary">
     <!-- Brand Logo -->
     <a href="{{ route('admin.home') }}" class="brand-link">
-        <span class="brand-text font-weight-bolder"> <img src="{{ asset('backend/dist/img/short_logo.png') }}"
-                alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+        <span class="brand-text font-weight-bolder"> <img src="{{ asset('backend/dist/img/short_logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
             TSIMS</span>
     </a>
 
@@ -21,8 +20,7 @@
         <!-- SidebarSearch Form -->
         <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                    aria-label="Search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">
                     <button class="btn btn-sidebar">
                         <i class="fas fa-search fa-fw"></i>
@@ -31,16 +29,7 @@
             </div>
             <div class="sidebar-search-results">
                 <div class="list-group"><a href="#" class="list-group-item">
-                        <div class="search-title"><strong class="text-light"></strong>N<strong
-                                class="text-light"></strong>o<strong class="text-light"></strong> <strong
-                                class="text-light"></strong>e<strong class="text-light"></strong>l<strong
-                                class="text-light"></strong>e<strong class="text-light"></strong>m<strong
-                                class="text-light"></strong>e<strong class="text-light"></strong>n<strong
-                                class="text-light"></strong>t<strong class="text-light"></strong> <strong
-                                class="text-light"></strong>f<strong class="text-light"></strong>o<strong
-                                class="text-light"></strong>u<strong class="text-light"></strong>n<strong
-                                class="text-light"></strong>d<strong class="text-light"></strong>!<strong
-                                class="text-light"></strong></div>
+                        <div class="search-title"><strong class="text-light"></strong>N<strong class="text-light"></strong>o<strong class="text-light"></strong> <strong class="text-light"></strong>e<strong class="text-light"></strong>l<strong class="text-light"></strong>e<strong class="text-light"></strong>m<strong class="text-light"></strong>e<strong class="text-light"></strong>n<strong class="text-light"></strong>t<strong class="text-light"></strong> <strong class="text-light"></strong>f<strong class="text-light"></strong>o<strong class="text-light"></strong>u<strong class="text-light"></strong>n<strong class="text-light"></strong>d<strong class="text-light"></strong>!<strong class="text-light"></strong></div>
                         <div class="search-path"></div>
                     </a></div>
             </div>
@@ -48,14 +37,12 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview"
-                role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('admin.home') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.home') active @endif">
+                    <a href="{{ route('admin.home') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.home') active @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -63,360 +50,18 @@
                     </a>
                 </li>
 
+                        <li class="nav-item">
+                            <a href="{{ route('admin.website_settings.index') }}" class="nav-link
+                        @if (Route::currentRouteName() == 'admin.website_settings.index' || Route::currentRouteName() == 'admin.website_settings.create' || Route::currentRouteName() == 'admin.website_settings.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Company Settings
+                                </p>
+                            </a>
+                        </li>
 
-
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.country.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.country.index' ||
-                    Route::currentRouteName() == 'admin.country.create' ||
-                    Route::currentRouteName() == 'admin.country.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Country
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.department.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.department.index' ||
-                    Route::currentRouteName() == 'admin.department.create' ||
-                    Route::currentRouteName() == 'admin.department.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Department
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.designation.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.designation.index' ||
-                    Route::currentRouteName() == 'admin.designation.create' ||
-                    Route::currentRouteName() == 'admin.designation.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Designation
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.buyer.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.buyer.index' ||
-                    Route::currentRouteName() == 'admin.buyer.create' ||
-                    Route::currentRouteName() == 'admin.buyer.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Buyer
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.product_group.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.product_group.index' ||
-                    Route::currentRouteName() == 'admin.product_group.create' ||
-                    Route::currentRouteName() == 'admin.product_group.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Product Groups
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.product_category.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.product_category.index' ||
-                    Route::currentRouteName() == 'admin.product_category.create' ||
-                    Route::currentRouteName() == 'admin.product_category.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Product Category
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.product_sub_category.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.product_sub_category.index' ||
-                    Route::currentRouteName() == 'admin.product_sub_category.create' ||
-                    Route::currentRouteName() == 'admin.product_sub_category.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Product Sub Category
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.product.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.product.index' ||
-                    Route::currentRouteName() == 'admin.product.create' ||
-                    Route::currentRouteName() == 'admin.product.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Product
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.color.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.color.index' ||
-                    Route::currentRouteName() == 'admin.color.create' ||
-                    Route::currentRouteName() == 'admin.color.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Color
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.measurement.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.measurement.index' ||
-                    Route::currentRouteName() == 'admin.measurement.create' ||
-                    Route::currentRouteName() == 'admin.measurement.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Measurement
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.style.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.style.index' ||
-                    Route::currentRouteName() == 'admin.style.create' ||
-                    Route::currentRouteName() == 'admin.style.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Style
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.supplier.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.supplier.index' ||
-                    Route::currentRouteName() == 'admin.supplier.create' ||
-                    Route::currentRouteName() == 'admin.supplier.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Supplier
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.customer.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.customer.index' ||
-                    Route::currentRouteName() == 'admin.customer.create' ||
-                    Route::currentRouteName() == 'admin.customer.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Customer
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.merchandiser.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.merchandiser.index' ||
-                    Route::currentRouteName() == 'admin.merchandiser.create' ||
-                    Route::currentRouteName() == 'admin.merchandiser.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Merchandiser
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.terms_condition.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.terms_condition.index' ||
-                    Route::currentRouteName() == 'admin.terms_condition.create' ||
-                    Route::currentRouteName() == 'admin.terms_condition.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Terms & Condition
-                        </p>
-                    </a>
-                </li>
-
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.units.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.units.index' ||
-                    Route::currentRouteName() == 'admin.units.create' ||
-                    Route::currentRouteName() == 'admin.units.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Unit
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.inquery.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.inquery.index' ||
-                    Route::currentRouteName() == 'admin.inquery.show' ) active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Inquery
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.workorder.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.workorder.index' ||
-                    Route::currentRouteName() == 'admin.workorder.create' ||
-                    Route::currentRouteName() == 'admin.workorder.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Work Order
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.proforma_invoice.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.proforma_invoice.index' ||
-                    Route::currentRouteName() == 'admin.proforma_invoice.create' ||
-                    Route::currentRouteName() == 'admin.proforma_invoice.edit'||
-                    Route::currentRouteName() == 'admin.proforma_invoice.show') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Proforma Invoice(PI)
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.purchase_order.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.purchase_order.index' ||
-                    Route::currentRouteName() == 'admin.purchase_order.create' ||
-                    Route::currentRouteName() == 'admin.purchase_order.edit'||
-                    Route::currentRouteName() == 'admin.purchase_order.show') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Purchase Order (PO)
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.payment_terms.index') }}"
-                        class="nav-link
-            @if (Route::currentRouteName() == 'admin.payment_terms.index' ||
-                    Route::currentRouteName() == 'admin.payment_terms.create' ||
-                    Route::currentRouteName() == 'admin.payment_terms.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Payment Terms
-                        </p>
-                    </a>
-                </li>
-                
-                <li class="nav-item">
-                    <a href="{{ route('admin.bank.index') }}"
-                        class="nav-link
-                    @if (Route::currentRouteName() == 'admin.bank.index' ||
-                    Route::currentRouteName() == 'admin.bank.create' ||
-                    Route::currentRouteName() == 'admin.bank.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Bank
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.lc_type.index') }}"
-                        class="nav-link
-                    @if (Route::currentRouteName() == 'admin.lc_type.index' ||
-                    Route::currentRouteName() == 'admin.lc_type.create' ||
-                    Route::currentRouteName() == 'admin.lc_type.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            LC Type
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.currency.index') }}"
-                        class="nav-link
-                    @if (Route::currentRouteName() == 'admin.currency.index' ||
-                    Route::currentRouteName() == 'admin.currency.create' ||
-                    Route::currentRouteName() == 'admin.currency.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Currency
-                        </p>
-                    </a>
-                </li><li class="nav-item">
-                    <a href="{{ route('admin.bank_account.index') }}"
-                        class="nav-link
-                    @if (Route::currentRouteName() == 'admin.bank_account.index' ||
-                    Route::currentRouteName() == 'admin.bank_account.create' ||
-                    Route::currentRouteName() == 'admin.bank_account.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Bank Account
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.transport_agent.index') }}"
-                        class="nav-link
-                    @if (Route::currentRouteName() == 'admin.transport_agent.index' ||
-                    Route::currentRouteName() == 'admin.transport_agent.create' ||
-                    Route::currentRouteName() == 'admin.transport_agent.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Transport Agent
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.shipping_type.index') }}"
-                        class="nav-link
-                    @if (Route::currentRouteName() == 'admin.shipping_type.index' ||
-                    Route::currentRouteName() == 'admin.shipping_type.create' ||
-                    Route::currentRouteName() == 'admin.shipping_type.edit') active @endif">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Shipping Type
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-item 
-                      @if (Route::currentRouteName() == 'admin.pages.index' ||
-                              Route::currentRouteName() == 'admin.pages.create' ||
-                              Route::currentRouteName() == 'admin.pages.edit' ||
-                              Route::currentRouteName() == 'admin.sliders.index' ||
-                              Route::currentRouteName() == 'admin.sliders.create' ||
-                              Route::currentRouteName() == 'admin.sliders.edit' ||
-                              Route::currentRouteName() == 'admin.certification.index' ||
-                              Route::currentRouteName() == 'admin.certification.create' ||
-                              Route::currentRouteName() == 'admin.certification.edit' ||
-                              Route::currentRouteName() == 'admin.speciality.index' ||
-                              Route::currentRouteName() == 'admin.speciality.create' ||
-                              Route::currentRouteName() == 'admin.speciality.edit' ||
-                              Route::currentRouteName() == 'admin.website_settings.index' ||
-                              Route::currentRouteName() == 'admin.website_settings.create' ||
-                              Route::currentRouteName() == 'admin.website_settings.edit' ||
-                              Route::currentRouteName() == 'admin.team.index' ||
-                              Route::currentRouteName() == 'admin.team.create' ||
-                              Route::currentRouteName() == 'admin.team.edit') menu-open @endif">
+                            @if (Route::currentRouteName() == 'admin.pages.index' || Route::currentRouteName() == 'admin.pages.create' || Route::currentRouteName() == 'admin.pages.edit' || Route::currentRouteName() == 'admin.sliders.index' || Route::currentRouteName() == 'admin.sliders.create' || Route::currentRouteName() == 'admin.sliders.edit' || Route::currentRouteName() == 'admin.certification.index' || Route::currentRouteName() == 'admin.certification.create' || Route::currentRouteName() == 'admin.certification.edit' || Route::currentRouteName() == 'admin.speciality.index' || Route::currentRouteName() == 'admin.speciality.create' || Route::currentRouteName() == 'admin.speciality.edit' || Route::currentRouteName() == 'admin.team.index' || Route::currentRouteName() == 'admin.team.create' || Route::currentRouteName() == 'admin.team.edit') menu-open @endif">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
@@ -427,11 +72,8 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.pages.index') }}"
-                                class="nav-link
-                  @if (Route::currentRouteName() == 'admin.pages.index' ||
-                          Route::currentRouteName() == 'admin.pages.create' ||
-                          Route::currentRouteName() == 'admin.pages.edit') active @endif">
+                            <a href="{{ route('admin.pages.index') }}" class="nav-link
+                        @if (Route::currentRouteName() == 'admin.pages.index' || Route::currentRouteName() == 'admin.pages.create' || Route::currentRouteName() == 'admin.pages.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Pages
@@ -440,11 +82,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.sliders.index') }}"
-                                class="nav-link
-                  @if (Route::currentRouteName() == 'admin.sliders.index' ||
-                          Route::currentRouteName() == 'admin.sliders.create' ||
-                          Route::currentRouteName() == 'admin.sliders.edit') active @endif">
+                            <a href="{{ route('admin.sliders.index') }}" class="nav-link
+                        @if (Route::currentRouteName() == 'admin.sliders.index' || Route::currentRouteName() == 'admin.sliders.create' || Route::currentRouteName() == 'admin.sliders.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Sliders
@@ -452,11 +91,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.certification.index') }}"
-                                class="nav-link
-                  @if (Route::currentRouteName() == 'admin.certification.index' ||
-                          Route::currentRouteName() == 'admin.certification.create' ||
-                          Route::currentRouteName() == 'admin.certification.edit') active @endif">
+                            <a href="{{ route('admin.certification.index') }}" class="nav-link
+                        @if (Route::currentRouteName() == 'admin.certification.index' || Route::currentRouteName() == 'admin.certification.create' || Route::currentRouteName() == 'admin.certification.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Certification
@@ -465,11 +101,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.speciality.index') }}"
-                                class="nav-link
-                  @if (Route::currentRouteName() == 'admin.speciality.index' ||
-                          Route::currentRouteName() == 'admin.speciality.create' ||
-                          Route::currentRouteName() == 'admin.speciality.edit') active @endif">
+                            <a href="{{ route('admin.speciality.index') }}" class="nav-link
+                        @if (Route::currentRouteName() == 'admin.speciality.index' || Route::currentRouteName() == 'admin.speciality.create' || Route::currentRouteName() == 'admin.speciality.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Speciality
@@ -477,11 +110,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.team.index') }}"
-                                class="nav-link
-                  @if (Route::currentRouteName() == 'admin.team.index' ||
-                          Route::currentRouteName() == 'admin.team.create' ||
-                          Route::currentRouteName() == 'admin.team.edit') active @endif">
+                            <a href="{{ route('admin.team.index') }}" class="nav-link
+                        @if (Route::currentRouteName() == 'admin.team.index' || Route::currentRouteName() == 'admin.team.create' || Route::currentRouteName() == 'admin.team.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Team
@@ -489,615 +119,344 @@
                             </a>
                         </li>
 
+                    </ul>
+                </li>
+
+
+                <li class="nav-item 
+                            @if (Route::currentRouteName() == 'admin.product_group.index' || Route::currentRouteName() == 'admin.product_group.create' || Route::currentRouteName() == 'admin.product_group.edit' || Route::currentRouteName() == 'admin.product_category.index' || Route::currentRouteName() == 'admin.product_category.create' || Route::currentRouteName() == 'admin.product_category.edit' || Route::currentRouteName() == 'admin.product_sub_category.index' || Route::currentRouteName() == 'admin.product_sub_category.create' || Route::currentRouteName() == 'admin.product_sub_category.edit' || Route::currentRouteName() == 'admin.product.index' || Route::currentRouteName() == 'admin.product.create' || Route::currentRouteName() == 'admin.product.edit' || Route::currentRouteName() == 'admin.product.show') menu-open @endif">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Product Management
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.website_settings.index') }}"
-                                class="nav-link
-                  @if (Route::currentRouteName() == 'admin.website_settings.index' ||
-                          Route::currentRouteName() == 'admin.website_settings.create' ||
-                          Route::currentRouteName() == 'admin.website_settings.edit') active @endif">
+                            <a href="{{ route('admin.product_group.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.product_group.index' || Route::currentRouteName() == 'admin.product_group.create' || Route::currentRouteName() == 'admin.product_group.edit') active @endif">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Website Settings
+                                    Product Groups
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.product_category.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.product_category.index' || Route::currentRouteName() == 'admin.product_category.create' || Route::currentRouteName() == 'admin.product_category.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Product Category
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.product_sub_category.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.product_sub_category.index' || Route::currentRouteName() == 'admin.product_sub_category.create' || Route::currentRouteName() == 'admin.product_sub_category.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Product Sub Category
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.product.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.product.index' || Route::currentRouteName() == 'admin.product.create' || Route::currentRouteName() == 'admin.product.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Product
                                 </p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                {{--           
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Layout Options
-                <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">6</span>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: none;">
-              <li class="nav-item">
-                <a href="../layout/top-nav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/top-nav-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation + Sidebar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/boxed.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Boxed</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-sidebar-custom.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar <small>+ Custom Area</small></p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-topnav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Navbar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-footer.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Footer</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/collapsed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Collapsed Sidebar</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Charts
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tree"></i>
-              <p>
-                UI Elements
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: none;">
-              <li class="nav-item">
-                <a href="../UI/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/icons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Icons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/buttons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Buttons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/sliders.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sliders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/modals.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Modals &amp; Alerts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/navbar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Navbar &amp; Tabs</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/timeline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Timeline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/ribbons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ribbons</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item menu-is-opening menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Forms
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: block;">
-              <li class="nav-item">
-                <a href="../forms/general.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../forms/advanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../forms/editors.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../forms/validation.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Tables
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../tables/data.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../tables/jsgrid.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-header">EXAMPLES</li>
-          <li class="nav-item">
-            <a href="../calendar.html" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
-              <p>
-                Calendar
-                <span class="badge badge-info right">2</span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Gallery
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../kanban.html" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Kanban Board
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
-              <p>
-                Mailbox
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../mailbox/mailbox.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inbox</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../mailbox/compose.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Compose</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../mailbox/read-mail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Read</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Pages
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../examples/invoice.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Invoice</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/profile.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/e-commerce.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>E-commerce</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/projects.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/project-add.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Add</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/project-edit.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Edit</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/project-detail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Detail</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/contacts.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contacts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/faq.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/contact-us.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contact us</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-plus-square"></i>
-              <p>
-                Extras
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login &amp; Register v1
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="../examples/login.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/register.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/forgot-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/recover-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v1</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login &amp; Register v2
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="../examples/login-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/register-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/forgot-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/recover-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v2</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/lockscreen.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lockscreen</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/legacy-user-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Legacy User Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/language-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Language Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/404.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 404</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/500.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 500</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/pace.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Pace</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../examples/blank.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Blank Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="backend/starter.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Starter Page</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-search"></i>
-              <p>
-                Search
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../search/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Search</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../search/enhanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Enhanced</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-header">MISCELLANEOUS</li>
-          <li class="nav-item">
-            <a href="backend/iframe.html" class="nav-link">
-              <i class="nav-icon fas fa-ellipsis-h"></i>
-              <p>Tabbed IFrame Plugin</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://adminlte.io/docs/3.1/" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Documentation</p>
-            </a>
-          </li>
-          <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                Level 1
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Level 2
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
+                <li class="nav-item 
+                            @if (Route::currentRouteName() == 'admin.department.index' || Route::currentRouteName() == 'admin.department.create' || Route::currentRouteName() == 'admin.department.edit' || 
+                            Route::currentRouteName() == 'admin.designation.index' || Route::currentRouteName() == 'admin.designation.create' || Route::currentRouteName() == 'admin.designation.edit' || 
+                            Route::currentRouteName() == 'admin.color.index' || Route::currentRouteName() == 'admin.color.create' || Route::currentRouteName() == 'admin.color.edit' || 
+                            Route::currentRouteName() == 'admin.style.index' || Route::currentRouteName() == 'admin.style.create' || Route::currentRouteName() == 'admin.style.edit'||
+                            Route::currentRouteName() == 'admin.units.index' || Route::currentRouteName() == 'admin.units.create' || Route::currentRouteName() == 'admin.units.edit'||
+                            Route::currentRouteName() == 'admin.country.index' || Route::currentRouteName() == 'admin.country.create' || Route::currentRouteName() == 'admin.country.edit'||
+                            Route::currentRouteName() == 'admin.currency.index' || Route::currentRouteName() == 'admin.currency.create' || Route::currentRouteName() == 'admin.currency.edit'||
+                            Route::currentRouteName() == 'admin.payment_terms.index' || Route::currentRouteName() == 'admin.payment_terms.create' || Route::currentRouteName() == 'admin.payment_terms.edit'||
+                            Route::currentRouteName() == 'admin.lc_type.index' || Route::currentRouteName() == 'admin.lc_type.create' || Route::currentRouteName() == 'admin.lc_type.edit'||
+                            Route::currentRouteName() == 'admin.transport_agent.index' || Route::currentRouteName() == 'admin.transport_agent.create' || Route::currentRouteName() == 'admin.transport_agent.edit'||
+                            Route::currentRouteName() == 'admin.shipping_type.index' || Route::currentRouteName() == 'admin.shipping_type.create' || Route::currentRouteName() == 'admin.shipping_type.edit'||
+                            Route::currentRouteName() == 'admin.terms_condition.index' || Route::currentRouteName() == 'admin.terms_condition.create' || Route::currentRouteName() == 'admin.terms_condition.edit'
+                            ) menu-open @endif">
                     <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Settings
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
-                  </li>
-                  <li class="nav-item">
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.department.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.department.index' || Route::currentRouteName() == 'admin.department.create' || Route::currentRouteName() == 'admin.department.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Department
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.designation.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.designation.index' || Route::currentRouteName() == 'admin.designation.create' || Route::currentRouteName() == 'admin.designation.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Designation
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.color.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.color.index' || Route::currentRouteName() == 'admin.color.create' || Route::currentRouteName() == 'admin.color.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Color
+                                </p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.style.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.style.index' || Route::currentRouteName() == 'admin.style.create' || Route::currentRouteName() == 'admin.style.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Style
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.units.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.units.index' || Route::currentRouteName() == 'admin.units.create' || Route::currentRouteName() == 'admin.units.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Unit
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.country.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.country.index' || Route::currentRouteName() == 'admin.country.create' || Route::currentRouteName() == 'admin.country.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Country
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.currency.index') }}" class="nav-link
+                          @if (Route::currentRouteName() == 'admin.currency.index' || Route::currentRouteName() == 'admin.currency.create' || Route::currentRouteName() == 'admin.currency.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Currency
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.payment_terms.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.payment_terms.index' || Route::currentRouteName() == 'admin.payment_terms.create' || Route::currentRouteName() == 'admin.payment_terms.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Payment Terms
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.lc_type.index') }}" class="nav-link
+                          @if (Route::currentRouteName() == 'admin.lc_type.index' || Route::currentRouteName() == 'admin.lc_type.create' || Route::currentRouteName() == 'admin.lc_type.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    LC Type
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.transport_agent.index') }}" class="nav-link
+                          @if (Route::currentRouteName() == 'admin.transport_agent.index' || Route::currentRouteName() == 'admin.transport_agent.create' || Route::currentRouteName() == 'admin.transport_agent.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Transport Agent
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.shipping_type.index') }}" class="nav-link
+                          @if (Route::currentRouteName() == 'admin.shipping_type.index' || Route::currentRouteName() == 'admin.shipping_type.create' || Route::currentRouteName() == 'admin.shipping_type.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Shipping Type
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.terms_condition.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.terms_condition.index' || Route::currentRouteName() == 'admin.terms_condition.create' || Route::currentRouteName() == 'admin.terms_condition.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Terms & Condition
+                                </p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item 
+                            @if (Route::currentRouteName() == 'admin.workorder.index' || Route::currentRouteName() == 'admin.workorder.create' || Route::currentRouteName() == 'admin.workorder.edit' || Route::currentRouteName() == 'admin.proforma_invoice.index' || Route::currentRouteName() == 'admin.proforma_invoice.create' || Route::currentRouteName() == 'admin.proforma_invoice.edit' || Route::currentRouteName() == 'admin.proforma_invoice.show' || Route::currentRouteName() == 'admin.purchase_order.index' || Route::currentRouteName() == 'admin.purchase_order.create' || Route::currentRouteName() == 'admin.purchase_order.edit' || Route::currentRouteName() == 'admin.purchase_order.show') menu-open @endif">
                     <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Order Management
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
-                  </li>
-                  <li class="nav-item">
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.workorder.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.workorder.index' || Route::currentRouteName() == 'admin.workorder.create' || Route::currentRouteName() == 'admin.workorder.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Work Order
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.proforma_invoice.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.proforma_invoice.index' || Route::currentRouteName() == 'admin.proforma_invoice.create' || Route::currentRouteName() == 'admin.proforma_invoice.edit' || Route::currentRouteName() == 'admin.proforma_invoice.show') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Proforma Invoice(PI)
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.purchase_order.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.purchase_order.index' || Route::currentRouteName() == 'admin.purchase_order.create' || Route::currentRouteName() == 'admin.purchase_order.edit' || Route::currentRouteName() == 'admin.purchase_order.show') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Purchase Order (PO)
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item 
+                            @if (Route::currentRouteName() == 'admin.buyer.index' || Route::currentRouteName() == 'admin.buyer.create' || Route::currentRouteName() == 'admin.buyer.edit' || Route::currentRouteName() == 'admin.customer.index' || Route::currentRouteName() == 'admin.customer.create' || Route::currentRouteName() == 'admin.customer.edit' || Route::currentRouteName() == 'admin.merchandiser.index' || Route::currentRouteName() == 'admin.merchandiser.create' || Route::currentRouteName() == 'admin.merchandiser.edit' || Route::currentRouteName() == 'admin.supplier.index' || Route::currentRouteName() == 'admin.supplier.create' || Route::currentRouteName() == 'admin.supplier.edit') menu-open @endif">
                     <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Client Management
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
-          <li class="nav-header">LABELS</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Important</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-warning"></i>
-              <p>Warning</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p>Informational</p>
-            </a>
-          </li> --}}
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.buyer.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.buyer.index' || Route::currentRouteName() == 'admin.buyer.create' || Route::currentRouteName() == 'admin.buyer.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Buyer
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.customer.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.customer.index' || Route::currentRouteName() == 'admin.customer.create' || Route::currentRouteName() == 'admin.customer.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Customer
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.merchandiser.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.merchandiser.index' || Route::currentRouteName() == 'admin.merchandiser.create' || Route::currentRouteName() == 'admin.merchandiser.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Merchandiser
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.supplier.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.supplier.index' || Route::currentRouteName() == 'admin.supplier.create' || Route::currentRouteName() == 'admin.supplier.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Supplier
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item 
+                            @if (Route::currentRouteName() == 'admin.bank.index' || Route::currentRouteName() == 'admin.bank.create' || Route::currentRouteName() == 'admin.bank.edit' || Route::currentRouteName() == 'admin.bank_account.index' || Route::currentRouteName() == 'admin.bank_account.create' || Route::currentRouteName() == 'admin.bank_account.edit') menu-open @endif">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Bank Management
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.bank.index') }}" class="nav-link
+                          @if (Route::currentRouteName() == 'admin.bank.index' || Route::currentRouteName() == 'admin.bank.create' || Route::currentRouteName() == 'admin.bank.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Bank
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.bank_account.index') }}" class="nav-link
+                          @if (Route::currentRouteName() == 'admin.bank_account.index' || Route::currentRouteName() == 'admin.bank_account.create' || Route::currentRouteName() == 'admin.bank_account.edit') active @endif">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Bank Account
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.inquery.index') }}" class="nav-link
+                  @if (Route::currentRouteName() == 'admin.inquery.index' || Route::currentRouteName() == 'admin.inquery.show') active @endif">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Inquery
+                        </p>
+                    </a>
+                </li>
 
                 <li class="nav-item ">
                     <a href="{{ route('admin.logout') }}" class="nav-link text-danger text-bold">
