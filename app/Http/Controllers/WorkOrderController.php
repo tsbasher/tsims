@@ -116,8 +116,8 @@ class WorkOrderController extends Controller
                         'weight' => $request->weights[$index],
                         'weight_unit_id' => $request->weight_unit_ids[$index],
                         'description' => $request->details_description[$index],
-                        'unit_price' => $request->rates[$index],
-                        'total_price' => $request->totals[$index],
+                        // 'unit_price' => $request->rates[$index],
+                        // 'total_price' => $request->totals[$index],
                     ]);
                 }
             }
@@ -201,8 +201,8 @@ class WorkOrderController extends Controller
                         'weight' => $request->weights[$index],
                         'weight_unit_id' => $request->weight_unit_ids[$index],
                         'description' => $request->details_description[$index],
-                        'unit_price' => $request->rates[$index],
-                        'total_price' => $request->totals[$index],
+                        // 'unit_price' => $request->rates[$index],
+                        // 'total_price' => $request->totals[$index],
                     ]);
                 }
             }
@@ -237,7 +237,7 @@ class WorkOrderController extends Controller
     }
     public function get_workorder_by_customer($customer_id)
     {
-        $pi_wo=ProformaInvoiceDetails::with(['proformaInvoice'=>function($query) use ($customer_id){
+        $pi_wo=ProformaInvoiceDetails::with(['proforma_invoice'=>function($query) use ($customer_id){
             $query->where('customer_id',$customer_id);
         }])->get()->pluck('work_order_id')->unique()->toArray();
         //Check if pi has LC against workorder, if yes then do not show workorder in list

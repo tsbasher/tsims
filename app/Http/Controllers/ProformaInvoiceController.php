@@ -32,7 +32,7 @@ class ProformaInvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $pis = ProformaInvoice::with(['customer', 'buyer', 'details','currency']);
+        $pis = ProformaInvoice::query();
         if ($request->has('customer_id') && isset($request->customer_id)) {
             $pis->where('customer_id', $request->customer_id);
         }
@@ -92,6 +92,14 @@ class ProformaInvoiceController extends Controller
             'refference_number' => 'nullable|string|max:100',
             'pi_date' => 'required|date',
             'pi_expire_date' => 'nullable|date',
+            'workorders' => 'required|array',
+            'workorders.*' => 'required|exists:work_orders,id',
+            'workorder_details' => 'required|array',
+            'workorder_details.*' => 'required|exists:work_order_details,id',
+            'rates' => 'required|array',
+            'rates.*' => 'required|numeric|min:1',
+            'totals' => 'required|array',
+            'totals.*' => 'required|numeric|min:1',
         ]);
         $max_order = ProformaInvoice::whereYear('created_at', date('Y'))->max('id');
         $order_number = 'ITPI-' . date('Y') . '-' . str_pad($max_order + 1, 4, '0', STR_PAD_LEFT);
@@ -109,21 +117,22 @@ class ProformaInvoiceController extends Controller
 
         DB::transaction(function () use ($data, $request) {
             $proformaInvoice = ProformaInvoice::create($data);
-            if ($request->has('product_ids')) {
-                for ($index = 0; $index < count($request->product_ids); $index++) {
+            if ($request->has('workorder_details')) {
+                for ($index = 0; $index < count($request->workorder_details); $index++) {
                     ProformaInvoiceDetails::create([
                         
                         'proforma_invoice_id' => $proformaInvoice->id,
                         'work_order_id' => $request->workorders[$index],
-                        'product_id' => $request->product_ids[$index],
-                        'color_id' => $request->color_ids[$index],
-                        'style_id' => $request->style_ids[$index],
-                        'measurement' => $request->measurements[$index],
-                        'quantity' => $request->quantities[$index],
-                        'quantity_unit_id' => $request->unit_ids[$index],
-                        'weight' => $request->weights[$index],
-                        'weight_unit_id' => $request->weight_unit_ids[$index],
-                        'description' => $request->details_description[$index],
+                        'work_order_details_id' => $request->workorder_details[$index],
+                        // 'product_id' => $request->product_ids[$index],
+                        // 'color_id' => $request->color_ids[$index],
+                        // 'style_id' => $request->style_ids[$index],
+                        // 'measurement' => $request->measurements[$index],
+                        // 'quantity' => $request->quantities[$index],
+                        // 'quantity_unit_id' => $request->unit_ids[$index],
+                        // 'weight' => $request->weights[$index],
+                        // 'weight_unit_id' => $request->weight_unit_ids[$index],
+                        // 'description' => $request->details_description[$index],
                         'unit_price' => $request->rates[$index],
                         'total_price' => $request->totals[$index],
                     ]);
@@ -148,7 +157,7 @@ class ProformaInvoiceController extends Controller
      */
     public function show($id)
     {
-        $pi=ProformaInvoice::with(['details', 'termsConditions','currency'])->findOrFail($id);
+        $pi=ProformaInvoice::findOrFail($id);
         $settings=WebsiteSetting::first();
         // dd($settings);
             
@@ -160,7 +169,7 @@ class ProformaInvoiceController extends Controller
      */
     public function edit($id)
     {
-        $pi=ProformaInvoice::with(['customer','buyer','details', 'termsConditions','currency'])->findOrFail($id);
+        $pi=ProformaInvoice::findOrFail($id);
         
         $buyers = Buyers::get();
         $customers = Customer::get();
@@ -191,6 +200,14 @@ class ProformaInvoiceController extends Controller
             'refference_number' => 'nullable|string|max:100',
             'pi_date' => 'required|date',
             'pi_expire_date' => 'nullable|date',
+            'workorders' => 'required|array',
+            'workorders.*' => 'required|exists:work_orders,id',
+            'workorder_details' => 'required|array',
+            'workorder_details.*' => 'required|exists:work_order_details,id',
+            'rates' => 'required|array',
+            'rates.*' => 'required|numeric|min:1',
+            'totals' => 'required|array',
+            'totals.*' => 'required|numeric|min:1',
         ]);
         $data = $request->only([
             'pi_number',
@@ -208,20 +225,12 @@ class ProformaInvoiceController extends Controller
             $proformaInvoice->update($data);
 
             ProformaInvoiceDetails::where('proforma_invoice_id', $proformaInvoice->id)->delete();
-            if ($request->has('product_ids')) {
-                for ($index = 0; $index < count($request->product_ids); $index++) {
+            if ($request->has('workorder_details')) {
+                for ($index = 0; $index < count($request->workorder_details); $index++) {
                     ProformaInvoiceDetails::create([
                         'proforma_invoice_id' => $proformaInvoice->id,
                         'work_order_id' => $request->workorders[$index],
-                        'product_id' => $request->product_ids[$index],
-                        'color_id' => $request->color_ids[$index],
-                        'style_id' => $request->style_ids[$index],
-                        'measurement' => $request->measurements[$index],
-                        'quantity' => $request->quantities[$index],
-                        'quantity_unit_id' => $request->unit_ids[$index],
-                        'weight' => $request->weights[$index],
-                        'weight_unit_id' => $request->weight_unit_ids[$index],
-                        'description' => $request->details_description[$index],
+                        'work_order_details_id' => $request->workorder_details[$index],
                         'unit_price' => $request->rates[$index],
                         'total_price' => $request->totals[$index],
                     ]);
@@ -271,9 +280,11 @@ class ProformaInvoiceController extends Controller
     }
     public function get_pi_details_by_pi_workorder($pi_id, $workorder_id)
     {
-        $pi_details = ProformaInvoiceDetails::with(['product', 'style', 'color', 'quantity_unit', 'workorder','weight_unit'])
+        $pi_details = ProformaInvoiceDetails::query()
             ->where('work_order_id', $workorder_id)->where('proforma_invoice_id',$pi_id)
             ->get();
+            $pi_details->load('work_order','work_order_details.product','work_order_details.style','work_order_details.color','work_order_details.quantity_unit','work_order_details.weight_unit');
+            // dd($pi_details);
         return response()->json(['pi_details' => $pi_details]);
     }
 }

@@ -170,7 +170,6 @@
                                         <th>Style</th>
                                         <th>Color</th>
                                         <th>Measurement</th>
-                                        <th>Weight Per Unit</th>
                                         <th>Quantity</th>
                                         <th>Rate</th>
                                         <th>Total</th>
@@ -288,10 +287,7 @@
                                         <th>Style</th>
                                         <th>Color</th>
                                         <th>Measurement</th>
-                                        <th>Weight Per Unit</th>
                                         <th>Quantity</th>
-                                        <th>Rate</th>
-                                        <th>Total</th>
                                         <th>Note</th>
                                     </tr>
                                 </thead>
@@ -299,23 +295,19 @@
                                 `;
 
                                 $.each(data.details, function(dkey, dvalue) {
-
+debugger;
                                     var product_text = dvalue.product.name;
                                     var style_text = dvalue.style.name;
                                     var color_text = dvalue.color.name;
                                     var unit_text = dvalue.quantity_unit.name;
                                     var measurement = dvalue.measurement;
                                     var quantity = dvalue.quantity;
-                                    var weight = dvalue.weight ? dvalue.weight : '';
-                                    var weight_unit_text = dvalue.weight_unit != null ? dvalue.weight_unit.name : '';
-                                    var rate = dvalue.unit_price;
-                                    var total = dvalue.total_price;
                                     var description = dvalue.description;
                                     var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
 
                                     html += `<tr>
                                 <td>
-                                    <input type="checkbox" name="workorders[]" class="swal2-wo" value="${dvalue.id}"/>
+                                    <input type="checkbox" name="workorder_details[]" class="swal2-wo" value="${dvalue.id}"/>
                                 </td>
                                 <td>${data.order_number}</td>
                                 <td>
@@ -330,10 +322,9 @@
                                 <td>
                                     ${measurement}
                                 </td>
-                                <td>${weight} ${weight_unit_text}</td>
-                                <td>${quantity} ${unit_text}</td>
-                                <td>${currency_symbol} ${rate}</td>
-                                <td>${currency_symbol} ${total}</td>
+                                <td>
+                                    ${quantity}
+                                </td>
                                 <td>${description?description:''}</td>
                                 </tr>`;
                                 }); //details loop
@@ -368,68 +359,40 @@
                     $("#workorder_item_table").find("tbody").empty();
                                                 $.each(details, function(dkey, dvalue) {
                                                     debugger;
-                                                    var product_id = dvalue.product_id;
                                                     var product_text = dvalue.product.name;
-                                                    var style_id = dvalue.style_id;
                                                     var style_text = dvalue.style.name;
-                                                    var color_id = dvalue.color_id;
                                                     var color_text = dvalue.color.name;
-                                                    var unit_id = dvalue.quantity_unit_id;
                                                     var unit_text = dvalue.quantity_unit.name;
                                                     var measurement = dvalue.measurement;
                                                     var quantity = dvalue.quantity;
-                                                    var weight = dvalue.weight ? dvalue.weight : '';
-                                                    var weight_unit_id = dvalue.weight_unit_id != null ? dvalue.weight_unit_id : '';
-                                                    var weight_unit_text = dvalue.weight_unit != null ? dvalue.weight_unit.name : '';
-                                                    var rate = dvalue.unit_price;
-                                                    var total = dvalue.total_price;
+                                                    var rate = dvalue.unit_price?dvalue.unit_price:0;
+                                                    var total = dvalue.total_price?dvalue.total_price:0;
                                                     var description = dvalue.description;
                                                     var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
 
                                                     html = `<tr>
                                 <td>
-                                    <input type="hidden" name="workorders[]" value="${dvalue.id}"/>
+                                    <input type="hidden" name="workorder_details[]" value="${dvalue.id}"/>
                                     ${dvalue.work_order.order_number}
                                 </td>
                                 <td>
-                                    <input type="hidden" name="product_ids[]" value="${product_id}"/>
                                     ${product_text}
                                 </td>
                                 <td>
-                                    <input type="hidden" name="style_ids[]" value="${style_id}"/>
                                     ${style_text}
                                 </td>
                                 <td>
-                                    <input type="hidden" name="color_ids[]" value="${color_id}"/>
                                     ${color_text}
                                 </td>
                                 <td>
-                                    <input type="hidden" name="measurements[]" value="${measurement}"/>
                                     ${measurement}
                                 </td>
                                 <td>
 
                                             <div class="input-group mb-3">
 
-                                                <input type="text" name="weights[]" class="form-control"
-                                                    value="${weight}" />
-                                                <input type="hidden" name="weight_unit_ids[]"
-                                                    value="${weight_unit_id}" />
-                                                <div class="input-group-append">
-                                                    <span
-                                                        class="input-group-text">${weight_unit_text}</span>
-                                                </div>
-                                            </div>
-
-                                </td>
-                                <td>
-
-                                            <div class="input-group mb-3">
-
-                                                <input type="text" name="quantities[]" class="form-control"
+                                                <input type="text"  name="quantities[]" class="form-control"
                                                     value="${quantity}" />
-                                                <input type="hidden" name="unit_ids[]"
-                                                    value="${unit_id}" />
                                                 <div class="input-group-append">
                                                     <span
                                                         class="input-group-text">${unit_text}</span>

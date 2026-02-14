@@ -130,7 +130,7 @@
                                     <th>Customer</th>
                                     <th>Buyer</th>
                                     <th>Date</th>
-                                    <th>Total Price</th>
+                                    <th>Reference Number</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -142,7 +142,7 @@
                                         <td>{{ $workorder->customer->name }}</td>
                                         <td>{{ $workorder->buyer?$workorder->buyer->name:"N/A" }}</td>
                                         <td>{{ date('d F Y',strtotime($workorder->order_date)) }}</td>
-                                        <td>{{ number_format($workorder->details->sum('total_price'),2) }}</td>
+                                        <td>{{ $workorder->reference_number }}</td>
                                         
                                         <td>
                                             <a href="{{ route('admin.workorder.edit', $workorder->id) }}"

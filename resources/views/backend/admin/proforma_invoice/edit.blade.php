@@ -180,7 +180,6 @@
                                         <th>Style</th>
                                         <th>Color</th>
                                         <th>Measurement</th>
-                                        <th>Weight Per Unit</th>
                                         <th>Quantity</th>
                                         <th>Rate</th>
                                         <th>Total</th>
@@ -192,52 +191,34 @@
                                         <tr>
                                             <td>
                                                 <input type="hidden" name="workorders[]" value="{{ $details->work_order_id }}" />
-                                                {{ $details->workOrder->order_number }}
+                                                <input type="hidden" name="workorder_details[]" value="{{ $details->work_order_details_id }}" />
+                                                {{ $details->work_order->order_number }}
                                             </td>
                                             <td>
-                                                <input type="hidden" name="product_ids[]" value="{{ $details->product_id }}" />
-                                                {{ $details->product->name }}
+                                                {{-- <input type="hidden" name="product_ids[]" value="{{ $details->work_order_details->product_id }}" /> --}}
+                                                {{ $details->work_order_details->product->name }}
                                             </td>
                                             <td>
-                                                <input type="hidden" name="style_ids[]" value="{{ $details->style_id }}" />
-                                                {{ $details->style->name }}
+                                                {{-- <input type="hidden" name="style_ids[]" value="{{ $details->style_id }}" /> --}}
+                                                {{ $details->work_order_details->style->name }}
                                             </td>
                                             <td>
-                                                <input type="hidden" name="color_ids[]" value="{{ $details->color_id }}" />
-                                                {{ $details->color->name }}
+                                                {{-- <input type="hidden" name="color_ids[]" value="{{ $details->color_id }}" /> --}}
+                                                {{ $details->work_order_details->color->name }}
                                             </td>
                                             <td>
-                                                <input type="hidden" name="measurements[]" value="{{ $details->measurement }}" />
-                                                {{ $details->measurement }}
-                                            </td>
-                                            <td>
-
-
-                                                <div class="input-group mb-3">
-
-                                                    <input type="text" name="weights[]" class="form-control" value="{{ $details->weight }}" />
-                                                    <input type="hidden" name="weight_unit_ids[]" value="{{ $details->weight_unit_id }}" />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">{{ $details->weight_unit ? $details->weight_unit->name : '' }}</span>
-                                                    </div>
-                                                </div>
-
-
-
-
-
-
-
+                                                {{-- <input type="hidden" name="measurements[]" value="{{ $details->measurement }}" /> --}}
+                                                {{ $details->work_order_details->measurement }}
                                             </td>
                                             <td>
 
 
                                                 <div class="input-group mb-3">
 
-                                                    <input type="text" name="quantities[]" class="form-control" value="{{ $details->quantity }}" />
-                                                    <input type="hidden" name="unit_ids[]" value="{{ $details->quantity_unit_id }}" />
+                                                    <input type="text" name="quantities[]" readonly class="form-control" value="{{ $details->work_order_details->quantity }}" />
+                                                    {{-- <input type="hidden" name="unit_ids[]" value="{{ $details->quantity_unit_id }}" /> --}}
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text">{{ $details->quantity_unit ? $details->quantity_unit->name : '' }}</span>
+                                                        <span class="input-group-text">{{ $details->work_order_details->quantity_unit ? $details->work_order_details->quantity_unit->name : '' }}</span>
                                                     </div>
                                                 </div>
 
@@ -261,7 +242,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <input type="text" name="details_description[]" class="form-control" value="{{ $details->description ? $details->description : '' }}" />
+                                                <input type="text" name="details_description[]" class="form-control" value="{{ $details->work_order_details->description ? $details->work_order_details->description : '' }}" />
                                             </td>
                                         </tr>
                                     @endforeach
@@ -314,7 +295,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($pi->termsConditions as $term)
+                                        @foreach ($pi->terms_conditions as $term)
                                             <tr>
                                                 <td>
                                                     <input type="text" class="form-control" name="terms_serial[]" value="{{ $term->serial_no }}" />
@@ -364,7 +345,7 @@
                 changeMonth: true,
                 changeYear: true
             });
-            var terms_count = 1;
+            var terms_count = {{ $pi->terms_conditions->count() + 1 }};
             var item_count = 1;
             $("#workorder_id").change(function(e) {
                 debugger;
@@ -402,67 +383,40 @@
                                                 $.each(value.details, function(dkey, dvalue) {
                                                     debugger
                                                     ;
-                                                    var product_id = dvalue.product_id;
                                                     var product_text = dvalue.product.name;
-                                                    var style_id = dvalue.style_id;
                                                     var style_text = dvalue.style.name;
-                                                    var color_id =dvalue.color_id;
-                                                    var color_text =dvalue.color.name;
-                                                    var unit_id =dvalue.quantity_unit_id;
-                                                   var unit_text =dvalue.quantity_unit.name;
-                                                    var measurement =dvalue.measurement;
-                                                    var quantity =dvalue.quantity;
-                                                    var weight =dvalue.weight?dvalue.weight:'';
-                                                    var weight_unit_id =dvalue.weight_unit_id != null ? dvalue.weight_unit_id : '';
-                                                    var weight_unit_text = dvalue.weight_unit != null ? dvalue.weight_unit.name : '';
-                                                    var rate =dvalue.unit_price;
-                                                    var total =dvalue.total_price;
-                                                    var description =dvalue.description;
+                                                    var color_text = dvalue.color.name;
+                                                    var unit_text = dvalue.quantity_unit.name;
+                                                    var measurement = dvalue.measurement;
+                                                    var quantity = dvalue.quantity;
+                                                    var rate = dvalue.unit_price?dvalue.unit_price:0;
+                                                    var total = dvalue.total_price?dvalue.total_price:0;
+                                                    var description = dvalue.description;
                                                     var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
                                                     html = `<tr>
                                     <td>
                                         <input type="hidden" name="workorders[]" value="${value.id}"/>
+                                                <input type="hidden" name="workorder_details[]" value="${dvalue.id}" />
                                         ${value.order_number}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="product_ids[]" value="${product_id}"/>
                                         ${product_text}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="style_ids[]" value="${style_id}"/>
                                         ${style_text}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="color_ids[]" value="${color_id}"/>
                                         ${color_text}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="measurements[]" value="${measurement}"/>
                                         ${measurement}
                                     </td>
                                     <td>
                                         
                                                 <div class="input-group mb-3">
 
-                                                    <input type="text" name="weights[]" class="form-control"
-                                                        value="${weight}" />
-                                                    <input type="hidden" name="weight_unit_ids[]"
-                                                        value="${weight_unit_id}" />
-                                                    <div class="input-group-append">
-                                                        <span
-                                                            class="input-group-text">${weight_unit_text}</span>
-                                                    </div>
-                                                </div>
-
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
-
-                                                    <input type="text" name="quantities[]" class="form-control"
+                                                    <input type="text" readonly name="quantities[]" class="form-control"
                                                         value="${quantity}" />
-                                                    <input type="hidden" name="unit_ids[]"
-                                                        value="${unit_id}" />
                                                     <div class="input-group-append">
                                                         <span
                                                             class="input-group-text">${unit_text}</span>
@@ -497,7 +451,7 @@
                                     </td>
                                     </tr>`;
                                                     $("#workorder_item_table tbody")
-.append(
+                                                        .append(
                                                             html
                                                         );
                                                 }); //details loop
@@ -510,69 +464,42 @@
                                     $.each(data.pi_details, function(key, dvalue) {
 
                                         debugger;
-                                        var product_id = dvalue.product_id;
-                                        var product_text = dvalue.product.name;
-                                        var style_id = dvalue.style_id;
-                                        var style_text = dvalue.style.name;
-                                        var color_id = dvalue.color_id;
-                                        var color_text = dvalue.color.name;
-                                        var unit_id = dvalue.quantity_unit_id;
-                                        var unit_text = dvalue.quantity_unit.name;
-                                        var weight = dvalue.weight?dvalue.weight:'';
-                                        var weight_unit_id = dvalue.weight_unit_id!=null?dvalue.weight_unit_id:'';
-                                        var weight_unit_text = dvalue.weight_unit!=null ? dvalue.weight_unit.name : '';
-                                        var measurement = dvalue.measurement;
-                                        var quantity = dvalue.quantity;
+                                        var product_text = dvalue.work_order_details.product.name;
+                                        var style_text = dvalue.work_order_details.style.name;
+                                        var color_text = dvalue.work_order_details.color.name;
+                                        var unit_text = dvalue.work_order_details.quantity_unit.name;
+                                        var measurement = dvalue.work_order_details.measurement;
+                                        var quantity = dvalue.work_order_details.quantity;
                                         var rate = dvalue.unit_price;
                                         var total = dvalue.total_price;
-                                        var description = dvalue.description;
+                                        var description = dvalue.work_order_details.description;
 
-                                        var currency_symbol =$('#currency_id').find('option:selected').data('symbol') ||'';
+                                        var currency_symbol = $('#currency_id').find('option:selected').data('symbol') || '';
 
                                         html = `<tr>
                                     <td>
                                         <input type="hidden" name="workorders[]" value="${dvalue.work_order_id}"/>
-                                        ${dvalue.workorder.order_number}
+                                                <input type="hidden" name="workorder_details[]" value="${dvalue.work_order_details_id}" />
+                                        ${dvalue.work_order.order_number}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="product_ids[]" value="${product_id}"/>
                                         ${product_text}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="style_ids[]" value="${style_id}"/>
                                         ${style_text}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="color_ids[]" value="${color_id}"/>
                                         ${color_text}
                                     </td>
                                     <td>
-                                        <input type="hidden" name="measurements[]" value="${measurement}"/>
                                         ${measurement}
                                     </td>
                                     <td>
                                         
                                                 <div class="input-group mb-3">
 
-                                                    <input type="text" name="weights[]" class="form-control"
-                                                        value="${weight}" />
-                                                    <input type="hidden" name="weight_unit_ids[]"
-                                                        value="${weight_unit_id}" />
-                                                    <div class="input-group-append">
-                                                        <span
-                                                            class="input-group-text">${weight_unit_text}</span>
-                                                    </div>
-                                                </div>
-
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
-
-                                                    <input type="text" name="quantities[]" class="form-control"
+                                                    <input type="text" readonly name="quantities[]" class="form-control"
                                                         value="${quantity}" />
-                                                    <input type="hidden" name="unit_ids[]"
-                                                        value="${unit_id}" />
                                                     <div class="input-group-append">
                                                         <span
                                                             class="input-group-text">${unit_text}</span>

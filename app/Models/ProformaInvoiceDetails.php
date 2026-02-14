@@ -9,6 +9,7 @@ class ProformaInvoiceDetails extends Model
     protected $fillable = [
         'proforma_invoice_id',
         'work_order_id',
+        'work_order_details_id',
         'product_id',
         'style_id',
         'color_id',
@@ -21,13 +22,17 @@ class ProformaInvoiceDetails extends Model
         'unit_price',
         'total_price',
     ];
-    public function proformaInvoice()
+    public function proforma_invoice()
     {
         return $this->belongsTo(ProformaInvoice::class, 'proforma_invoice_id');
     }
-    public function workOrder()
+    public function work_order()
     {
         return $this->belongsTo(WorkOrder::class, 'work_order_id');
+    }
+    public function work_order_details()
+    {
+        return $this->belongsTo(WorkOrderDetails::class, 'work_order_details_id');
     }
     public function product()
     {

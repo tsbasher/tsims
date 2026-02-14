@@ -190,7 +190,6 @@
                                         <th>Style</th>
                                         <th>Color</th>
                                         <th>Measurement</th>
-                                        <th>Weight Per Unit</th>
                                         <th>Quantity</th>
                                         <th>Rate</th>
                                         <th>Total</th>
@@ -320,17 +319,16 @@
                                         var unit_text = dvalue.quantity_unit.name;
                                         var measurement = dvalue.measurement;
                                         var quantity = dvalue.quantity;
-                                        var weight = dvalue.weight?dvalue.weight:'';
-                                        var weight_unit_id = dvalue.weight_unit_id!=null?dvalue.weight_unit_id:'';
-                                        var weight_unit_text = dvalue.weight_unit!=null?dvalue.weight_unit.name:'';
-                                        var rate = dvalue.unit_price;
-                                        var total = dvalue.total_price;
+                                        
+                                        var rate = dvalue.unit_price?dvalue.unit_price:0;
+                                        var total = dvalue.total_price?dvalue.total_price:0;
                                         var description = dvalue.description;
                                         var currency_symbol =$('#currency_id').find('option:selected').data('symbol') ||'';
 
                                         html = `<tr>
                                     <td>
                                         <input type="hidden" name="workorders[]" value="${value.id}"/>
+                                        <input type="hidden" name="workorder_details[]" value="${dvalue.id}"/>
                                         ${value.order_number}
                                     </td>
                                     <td>
@@ -353,22 +351,7 @@
                                         
                                                 <div class="input-group mb-3">
 
-                                                    <input type="text" name="weights[]" class="form-control"
-                                                        value="${weight}" />
-                                                    <input type="hidden" name="weight_unit_ids[]"
-                                                        value="${weight_unit_id}" />
-                                                    <div class="input-group-append">
-                                                        <span
-                                                            class="input-group-text">${weight_unit_text}</span>
-                                                    </div>
-                                                </div>
-
-                                    </td>
-                                    <td>
-                                        
-                                                <div class="input-group mb-3">
-
-                                                    <input type="text" name="quantities[]" class="form-control"
+                                                    <input type="text" name="quantities[]" readonly class="form-control"
                                                         value="${quantity}" />
                                                     <input type="hidden" name="unit_ids[]"
                                                         value="${unit_id}" />

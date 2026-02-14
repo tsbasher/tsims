@@ -142,7 +142,7 @@
                                         <td>{{ $pi->customer->name }}</td>
                                         <td>{{ $pi->buyer?$pi->buyer->name:"N/A" }}</td>
                                         <td>{{ date('d F Y',strtotime($pi->pi_date)) }}</td>
-                                        <td>{{ number_format($pi->details->sum('total_price'),2) }}</td>
+                                        <td>{{ $pi->currency->symbol }} {{ number_format($pi->details->sum('total_price'),2) }}</td>
                                         
                                         <td>
                                             <a href="{{ route('admin.proforma_invoice.edit', $pi->id) }}"

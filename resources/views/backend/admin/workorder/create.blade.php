@@ -218,26 +218,6 @@
                         </div>
 
                         <div class="row">
-
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="rate">Rate</label>
-                                    <input type="number" step="0.01" class="form-control" name="rate"
-                                        id="rate" placeholder="Enter rate" value="{{ old('rate') }}">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label for="sub_total">Total</label>
-                                    <input type="number" readonly step="0.01" class="form-control" name="sub_total"
-                                        id="sub_total" value="{{ old('sub_total') }}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             
                             <div class="col-md-6">
 
@@ -273,8 +253,6 @@
                                         <th>Measurement</th>
                                         <th>Quantity</th>
                                         <th>Weight per Unit</th>
-                                        <th>Rate</th>
-                                        <th>Total</th>
                                         <th>Note</th>
                                         <th>Action</th>
                                     </tr>
@@ -389,15 +367,7 @@
                     <td>
                         <input type="hidden" name="weights[]" value="${weight}"/>
                         <input type="hidden" name="weight_unit_ids[]" value="${weight_unit_id}"/>
-                        ${weight}  ${weight_unit_text}
-                    </td>
-                    <td>
-                        <input type="hidden" name="rates[]" value="${rate}"/>
-                        ${rate}
-                    </td>
-                    <td>
-                        <input type="hidden" name="totals[]" value="${total}"/>
-                        ${total}
+                        ${weight}  ${weight_unit_id?weight_unit_text:''}
                     </td>
                     <td>
                         <input type="hidden" name="details_description[]" value="${description}"/>
@@ -459,10 +429,6 @@
                 $("#weight").val(weight);
                 var weight_unit_id=$(this).closest('tr').find('input[name="weight_unit_ids[]"]').val();
                 $("#weight_unit_id").val(weight_unit_id).trigger('change');
-                var rate=$(this).closest('tr').find('input[name="rates[]"]').val();
-                $("#rate").val(rate);
-                var total=$(this).closest('tr').find('input[name="totals[]"]').val();
-                $("#sub_total").val(total);
                 var description=$(this).closest('tr').find('input[name="details_description[]"]').val();
                 $("#d_description").val(description);
                 $(this).closest('tr').remove();

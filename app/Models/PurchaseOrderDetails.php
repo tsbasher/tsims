@@ -32,6 +32,10 @@ class PurchaseOrderDetails extends Model
     {
         return $this->belongsTo(WorkOrder::class, 'work_order_id');
     }
+    public function work_order_details()
+    {
+        return $this->belongsTo(WorkOrderDetails::class, 'work_order_details_id');
+    }
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');

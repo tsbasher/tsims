@@ -27,9 +27,9 @@ class ProformaInvoice extends Model
     }
     public function details()
     {
-        return $this->hasMany(ProformaInvoiceDetails::class)->with('workorder','product','style','color','quantity_unit','weight_unit');
+        return $this->hasMany(ProformaInvoiceDetails::class);
     }
-    public function termsConditions()
+    public function terms_conditions()
     {
         return $this->hasMany(ProformaInvoiceTerms::class, 'proforma_invoice_id')->orderBy('serial_no', 'asc');
     }

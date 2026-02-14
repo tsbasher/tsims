@@ -13,22 +13,21 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-@php
-    use NumberToWords\NumberToWords;
-@endphp
+                    @php
+                        use NumberToWords\NumberToWords;
+                    @endphp
 
                     <!-- Main content -->
                     <div class="invoice p-3 mb-3">
                         <!-- title row -->
                         <div class="row">
-                                    <img src="{{ asset($settings->logo) }}" alt="Logo" class="brand-image"
-                                        style="max-height: 50px; position: relative;">
-                                
-                                <div class="col-md-12" style="margin-top: -50px;">
-                                    <h1 class="text-center">{{ $settings->company_name }}</h1>
-                                    <h6 class="text-center">{{strip_tags($settings->factory_address)}}</h6>
-                                    <h6 class="text-center">Phone: {{ $settings->phone }}, Email: {{ $settings->email }}</h6>
-                                </div>
+                            <img src="{{ asset($settings->logo) }}" alt="Logo" class="brand-image" style="max-height: 50px; position: relative;">
+
+                            <div class="col-md-12" style="margin-top: -50px;">
+                                <h1 class="text-center">{{ $settings->company_name }}</h1>
+                                <h6 class="text-center">{{ strip_tags($settings->factory_address) }}</h6>
+                                <h6 class="text-center">Phone: {{ $settings->phone }}, Email: {{ $settings->email }}</h6>
+                            </div>
                             <!-- /.col -->
                         </div>
                         <br>
@@ -49,15 +48,19 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-5 invoice-col">
-                                
+
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-3 invoice-col text-left">
                                 Invoice No: <b>{{ $pi->pi_number }}</b><br>
-                                @if($pi->buyer) Buyer: <b>{{ $pi->buyer->name }}</b><br> @endif
-                                @if($pi->refference_number) Reference: <b>{{ $pi->refference_number }}</b><br> @endif
-                                PI Date: <b>{{ date('d F, Y',strtotime($pi->pi_date)) }}</b><br>
-                                PI Expire Date: <b>{{ date('d F, Y',strtotime($pi->pi_expire_date)) }}</b><br>
+                                @if ($pi->buyer)
+                                    Buyer: <b>{{ $pi->buyer->name }}</b><br>
+                                @endif
+                                @if ($pi->refference_number)
+                                    Reference: <b>{{ $pi->refference_number }}</b><br>
+                                @endif
+                                PI Date: <b>{{ date('d F, Y', strtotime($pi->pi_date)) }}</b><br>
+                                PI Expire Date: <b>{{ date('d F, Y', strtotime($pi->pi_expire_date)) }}</b><br>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -75,34 +78,33 @@
                                             <th class="text-center">STYLE</th>
                                             <th class="text-center">Color</th>
                                             <th>Measurement</th>
-                                            <th class="text-right">WEIGHT PER UNIT</th>
                                             <th class="text-right">QUANTITY</th>
                                             <th class="text-center">UNIT PRICE</th>
-                                            
-                                            <th class="text-center">TOTAL Weight</th>
+
                                             <th class="text-center">TOTAL AMOUNT</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($pi->details as $p)
                                             <tr>
-                                            <td>{{ $loop->index+1 }}</td>
-                                            <td>{{ $p->product->name }} @if($p->description) <br> {{ $p->description }} @endif</td>
-                                            <td class="text-center">{{ $p->workorder->order_number }}</td>
-                                            <td class="text-center">{{ $p->style->name }}</td>
-                                            <td class="text-center">{{ $p->color->name }}</td>
-                                            <td>{{ $p->measurement }}</td>
-                                            <td class="text-right">{{ $p->weight }} {{ $p->weight_unit ? $p->weight_unit->name : '' }} </td>
-                                            <td class="text-right">{{ $p->quantity }} {{ $p->quantity_unit->name }} </td>
-                                            <td class="text-right">{{ $pi->currency->symbol }} {{ number_format($p->unit_price,2) }} /{{ $p->quantity_unit->name }}</td>
-                                            <td class="text-right">{{ number_format($p->weight * $p->quantity,2) }} {{ $p->weight_unit ? $p->weight_unit->name : '' }}</td>                                            
-                                            <td class="text-right">{{ $pi->currency->symbol }} {{ number_format($p->total_price,2) }}</td>
-                                        </tr>
+                                                <td>{{ $loop->index + 1 }}</td>
+                                                <td>{{ $p->work_order_details->product->name }} @if ($p->description)
+                                                        <br> {{ $p->description }}
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">{{ $p->work_order->order_number }}</td>
+                                                <td class="text-center">{{ $p->work_order_details->style->name }}</td>
+                                                <td class="text-center">{{ $p->work_order_details->color->name }}</td>
+                                                <td>{{ $p->work_order_details->measurement }}</td>
+                                                <td class="text-right">{{ $p->work_order_details->quantity }} {{ $p->work_order_details->quantity_unit->name }} </td>
+                                                <td class="text-right">{{ $pi->currency->symbol }} {{ number_format($p->unit_price, 2) }} /{{ $p->work_order_details->quantity_unit->name }}</td>
+                                                <td class="text-right">{{ $pi->currency->symbol }} {{ number_format($p->total_price, 2) }}</td>
+                                            </tr>
                                         @endforeach
                                         <tr>
-                                            <td colspan="10" class="text-right"><b>Grand Total</b></td>
-                                            <td class="text-right"><b>{{ $pi->currency->symbol }} {{ number_format($pi->details->sum('total_price'),2) }}</b></td>
-                                            </tr>
+                                            <td colspan="8" class="text-right"><b>Grand Total</b></td>
+                                            <td class="text-right"><b>{{ $pi->currency->symbol }} {{ number_format($pi->details->sum('total_price'), 2) }}</b></td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -112,19 +114,20 @@
                         <!-- /.row -->
 
                         <div class="row">
-                            <div class=""col-md-12>
-                                <p> Amount In Words:  <strong>{{ ucwords(( new NumberToWords())->getCurrencyTransformer('en')->toWords($pi->details()->sum('total_price')*100,$pi->currency->name))}} Only </strong></p>
+                            <div class="col-md-12">
+                                <p> Amount In Words: <strong>{{ ucwords((new NumberToWords())->getCurrencyTransformer('en')->toWords($pi->details()->sum('total_price') * 100, $pi->currency->name)) }} Only </strong></p>
+
                             </div>
                         </div>
 
                         <div class="row mt-4">
                             <h5>Terms & Conditions:</h5>
                             <ul>
-                                @foreach ($pi->termsConditions as $term)
+                                @foreach ($pi->terms_conditions as $term)
                                     <li style="list-style-type: none">{{ $term->serial_no }}. {{ $term->term_description }}</li>
                                 @endforeach
                             </ul>
-                            </div>
+                        </div>
 
                     </div>
                     <!-- /.invoice -->

@@ -90,6 +90,10 @@ class PurchaseOrderController extends Controller
             'po_date' => 'required|date',
             'currency_id' => 'required|exists:currencies,id',
             'workorder_ids' => 'required|exists:work_orders,id',
+            'workorder_details' => 'required|array',
+            'workorder_details.*' => 'exists:work_order_details,id',
+            'rates' => 'required|array',
+            'rates.*' => 'required|numeric|min:1',
             // Add validation rules for other fields as needed
         ]);
 
@@ -111,25 +115,25 @@ class PurchaseOrderController extends Controller
         DB::transaction(function () use ($data, $request) {
             $purchaseOrder = PurchaseOrder::create($data);
             // Handle purchase order items if needed
-            if ($request->has('product_ids')) {
-                for ($index = 0; $index < count($request->product_ids); $index++) {
+            if ($request->has('workorder_details')) {
+                for ($index = 0; $index < count($request->workorder_details); $index++) {
                     PurchaseOrderDetails::create([
                         'purchase_order_id' => $purchaseOrder->id,
-                        'work_order_details_id' => $request->workorders[$index],
-                        'product_id' => $request->product_ids[$index],
-                        'color_id' => $request->color_ids[$index],
-                        'style_id' => $request->style_ids[$index],
-                        'measurement' => $request->measurements[$index],
-                        'weight' => $request->weights[$index],
-                        'weight_unit_id' => $request->weight_unit_ids[$index],
+                        'work_order_details_id' => $request->workorder_details[$index],
+                        // 'product_id' => $request->product_ids[$index],
+                        // 'color_id' => $request->color_ids[$index],
+                        // 'style_id' => $request->style_ids[$index],
+                        // 'measurement' => $request->measurements[$index],
+                        // 'weight' => $request->weights[$index],
+                        // 'weight_unit_id' => $request->weight_unit_ids[$index],
                         'quantity' => $request->quantities[$index],
-                        'quantity_unit_id' => $request->unit_ids[$index],
-                        'description' => $request->details_description[$index],
+                        // 'quantity_unit_id' => $request->unit_ids[$index],
+                        // 'description' => $request->details_description[$index],
                         'unit_price' => $request->rates[$index],
                         'total_price' => $request->totals[$index],
                     ]);
                 }
-                WorkOrderDetails::wherein('id',$request->workorders)->update(['has_po'=>1]);
+                WorkOrderDetails::wherein('id', $request->workorder_details)->update(['has_po' => 1]);
                 if ($request->has('terms')) {
                     for ($tindex = 0; $tindex < count($request->terms); $tindex++) {
                         PurchaseOrderTerms::create([
@@ -149,10 +153,10 @@ class PurchaseOrderController extends Controller
      */
     public function show($id)
     {
-        $po = PurchaseOrder::with(['supplier','customer','work_order','payment_terms','details', 'terms', 'currency'])->findOrFail($id);
+        $po = PurchaseOrder::with(['supplier', 'customer', 'work_order', 'payment_terms', 'details', 'terms', 'currency'])->findOrFail($id);
         $settings = WebsiteSetting::first();
         // dd($settings);
-// dd($po);
+        // dd($po);
         return view('backend.admin.purchase_order.show', compact('po', 'settings'));
     }
 
@@ -161,7 +165,7 @@ class PurchaseOrderController extends Controller
      */
     public function edit($id)
     {
-        $po=PurchaseOrder::with('details','work_order','currency','terms')->findorfail($id);
+        $po = PurchaseOrder::with('details', 'work_order', 'currency', 'terms')->findorfail($id);
 
         $suppliers = Supplier::get();
         $customers = Customer::get();
@@ -171,10 +175,10 @@ class PurchaseOrderController extends Controller
         $terms = TermsCondition::get();
         $payments_terms = Payment_terms::get();
         $currencies = Currency::get();
-        $work_orders = WorkOrder::where('customer_id', $po->customer_id)->wherehas('details',function($query)use($po){
-            $query->where('has_po',0)->orwhere('work_order_id',$po->work_order_id);
+        $work_orders = WorkOrder::where('customer_id', $po->customer_id)->wherehas('details', function ($query) use ($po) {
+            $query->where('has_po', 0)->orwhere('work_order_id', $po->work_order_id);
         })->get();
-        return view('backend.admin.purchase_order.edit', compact('po', 'suppliers', 'customers', 'terms', 'payments_terms', 'currencies','work_orders'));
+        return view('backend.admin.purchase_order.edit', compact('po', 'suppliers', 'customers', 'terms', 'payments_terms', 'currencies', 'work_orders'));
     }
 
     /**
@@ -189,6 +193,11 @@ class PurchaseOrderController extends Controller
             'currency_id' => 'required|exists:currencies,id',
             'po_date' => 'required|date',
             'currency_id' => 'required|exists:currencies,id',
+            'workorder_ids' => 'required|exists:work_orders,id',
+            'workorder_details' => 'required|array',
+            'workorder_details.*' => 'exists:work_order_details,id',
+            'rates' => 'required|array',
+            'rates.*' => 'required|numeric|min:1',
             // Add validation rules for other fields as needed
         ]);
 
@@ -204,44 +213,43 @@ class PurchaseOrderController extends Controller
         ]);
 
         $data['work_order_id'] = $request->workorder_ids;
-        
-        DB::transaction(function () use ($data, $request,$id) {
-        $purchaseOrder = PurchaseOrder::with('details')->findOrFail($id);
-        WorkOrderDetails::wherein('id',$purchaseOrder->details->pluck('work_order_details_id'))->update(['has_po'=>0]);
 
-        $purchaseOrder->update($data);
-PurchaseOrderDetails::where('purchase_order_id', $purchaseOrder->id)->delete();
-PurchaseOrderTerms::where('purchase_order_id', $purchaseOrder->id)->delete();
-        if ($request->has('product_ids')) {
-                for ($index = 0; $index < count($request->product_ids); $index++) {
+        DB::transaction(function () use ($data, $request, $id) {
+            $purchaseOrder = PurchaseOrder::with('details')->findOrFail($id);
+            WorkOrderDetails::wherein('id', $purchaseOrder->details->pluck('work_order_details_id'))->update(['has_po' => 0]);
+
+            $purchaseOrder->update($data);
+            PurchaseOrderDetails::where('purchase_order_id', $purchaseOrder->id)->delete();
+            PurchaseOrderTerms::where('purchase_order_id', $purchaseOrder->id)->delete();
+            if ($request->has('workorder_details')) {
+                for ($index = 0; $index < count($request->workorder_details); $index++) {
                     PurchaseOrderDetails::create([
                         'purchase_order_id' => $purchaseOrder->id,
-                        'work_order_details_id' => $request->workorders[$index],
-                        'product_id' => $request->product_ids[$index],
-                        'color_id' => $request->color_ids[$index],
-                        'style_id' => $request->style_ids[$index],
-                        'measurement' => $request->measurements[$index],
-                        'weight' => $request->weights[$index],
-                        'weight_unit_id' => $request->weight_unit_ids[$index],
+                        'work_order_details_id' => $request->workorder_details[$index],
+                        // 'product_id' => $request->product_ids[$index],
+                        // 'color_id' => $request->color_ids[$index],
+                        // 'style_id' => $request->style_ids[$index],
+                        // 'measurement' => $request->measurements[$index],
+                        // 'weight' => $request->weights[$index],
+                        // 'weight_unit_id' => $request->weight_unit_ids[$index],
                         'quantity' => $request->quantities[$index],
-                        'quantity_unit_id' => $request->unit_ids[$index],
-                        'description' => $request->details_description[$index],
+                        // 'quantity_unit_id' => $request->unit_ids[$index],
+                        // 'description' => $request->details_description[$index],
                         'unit_price' => $request->rates[$index],
                         'total_price' => $request->totals[$index],
                     ]);
                 }
-                WorkOrderDetails::wherein('id',$request->workorders)->update(['has_po'=>1]);
-        }
-                if ($request->has('terms')) {
-                    for ($tindex = 0; $tindex < count($request->terms); $tindex++) {
-                        PurchaseOrderTerms::create([
-                            'purchase_order_id' => $purchaseOrder->id,
-                            'serial_no' => $request->terms_serial[$tindex],
-                            'term_description' => $request->terms[$tindex],
-                        ]);
-                    }
+                WorkOrderDetails::wherein('id', $request->workorder_details)->update(['has_po' => 1]);
+            }
+            if ($request->has('terms')) {
+                for ($tindex = 0; $tindex < count($request->terms); $tindex++) {
+                    PurchaseOrderTerms::create([
+                        'purchase_order_id' => $purchaseOrder->id,
+                        'serial_no' => $request->terms_serial[$tindex],
+                        'term_description' => $request->terms[$tindex],
+                    ]);
                 }
-
+            }
         });
         // Handle purchase order items if needed
         // Similar to the store method, but you may want to handle updates and deletions of existing items
@@ -254,13 +262,13 @@ PurchaseOrderTerms::where('purchase_order_id', $purchaseOrder->id)->delete();
      */
     public function destroy($id)
     {
-        
+
         try {
             $pi = PurchaseOrder::findOrFail($id);
-            $work_orders=$pi->details()->pluck('work_order_details_id')->unique();
-            DB::transaction(function () use ($pi,$work_orders) {
+            $work_orders = $pi->details()->pluck('work_order_details_id')->unique();
+            DB::transaction(function () use ($pi, $work_orders) {
                 PurchaseOrderDetails::where('purchase_order_id', $pi->id)->delete();
-                WorkOrderDetails::wherein('id',$work_orders)->update(['has_po'=>0]);
+                WorkOrderDetails::wherein('id', $work_orders)->update(['has_po' => 0]);
                 PurchaseOrderTerms::where('purchase_order_id', $pi->id)->delete();
                 $pi->delete();
             });

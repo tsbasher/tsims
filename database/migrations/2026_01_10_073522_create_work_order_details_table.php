@@ -22,8 +22,8 @@ return new class extends Migration
             $table->bigInteger('weight_unit_id')->unsigned()->nullable();
             $table->integer('quantity');
             $table->bigInteger('quantity_unit_id')->unsigned();
-            $table->decimal('unit_price', 18, 2);
-            $table->decimal('total_price', 18, 2);
+            $table->decimal('unit_price', 18, 2)->nullable();
+            $table->decimal('total_price', 18, 2)->nullable();
             $table->foreign('work_order_id')->references('id')->on('work_orders')->onDelete('restrict');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
             $table->foreign('color_id')->references('id')->on('colors')->onDelete('restrict');
