@@ -20,6 +20,7 @@ class WorkOrderDetails extends Model
         'description',
         'unit_price',
         'total_price',
+        'has_po'
     ];
 
     public function work_order()

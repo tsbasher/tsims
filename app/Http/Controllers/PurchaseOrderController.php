@@ -15,6 +15,8 @@ use App\Models\WorkOrder;
 use App\Models\WorkOrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use stdClass;
 
 class PurchaseOrderController extends Controller
 {
@@ -250,8 +252,30 @@ PurchaseOrderTerms::where('purchase_order_id', $purchaseOrder->id)->delete();
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PurchaseOrder $purchaseOrder)
+    public function destroy($id)
     {
-        //
+        
+        try {
+            $pi = PurchaseOrder::findOrFail($id);
+            $work_orders=$pi->details()->pluck('work_order_details_id')->unique();
+            DB::transaction(function () use ($pi,$work_orders) {
+                PurchaseOrderDetails::where('purchase_order_id', $pi->id)->delete();
+                WorkOrderDetails::wherein('id',$work_orders)->update(['has_po'=>0]);
+                PurchaseOrderTerms::where('purchase_order_id', $pi->id)->delete();
+                $pi->delete();
+            });
+
+
+            $data = new stdClass();
+            $data->status = 1;
+            $data->message = 'Proforma Invoice deleted successfully.';
+            return response()->json($data);
+        } catch (\Exception $e) {
+            Log::error('Error deleting Proforma Invoice : ' . $e->getMessage());
+            $data = new stdClass();
+            $data->status = 0;
+            $data->message = 'An error occurred while deleting Proforma Invoice.';
+            return response()->json($data);
+        }
     }
 }

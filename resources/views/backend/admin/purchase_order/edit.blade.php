@@ -223,7 +223,7 @@
                                                 <div class="input-group mb-3">
 
                                                     <input type="text" name="quantities[]" class="form-control" value="{{ $details->quantity }}" />
-                                                    <input type="hidden" name="unit_ids[]" value="{{ $details->unit_id }}" />
+                                                    <input type="hidden" name="unit_ids[]" value="{{ $details->quantity_unit_id }}" />
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">{{ $details->quantity_unit->name }}</span>
                                                     </div>
