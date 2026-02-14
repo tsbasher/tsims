@@ -41,6 +41,7 @@ use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProformaInvoiceController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\PurchaseOrderReceiveController;
 use App\Http\Controllers\ShippingTypeController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SpecialityController;
@@ -91,6 +92,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/get-pi-details-by-pi-workorder/{pi_id}/{workorder_id}', [ProformaInvoiceController::class, 'get_pi_details_by_pi_workorder'])->name('admin.get_pi_details_by_pi_workorder');
 
         Route::get('inquery-markasreplyed/{id}', [InqueryController::class, 'markasreplyed'])->name('admin.inquery.markasreplyed');
+        Route::get('/get-purchase-order/{id}', [PurchaseOrderController::class, 'get_purchase_order'])->name('admin.get_purchase_order');
 
         Route::resource('designation', DesignationController::class)->names('admin.designation');
         Route::resource('department', DepartmentController::class)->names('admin.department');
@@ -123,6 +125,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('bank-account',BankAccountController::class)->names('admin.bank_account');
         Route::resource('transport-agent',TransportAgentController::class)->names('admin.transport_agent');
         Route::resource('shipping-type',ShippingTypeController::class)->names('admin.shipping_type');
+        Route::resource('purchase-order-receive', PurchaseOrderReceiveController::class)->names('admin.purchase_order_receive');
 
 
 
@@ -163,6 +166,8 @@ Route::group(['prefix' => 'common'], function () {
     Route::get('/get-style-by-customer/{customer_id}', [StyleController::class, 'get_style_by_customer'])->name('common.get_style_by_customer');
     Route::get('/get-workorder-by-customer/{customer_id}', [WorkOrderController::class, 'get_workorder_by_customer'])->name('common.get_workorder_by_customer');
         Route::get('/get-workorder-by-customer-for-po/{customer_id}', [WorkOrderController::class, 'get_workorder_by_customer_for_po'])->name('common.get_workorder_by_customer_for_po');
+        Route::get('/get-purchase-order-by-supplier/{supplier_id}', [PurchaseOrderController::class, 'get_purchase_order_by_supplier'])->name('common.get_purchase_order_by_supplier');
+        Route::get('/get-all-purchase-order-by-supplier/{supplier_id}', [PurchaseOrderController::class, 'get_all_purchase_order_by_supplier'])->name('common.get_all_purchase_order_by_supplier');
 
 
 

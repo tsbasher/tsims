@@ -56,4 +56,8 @@ class PurchaseOrderDetails extends Model
     {
         return $this->belongsTo(Unit::class, 'quantity_unit_id');
     }
+    public function receive_details()
+    {
+        return $this->hasMany(PurchaseOrderReceiveDetails::class, 'purchase_order_detail_id');
+    }
 }

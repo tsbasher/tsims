@@ -286,4 +286,41 @@ class PurchaseOrderController extends Controller
             return response()->json($data);
         }
     }
+
+    public function get_purchase_order_by_supplier($supplier_id)
+    {
+        $purchase_orders = PurchaseOrder::where('supplier_id', $supplier_id)->select('id', 'po_number')->get();
+        $pos = [];
+        // $purchase_orders->load()
+        foreach ($purchase_orders as $po) {
+            $po->load('details.receive_details');
+            $full_received = true;
+            foreach ($po->details as $detail) {
+
+                $order_qnty = $detail->quantity;
+                $received_qunty = $detail->receive_details->sum('quantity_received');
+                if ($order_qnty > $received_qunty) {
+                    $full_received = false;
+                    break;
+                }
+            }
+            if (!$full_received) {
+                array_push($pos, $po);
+            }
+        }
+        return response()->json($pos);
+    }
+
+    public function get_purchase_order($id)
+    {
+        $purchase_order = PurchaseOrder::with('currency', 'work_order', 'details.receive_details', 'details.work_order_details', 'details.work_order_details.product', 'details.work_order_details.color', 'details.work_order_details.style', 'details.work_order_details.quantity_unit')->findOrFail($id);
+
+        return response()->json($purchase_order);
+    }
+
+    public function get_all_purchase_order_by_supplier($supplier_id)
+    {
+        $purchase_orders = PurchaseOrder::where('supplier_id', $supplier_id)->select('id', 'po_number')->get();
+        return response()->json($purchase_orders);
+    }
 }

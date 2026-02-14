@@ -49,4 +49,8 @@ class PurchaseOrder extends Model
     {
         return $this->hasMany(PurchaseOrderTerms::class, 'purchase_order_id')->orderby('serial_no');
     }
+    public function receives()
+    {
+        return $this->hasMany(PurchaseOrderReceive::class, 'purchase_order_id');
+    }
 }
