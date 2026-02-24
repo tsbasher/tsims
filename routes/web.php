@@ -58,9 +58,18 @@ use App\Http\Controllers\WorkOrderController;
 use App\Models\product;
 use App\Models\Style;
 use App\Models\Unit;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/clear', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    return "Cleared!";
+});
 Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
 Route::get('/about-us', [HomeController::class, 'about'])->name('frontend.about');
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('frontend.contact');
