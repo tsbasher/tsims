@@ -52,6 +52,7 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
+                                                <th>Image</th>
                                                 <th>Code</th>
                                                 <th>Product</th>
                                                 <th class="text-center">Group</th>
@@ -63,6 +64,8 @@
                                             @foreach ($inquery->details as $p)
                                                 <tr>
                                                     <td>{{ $loop->index + 1 }}</td>
+                                                    <td><img src="{{ asset($p->product->featured_image) }}" alt="Product Image"
+                                                            style="width: 50px;"></td>
                                                     <td>{{ $p->product->code }}</td>
                                                     <td>{{ $p->product->name }}</td>
                                                     <td class="text-center">{{ $p->product->group->name }}</td>
